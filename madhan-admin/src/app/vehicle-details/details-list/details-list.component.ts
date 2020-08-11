@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { VehicleDetailsapiService } from '../service/api/vehicle-detailsapi.service';
 
 @Component({
   selector: 'app-details-list',
@@ -7,12 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DetailsListComponent implements OnInit {
 
-  detailsList = [];
+  vehiclesList: any = [];
 
-  constructor() { }
+  constructor(private vehicleDetailsApi: VehicleDetailsapiService) { }
 
   ngOnInit() {
-    this.getDetailsList();
+    // this.getDetailsList();
+    this.getWillingTruck();
   }
 
   getDetailsList() {
@@ -26,7 +28,17 @@ export class DetailsListComponent implements OnInit {
         mobileNo: '9632587410',
         vehicleType: 'container'
       };
-      this.detailsList.push(detail);
+      this.vehiclesList.push(detail);
     }
+  }
+
+  getWillingTruck() {
+    this.vehicleDetailsApi.getWillingVehicles().pipe().subscribe(success => {
+      console.log('success', success);
+      this.vehiclesList = success;
+    },
+      failure => {
+        console.log('failure', failure);
+      });
   }
 }

@@ -9,7 +9,7 @@ const routes: Routes = [
     component: HomePage,
   },
   {
-    path: ':id/truck-detail',
+    path: ':bookingId/:source/truck-detail',
     component: TruckDetailComponent
   }
 ];
@@ -18,4 +18,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class HomePageRoutingModule {}
+export class HomePageRoutingModule { }

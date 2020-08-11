@@ -12,28 +12,33 @@
     </ion-toolbar>
 </ion-header>
 <ion-content>
+    <ion-item class="nobackground">
+        <ion-label style="text-align: right;">Customer Rate</ion-label>
+        <ion-toggle [(ngModel)]="viewChanger" (ionChange)="ChangeView()"></ion-toggle>
+        <ion-label>Transpoter Rate</ion-label>
+    </ion-item>
     <ion-card *ngFor="let item of rateList">
         <ion-card-content>
             <div>
                 <ion-note>
-                    <ion-icon name="person-outline"></ion-icon> Rate For: {{item.rateFor}}
+                    <ion-icon name="person-outline"></ion-icon> Rate For: {{item.rlRateForName}}
                 </ion-note>
             </div>
             <div>
                 <ion-note>
-                    <ion-icon name="calendar-outline"></ion-icon> Validity: {{item.validity | date:'MMM dd, yyyy'}}                    
+                    <ion-icon name="calendar-outline"></ion-icon> Validity: {{item.validityDate | date:'MMM dd, yyyy'}}
                 </ion-note>
             </div>
             <div>
                 <ion-note class="highlight route">
                     <ion-icon name="location"></ion-icon>
                     {{item.source}}
-                    <ion-icon name="arrow-forward"></ion-icon> {{item.destination}}                
+                    <ion-icon name="arrow-forward"></ion-icon> {{item.destination}}
                 </ion-note>
             </div>
             <div>
                 <ion-note>
-                    <ion-icon name="cash-outline"></ion-icon> Rate: {{item.rate}}                    
+                    <ion-icon name="cash-outline"></ion-icon> Rate: {{item.amount}}
                 </ion-note>
             </div>
         </ion-card-content>

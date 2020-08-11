@@ -46,6 +46,10 @@ const routes: Routes = [
   {
     path: 'booking-receipt',
     loadChildren: () => import('./booking-recipt/booking-recipt.module').then(m => m.BookingReciptPageModule)
+  },
+  {
+    path: 'booking-payments',
+    loadChildren: () => import('./booking-payments/booking-payments.module').then(m => m.BookingPaymentsModule)
   }
 
 ];

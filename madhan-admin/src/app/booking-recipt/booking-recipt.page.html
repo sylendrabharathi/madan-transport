@@ -17,32 +17,32 @@
             <div class="card-item">
                 <ion-note class="highlight">
                     <ion-icon name="pin-outline"></ion-icon>
-                    Booking Id: {{item.RefBookingId}}
+                    Booking Id: {{item.bookingId}}
                 </ion-note>
             </div>
             <div class="card-item">
                 <ion-note>
                     <ion-icon name="card-outline"></ion-icon>
-                    Payment Mode: {{item.RefReferenceListModelId}}
+                    Payment Mode: {{item.rlbppmName}}
                 </ion-note>
             </div>
             <div class="card-item">
                 <ion-note class="highlight">
                     <ion-icon name="cash-outline"></ion-icon>
-                    Amount: {{item.Amount}}
+                    Amount: {{item.brAmount}}
                 </ion-note>
             </div>
             <div class="card-item">
                 <ion-note>
                     <ion-icon name="wallet-outline"></ion-icon>
-                    Payment Purpose: {{item.RefReferenceListPayPurposeId}}
+                    Payment Purpose: {{item.rlbpppName}}
                 </ion-note>
 
             </div>
             <div class="card-item">
                 <ion-note class="highlight">
                     <ion-icon name="calendar-outline"></ion-icon>
-                    Pay Date: {{item.ReceiptDate | date:'MMM dd, y'}}
+                    Pay Date: {{item.brPaymentDate | date:'MMM dd, y'}}
                 </ion-note>
             </div>
 

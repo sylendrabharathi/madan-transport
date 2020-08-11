@@ -14,45 +14,45 @@
         <ion-card-content>
             <div>
                 <ion-note>
-                    <ion-icon name="pin"></ion-icon> Booking Id: {{item.id}}
+                    <ion-icon name="pin"></ion-icon> Booking Id: {{item.bookingId}}
                 </ion-note>
             </div>
             <div>
                 <ion-note>
-                    <ion-icon name="home"></ion-icon> Consignee: {{item.company}}                    
+                    <ion-icon name="home"></ion-icon> Consignee: {{item.consignee}}
                 </ion-note>
             </div>
             <div>
                 <ion-note class="highlight">
                     <ion-icon name="location"></ion-icon>
                     {{item.source}}
-                    <ion-icon name="arrow-forward"></ion-icon> {{item.destination}}                        
+                    <ion-icon name="arrow-forward"></ion-icon> {{item.destination}}
                 </ion-note>
             </div>
             <div>
                 <ion-note>
-                    <ion-icon name="library"></ion-icon> Material: {{item.material}}                    
+                    <ion-icon name="library"></ion-icon> Material: {{item.material}}
                 </ion-note>
             </div>
             <div>
                 <ion-note>
-                    <ion-icon name="server"></ion-icon> Weight: {{item.weight}}                    
+                    <ion-icon name="server"></ion-icon> Weight: {{item.weight}}
                 </ion-note>
             </div>
             <div>
                 <ion-note>
-                    <ion-icon name="bus"></ion-icon> Truck Type: {{item.vehicleType}}                    
+                    <ion-icon name="bus"></ion-icon> Truck Type: {{item.truckType}}
                 </ion-note>
             </div>
             <div>
                 <ion-note class="highlight">
-                    <ion-icon name="alarm"></ion-icon> Loading Date: {{item.date | date:'MMM dd, yyyy'}}                    
+                    <ion-icon name="alarm"></ion-icon> Loading Date: {{item.estimatedLoadingTime | date:'MMM dd, yyyy'}}
                 </ion-note>
             </div>
             <span>
                 <ion-fab vertical="bottom" horizontal="end" slot="fixed">
                     <ion-fab-button style="--background: var(--primary-color) !important; ">
-                        <ion-icon class="find-truck-btn" (click)="goToTruckDetail(item.id)" name="arrow-forward-circle"></ion-icon>
+                        <ion-icon class="find-truck-btn" (click)="goToTruckDetail(item.bookingId,item.source)" name="arrow-forward-circle"></ion-icon>
                     </ion-fab-button>
                 </ion-fab>    
             </span>

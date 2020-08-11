@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { HomeApiService } from './service/api/home-api.service';
+
 
 @Component({
   selector: 'app-home',
@@ -8,15 +10,16 @@ import { Router } from '@angular/router';
 })
 export class HomePage implements OnInit {
 
-  bookingDetails = [];
-  constructor(private router: Router) {}
+  bookingDetails: any = [];
+  constructor(private router: Router, private homeService: HomeApiService) { }
 
-  ngOnInit(){
-    this.getDetails();
+  ngOnInit() {
+    // this.getDetails();
+    this.getRequestedData();
   }
 
   getDetails() {
-    for(let i = 0; i < 15; i++) {
+    for (let i = 0; i < 15; i++) {
       const booking = {
         id: 'Booking ' + (i + 1),
         company: 'Company - ' + (i + 1),
@@ -31,8 +34,17 @@ export class HomePage implements OnInit {
     }
   }
 
-  goToTruckDetail(bookingId) {
-    this.router.navigate(['home', bookingId, 'truck-detail'])
+  goToTruckDetail(bookingId, source) {
+    this.router.navigate(['home', bookingId, source, 'truck-detail'])
+  }
+  getRequestedData() {
+    this.homeService.getICData().pipe().subscribe(success => {
+      console.log('success', success);
+      this.bookingDetails = success;
+    },
+      failure => {
+        console.log('failure', failure);
+      });
   }
 
 }

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LrApiService } from '../service/api/lr-api.service';
+
 
 @Component({
   selector: 'app-lr-list',
@@ -7,11 +9,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./lr-list.component.scss'],
 })
 export class LrListComponent implements OnInit {
-  lrList = [];
-  constructor(private router: Router) { }
+  lrList: any = [];
+  constructor(private router: Router, private lrService: LrApiService) { }
 
 
-  ngOnInit() { this.getDetails(); }
+  ngOnInit() {
+    // this.getDetails();
+    this.getLrList();
+  }
   getDetails() {
     for (let i = 0; i < 15; i++) {
       const lr = {
@@ -33,5 +38,19 @@ export class LrListComponent implements OnInit {
     this.router.navigate(['lr', 'new']);
 
   }
-
+  getLrList() {
+    this.lrService.getLrList().pipe().subscribe(success => {
+      console.log('success', success);
+      this.lrList = success;
+    },
+      failure => {
+        console.log('failure', failure);
+      });
+  }
+  calculateBalance(total, advance = 0) {
+    return total - advance;
+  }
+  calculateTotal(qty, ratePerTon = 0, lodingCharges = 100) {
+    return (qty * ratePerTon) + lodingCharges;
+  }
 }

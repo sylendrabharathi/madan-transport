@@ -1,0 +1,29 @@
+@import './../../../global.scss';
+.booking-receipt-card-content {
+    padding: 20px 10px 10px 5px;
+}
+
+.card-item {
+    margin-bottom: 10px;
+    ion-note {
+        padding: 10px;
+    }
+}
+
+.card-item ion-label {
+    // font-size: 16px;
+    ion-icon {
+        // font-size: 20px;
+    }
+}
+
+.addicon {
+    font-size: 32px;
+}
+
+.new-receipt-btn {
+    --background: white;
+    --color: var(--primary-color);
+    font-size: 12px;
+    font-weight: bolder;
+}

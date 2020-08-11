@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { RateApiService } from '../Service/api/rate-api.service';
 
 @Component({
   selector: 'app-rate-card-list',
@@ -7,10 +9,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./rate-card-list.component.scss'],
 })
 export class RateCardListComponent implements OnInit {
-  rateList = [];
-  constructor(private router: Router) { }
+  rateList: any = [];
+  viewChanger: any;
+  constructor(private router: Router, private rateApi: RateApiService) { }
 
-  ngOnInit() { this.getDetails(); }
+  ngOnInit() {
+    // this.getDetails();
+    this.getRateList('CustomerRate');
+  }
   getDetails() {
     for (let i = 0; i < 15; i++) {
       const rate = {
@@ -28,6 +34,23 @@ export class RateCardListComponent implements OnInit {
     this.router.navigate(['rate-card', 'new']);
 
   }
+  ChangeView() {
+    console.log('==>', this.viewChanger);
+    if (this.viewChanger) {
+      this.getRateList('TransporterRate');
+    }
+    else
+      this.getRateList('CustomerRate');
+  }
+  getRateList(rateType) {
+    this.rateApi.getRateList(rateType).pipe().subscribe(success => {
+      console.log('success', success);
+      this.rateList = success;
+    },
+      failure => {
+        console.log('failure', failure);
+      });
 
+  }
 
 }

@@ -5,7 +5,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { VehicleDetailsModule } from './vehicle-details/vehicle-details.module';
@@ -17,13 +17,14 @@ import { EmployeeModule } from './employee/employee.module';
 import { OrgModule } from './org/org.module';
 import { ReferenceModule } from './reference/reference.module';
 import { BookingReciptPageModule } from './booking-recipt/booking-recipt.module';
+import { BookingPaymentsModule } from './booking-payments/booking-payments.module';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
-    BrowserModule, 
-    IonicModule.forRoot(), 
+    BrowserModule,
+    IonicModule.forRoot(),
     AppRoutingModule,
     VehicleDetailsModule,
     LrModule,
@@ -33,7 +34,9 @@ import { BookingReciptPageModule } from './booking-recipt/booking-recipt.module'
     EmployeeModule,
     OrgModule,
     ReferenceModule,
-    BookingReciptPageModule
+    BookingReciptPageModule,
+    HttpClientModule,
+    BookingPaymentsModule
   ],
   providers: [
     StatusBar,
@@ -42,4 +45,4 @@ import { BookingReciptPageModule } from './booking-recipt/booking-recipt.module'
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

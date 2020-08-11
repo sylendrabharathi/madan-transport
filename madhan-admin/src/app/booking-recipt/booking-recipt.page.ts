@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ReciptsApiService } from './service/api/recipts-api.service';
 
 @Component({
   selector: 'app-booking-recipt',
@@ -8,18 +9,19 @@ import { Router } from '@angular/router';
 })
 export class BookingReciptPage implements OnInit {
 
-  bookingReceipts = [];
-  constructor(private router: Router) { }
+  bookingReceipts: any = [];
+  constructor(private router: Router, private reciptsApi: ReciptsApiService) { }
 
   ngOnInit() {
-    this.getBookingReceipts();
+    // this.getBookingReceipts();
+    this.getbookingReciptsList('', '', '');
   }
 
   getBookingReceipts() {
-    for(let i = 0; i < 10; i++) {
+    for (let i = 0; i < 10; i++) {
       const obj = {
         RefBookingId: i + 1,
-        RefReferenceListModelId: i % 2 === 0 ? 'Cash': 'Card',
+        RefReferenceListModelId: i % 2 === 0 ? 'Cash' : 'Card',
         RefReferenceListPayPurposeId: i % 2 === 0 ? 'Settlement' : 'Advance',
         ReceiptDate: new Date(),
         Amount: (100 * (i + 1)).toFixed(2)
@@ -30,7 +32,15 @@ export class BookingReciptPage implements OnInit {
 
   newBookingReceipt() {
     this.router.navigate(['booking-receipt', 'new']);
-    
-  }
 
+  }
+  getbookingReciptsList(paymentId, bookingId, mappingId) {
+    this.reciptsApi.getBookingRecipts(paymentId, bookingId, mappingId).pipe().subscribe(success => {
+      console.log('success', success);
+      this.bookingReceipts = success;
+    },
+      failure => {
+        console.log('failure', failure);
+      });
+  }
 }
