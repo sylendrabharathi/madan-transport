@@ -14,22 +14,6 @@ UserInterfaceState.xcuserstate
 $RECYCLE.BIN/
 
 *.log
-log.txt
-npm-debug.log*
-package.lock.json
-
-/.idea
-/.ionic
-/.sass-cache
-/.sourcemaps
-/.versions
-/.vscode
-/coverage
-/dist
-/node_modules
-/platforms
-/plugins
-/www
 
 /madhan-admin/log.txt
 /madhan-adminnpm-debug.log*
