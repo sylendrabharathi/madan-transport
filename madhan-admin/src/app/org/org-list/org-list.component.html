@@ -1,0 +1,44 @@
+<ion-header [translucent]="true">
+    <ion-toolbar class="toolbar">
+        <ion-title>
+            ORG
+        </ion-title>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-icon name="add-outline" (click)="newLr()" class="addicon"></ion-icon>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+
+    <ion-card *ngFor="let item of orgList">
+        <ion-card-content>
+            <div>
+                <ion-note class="highlight">
+                    <ion-icon name="business-outline"></ion-icon> <span>
+                        Company: {{item.company}}
+                    </span>
+                </ion-note>
+            </div>
+            <div>
+                <ion-note slot="start">
+                    <ion-icon name="person-outline"></ion-icon> <span>{{item.name}}</span>
+                </ion-note>                
+            </div>
+            <div>
+                <ion-note slot="end" class="highlight">
+                    <ion-icon name="call-outline"></ion-icon> <span>{{item.mobile}}</span>
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="information-circle-outline"></ion-icon> <span>GST Number: {{item.gst}}</span>
+                </ion-note>
+            </div>
+        </ion-card-content>
+    </ion-card>
+
+
+</ion-content>

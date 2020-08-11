@@ -1,0 +1,64 @@
+<ion-header [translucent]="true">
+    <ion-toolbar class="toolbar">
+        <ion-title>
+            Location
+        </ion-title>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-fab-button class="submit-btn" style="--background: White !important; size: small;">
+                <ion-icon style="color:black;" name="send-sharp"></ion-icon>
+            </ion-fab-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <form class="form">
+        <ion-item class="form-item">
+            <ion-label>Address 1</ion-label>
+            <ion-input type="text" placeholder="Plat No"></ion-input>
+        </ion-item>
+
+        <ion-item class="form-item">
+            <ion-label>Address 2</ion-label>
+            <ion-input type="text" placeholder="Street "></ion-input>
+        </ion-item>
+
+        <ion-item class="form-item">
+            <ion-label>Address 3</ion-label>
+            <ion-input type="text" placeholder="Area"></ion-input>
+        </ion-item>
+
+        <ion-item class="form-item">
+            <ion-label>Address 4</ion-label>
+            <ion-input type="text" placeholder="Taluk"></ion-input>
+        </ion-item>
+
+        <ion-item class="form-item">
+            <ion-label>City</ion-label>
+            <ion-select placeholder="Select City" interface="popover " mode="android ">
+                <ion-select-option value="1">Chennai</ion-select-option>
+                <ion-select-option value="2">Coimbatore</ion-select-option>
+            </ion-select>
+        </ion-item>
+
+        <ion-item class="form-item">
+            <ion-label>State</ion-label>
+            <ion-select placeholder="Select State" interface="popover" mode="android">
+                <ion-select-option value="1">Tamil Nadu</ion-select-option>
+                <ion-select-option value="2">Kerala</ion-select-option>
+            </ion-select>
+        </ion-item>
+
+        <ion-item class="form-item">
+            <ion-label>Country</ion-label>
+            <ion-select placeholder="Select Country" interface="popover" mode="android">
+                <ion-select-option value="1">India</ion-select-option>
+                <ion-select-option value="2">Australia</ion-select-option>
+            </ion-select>
+        </ion-item>
+
+    </form>
+</ion-content>

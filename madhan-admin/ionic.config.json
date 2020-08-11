@@ -1,0 +1,7 @@
+{
+  "name": "madhan-admin",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

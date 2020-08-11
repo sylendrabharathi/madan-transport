@@ -1,0 +1,28 @@
+@import './../../../global.scss';
+.receipt-card-content {
+    padding: 0px;
+    --background: white;
+    form ion-item {
+        margin-bottom: 15px;
+        --background: white;
+    }
+}
+
+.submit-btn {
+    --background: white;
+    --color: var(--primary-color);
+}
+
+.sendbtn {
+    font-size: 32px;
+}
+
+.form-item {
+    margin-top: 15px;
+    --border-color: grey;
+    --color: black !important;
+    --background: #EFEFEF;
+    // --border-style: solid;
+    // --border-width: 1px;
+    // --border-radius: 3px;
+}

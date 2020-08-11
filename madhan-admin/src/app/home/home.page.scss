@@ -1,0 +1,27 @@
+@import "./../../global.scss";
+.item-label {
+    font-size: 13px;
+    color: grey;
+    padding: 4px 0px;
+}
+
+.highlight-label {
+    color: #e8a700;
+    font-size: 16px !important;
+}
+
+.find-truck-btn {
+    --background: var(--primary-color);
+    --color: white;
+    position: absolute;
+    right: 15px;
+}
+
+ion-card-content {
+    div {
+        margin-top: 10px;
+        ion-icon {
+            margin-right: 5px;
+        }
+    }
+}

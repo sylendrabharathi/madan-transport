@@ -1,0 +1,27 @@
+@import './../../../global.scss';
+.item-label {
+    font-size: 13px;
+    color: grey;
+    padding: 4px 0px;
+}
+
+ion-content {
+    // --background: var(--primary-color) !important;
+}
+
+.item {
+    --border-color: transparent;
+}
+
+ion-card-content div {
+    margin-top: 10px;
+}
+
+ion-item {
+    --background: transparent;
+    border-radius: 22px !important;
+}
+
+.addicon {
+    font-size: 32px;
+}

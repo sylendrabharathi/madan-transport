@@ -1,0 +1,51 @@
+<ion-header [translucent]="true">
+    <ion-toolbar class="toolbar">
+        <ion-title>Booking Receipts</ion-title>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-icon name="add-outline" (click)="newBookingReceipt()" class="addicon"></ion-icon>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-card *ngFor="let item of bookingReceipts">
+        <ion-card-content class="booking-receipt-card-content">
+            <div class="card-item">
+                <ion-note class="highlight">
+                    <ion-icon name="pin-outline"></ion-icon>
+                    Booking Id: {{item.RefBookingId}}
+                </ion-note>
+            </div>
+            <div class="card-item">
+                <ion-note>
+                    <ion-icon name="card-outline"></ion-icon>
+                    Payment Mode: {{item.RefReferenceListModelId}}
+                </ion-note>
+            </div>
+            <div class="card-item">
+                <ion-note class="highlight">
+                    <ion-icon name="cash-outline"></ion-icon>
+                    Amount: {{item.Amount}}
+                </ion-note>
+            </div>
+            <div class="card-item">
+                <ion-note>
+                    <ion-icon name="wallet-outline"></ion-icon>
+                    Payment Purpose: {{item.RefReferenceListPayPurposeId}}
+                </ion-note>
+
+            </div>
+            <div class="card-item">
+                <ion-note class="highlight">
+                    <ion-icon name="calendar-outline"></ion-icon>
+                    Pay Date: {{item.ReceiptDate | date:'MMM dd, y'}}
+                </ion-note>
+            </div>
+
+        </ion-card-content>
+    </ion-card>
+</ion-content>

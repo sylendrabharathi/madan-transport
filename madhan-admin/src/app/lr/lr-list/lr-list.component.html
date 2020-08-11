@@ -1,0 +1,129 @@
+<ion-header [translucent]="true">
+    <ion-toolbar class="toolbar">
+        <ion-title>
+            LR
+        </ion-title>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-icon name="add-outline" (click)="newLr()" class="addicon"></ion-icon>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+
+    <ion-card *ngFor="let item of lrList">
+        <ion-card-content>
+            <div>
+                <ion-note class="highlight">
+                    <ion-icon name="bus-outline"></ion-icon> Vehicle Number: {{item.vnumber}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="person-outline"></ion-icon> Transpoter Name: {{item.tname}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="person-outline"></ion-icon> Driver Name: {{item.dname}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-note class="highlight">
+                    <ion-icon name="location"></ion-icon>
+                        {{item.source}}
+                        <ion-icon name="arrow-forward"></ion-icon> {{item.destination}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-row>
+                    <ion-col width-50>
+                        <ion-label class="item-label" detail="true">
+                            <ion-icon name="cart-outline"></ion-icon> Quantity: {{item.quantity}}
+                        </ion-label>
+                    </ion-col>
+                    <ion-col width-50>
+                        <ion-label class="item-label" detail="true">
+                            <ion-icon name="calendar-outline"></ion-icon> {{item.bookingdate | date:'MMM dd, yyyy'}}
+                        </ion-label>
+                    </ion-col>
+                </ion-row>
+            </div>
+            <div>
+                <ion-row>
+                    <ion-col width-50>
+                        <ion-label class="item-label" detail="true">
+                            <ion-icon name="cash-outline"></ion-icon> Total Pay: {{item.totalpay}}
+                        </ion-label>
+                    </ion-col>
+                    <ion-col width-50>
+                        <ion-label class="item-label" detail="true">
+                            <ion-icon name="cash-outline"></ion-icon> Balance: {{item.balance}}
+                        </ion-label>
+                    </ion-col>
+                </ion-row>
+            </div>
+        </ion-card-content>
+    </ion-card>
+    <!-- <ion-item class="no-padding item" class="">
+        <div>
+            <ion-row>
+                <ion-col width-100>
+                    <ion-label class="item-label" detail="true">
+                        <ion-icon name="bus-outline"></ion-icon> Vehicle Number: {{item.vnumber}}
+                    </ion-label>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col width-100>
+                    <ion-label class="item-label" detail="true">
+                        <ion-icon name="person-outline"></ion-icon> Transpoter Name: {{item.tname}}
+                    </ion-label>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col width-100>
+                    <ion-label class="item-label" detail="true">
+                        <ion-icon name="person-outline"></ion-icon> Driver Name: {{item.dname}}
+                    </ion-label>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col width-100>
+                    <ion-label class="highlight" detail="true">
+                        <ion-icon name="location"></ion-icon>
+                        {{item.source}}
+                        <ion-icon name="arrow-forward"></ion-icon> {{item.destination}}
+                    </ion-label>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col width-50>
+                    <ion-label class="item-label" detail="true">
+                        <ion-icon name="cart-outline"></ion-icon> Quantity: {{item.quantity}}
+                    </ion-label>
+                </ion-col>
+                <ion-col width-50>
+                    <ion-label class="item-label" detail="true">
+                        <ion-icon name="calendar-outline"></ion-icon> B-Date: {{item.bookingdate | date:'MMM DD, yyyy'}}
+                    </ion-label>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col width-50>
+                    <ion-label class="item-label" detail="true">
+                        <ion-icon name="cash-outline"></ion-icon> Total Pay: {{item.totalpay}}
+                    </ion-label>
+                </ion-col>
+                <ion-col width-50>
+                    <ion-label class="item-label" detail="true">
+                        <ion-icon name="cash-outline"></ion-icon> Balance: {{item.balance}}
+                    </ion-label>
+                </ion-col>
+            </ion-row>
+        </div>
+    </ion-item> -->
+
+</ion-content>

@@ -1,0 +1,27 @@
+@import './../../../global.scss';
+.item-label {
+    font-size: 13px;
+    color: grey;
+    padding: 4px 0px;
+}
+
+.highlight-label {
+    color: var(--primary-color);
+    font-size: 16px !important;
+}
+
+.send-confirmation-btn {
+    --color: white;
+    --background: var(--primary-color);
+    position: absolute;
+    right: 15px;
+}
+
+ion-card-content {
+    div {
+        margin-top: 10px;
+         ion-icon {
+             margin-right: 5px;
+         }
+    }
+}

@@ -1,0 +1,62 @@
+<ion-header [translucent]="true">
+    <ion-toolbar class="toolbar">
+        <ion-title>
+            Home
+        </ion-title>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card *ngFor="let item of bookingDetails">
+        <ion-card-content>
+            <div>
+                <ion-note>
+                    <ion-icon name="pin"></ion-icon> Booking Id: {{item.id}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="home"></ion-icon> Consignee: {{item.company}}                    
+                </ion-note>
+            </div>
+            <div>
+                <ion-note class="highlight">
+                    <ion-icon name="location"></ion-icon>
+                    {{item.source}}
+                    <ion-icon name="arrow-forward"></ion-icon> {{item.destination}}                        
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="library"></ion-icon> Material: {{item.material}}                    
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="server"></ion-icon> Weight: {{item.weight}}                    
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="bus"></ion-icon> Truck Type: {{item.vehicleType}}                    
+                </ion-note>
+            </div>
+            <div>
+                <ion-note class="highlight">
+                    <ion-icon name="alarm"></ion-icon> Loading Date: {{item.date | date:'MMM dd, yyyy'}}                    
+                </ion-note>
+            </div>
+            <span>
+                <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+                    <ion-fab-button style="--background: var(--primary-color) !important; ">
+                        <ion-icon class="find-truck-btn" (click)="goToTruckDetail(item.id)" name="arrow-forward-circle"></ion-icon>
+                    </ion-fab-button>
+                </ion-fab>    
+            </span>
+        </ion-card-content>
+    </ion-card>
+
+</ion-content>

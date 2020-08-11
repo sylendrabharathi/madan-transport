@@ -1,0 +1,18 @@
+@import './../../../global.scss';
+.add-new-btn {
+    --background: var(--primary-color);
+    --color: white;
+}
+
+ion-item {
+    --color: black;
+}
+
+.reference-card-content {
+    padding: 0px;
+    --background: white;
+    form ion-item {
+        margin-bottom: 15px;
+        --background: white;
+    }
+}

@@ -1,0 +1,39 @@
+@import './../global.scss';
+.router-link-active {
+    --background: var(--primary-color);
+    --color: var(--primary-color);
+    color: white !important;
+}
+
+.router-link-active ion-icon {
+    color: white !important;
+}
+
+.router-link-active ion-label {
+    color: white !important;
+}
+
+.side-menu {
+    --width: 250px;
+}
+
+.side-menu-item {
+    font-size: 14px;
+}
+
+.side-menu-title {
+    --color: white;
+    font-weight: bolder;
+}
+
+ion-toolbar {
+    --background: var(--primary-color);
+}
+
+.title-label {
+    color: var(--primary-color);
+}
+
+ion-item {
+    --background: #EFEFEF;
+}

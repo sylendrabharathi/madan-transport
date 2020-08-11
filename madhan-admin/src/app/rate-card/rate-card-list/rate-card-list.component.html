@@ -1,0 +1,43 @@
+<ion-header [translucent]="true">
+    <ion-toolbar class="toolbar">
+        <ion-title>
+            Rates
+        </ion-title>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-icon name="add-outline" (click)="newRate()" class="addicon"></ion-icon>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-card *ngFor="let item of rateList">
+        <ion-card-content>
+            <div>
+                <ion-note>
+                    <ion-icon name="person-outline"></ion-icon> Rate For: {{item.rateFor}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="calendar-outline"></ion-icon> Validity: {{item.validity | date:'MMM dd, yyyy'}}                    
+                </ion-note>
+            </div>
+            <div>
+                <ion-note class="highlight route">
+                    <ion-icon name="location"></ion-icon>
+                    {{item.source}}
+                    <ion-icon name="arrow-forward"></ion-icon> {{item.destination}}                
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="cash-outline"></ion-icon> Rate: {{item.rate}}                    
+                </ion-note>
+            </div>
+        </ion-card-content>
+    </ion-card>
+
+
+</ion-content>

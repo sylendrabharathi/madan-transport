@@ -1,0 +1,51 @@
+<ion-header [translucent]="true">
+    <ion-toolbar class="toolbar">
+        <ion-title>
+            Available Vehicles
+        </ion-title>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    
+    <div class="trucks-list">
+        <ion-card *ngFor="let item of vehicles">
+            <ion-card-content>
+                <div>
+                    <ion-note>
+                        <ion-icon name="person"></ion-icon> Transpoter Name: {{item.ownerName}}
+                    </ion-note>
+                </div>
+                <div>
+                    <ion-note>
+                        <ion-icon name="reader"></ion-icon> Vehicle No: {{item.vehicleNo}}                        
+                    </ion-note>
+                </div>
+                <div>
+                    <ion-note>
+                        <ion-icon name="location"></ion-icon> Live Location: {{item.liveLocationTxt}}                        
+                    </ion-note>
+                </div>
+                <div>
+                    <ion-note>
+                        <ion-icon name="bus"></ion-icon> Vehicle Type: {{item.vehicleType}}                        
+                    </ion-note>
+                </div>
+                <div>
+                    <ion-note>
+                        <ion-icon name="call"></ion-icon> Mobile No: {{item.mobileNo}}                        
+                    </ion-note>
+                </div>
+            </ion-card-content>
+        </ion-card>
+    </div>
+    <!-- <div class="map-div"> -->
+    <div id="map_canvas" class="map-div">
+
+        <!-- </div> -->
+
+    </div>
+</ion-content>

@@ -1,0 +1,16 @@
+<ion-app>
+    <ion-menu side="start" content-id="main-content" class="side-menu">
+        <ion-header>
+            <ion-toolbar translucent>
+                <ion-title class="side-menu-title">Madan Transport</ion-title>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content>
+            <ion-item class="title-label" *ngFor="let item of menuList" class="side-menu-item" [routerLink]="item.url" routerLinkActive="router-link-active" (click)="closeMenu()">
+                <ion-icon class="title-label" [name]="item.icon" slot="start"></ion-icon>
+                <ion-label class="title-label">{{item.title}}</ion-label>
+            </ion-item>
+        </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="main-content" main></ion-router-outlet>
+</ion-app>

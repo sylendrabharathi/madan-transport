@@ -1,0 +1,36 @@
+<ion-header [translucent]="true">
+    <ion-toolbar class="toolbar">
+        <ion-title>
+            Employees
+        </ion-title>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-icon name="add-outline" (click)="newEmployee()" class="addicon"></ion-icon>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-card *ngFor="let item of employeeList">
+        <ion-card-content>
+            <div>
+                <ion-note class="highlight">
+                    <ion-icon name="person-outline"></ion-icon> Name: {{item.firstName}} {{item.lastName}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="pin"></ion-icon> Gender: {{item.gender}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-note class="highlight">
+                    <ion-icon name="call-outline"></ion-icon> Phone NO: {{item.phoneNumber}}
+                </ion-note>
+            </div>
+    </ion-card-content>
+    </ion-card>
+
+
+</ion-content>
