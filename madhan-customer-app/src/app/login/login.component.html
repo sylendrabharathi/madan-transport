@@ -1,0 +1,44 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="toolbar t-center">
+    <ion-title>Madan Transport</ion-title>
+   
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+  <div class="login-img">
+    <img src="assets/images/login-img.jpg" />
+  </div>
+
+  <ion-card>
+    <ion-card-content>
+
+      <!-- <h2 class="app-text">
+        Madan Transport
+      </h2> -->
+      
+      <form>
+
+        <ion-item>
+          <ion-label position="fixed">Email</ion-label>
+          <ion-input type="text" placeholder="a@a.com"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="fixed">Password</ion-label>
+          <ion-input type="password" placeholder="********"></ion-input>
+        </ion-item>
+
+        <ion-buttons class="btns">
+          <ion-button slot="start" class="signup" (click)="singup()">Sign Up</ion-button>
+
+          <ion-button slot="end" class="login">Login</ion-button>
+        </ion-buttons>
+
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
