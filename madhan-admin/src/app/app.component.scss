@@ -22,12 +22,12 @@
 }
 
 .side-menu-title {
-    --color: white;
+    --color: var(--primary-color);
     font-weight: bolder;
 }
 
 ion-toolbar {
-    --background: var(--primary-color);
+    --background: var(--bg-color);
 }
 
 .title-label {

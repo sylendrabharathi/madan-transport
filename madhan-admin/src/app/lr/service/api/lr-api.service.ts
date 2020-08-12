@@ -9,6 +9,6 @@ export class LrApiService {
   constructor(private api: ApiService) { }
 
   getLrList() {
-    return this.api.get(this.api.formUrl('api/Booking/GetBookingDetails', '?name=VC'));
+    return this.api.get(this.api.formUrl('Booking/GetBookingDetails', '?name=VC'));
   }
 }

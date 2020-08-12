@@ -4,16 +4,20 @@ import { CommonModule } from '@angular/common';
 import { ReferenceRoutingModule } from './reference-routing.module';
 import { IonicModule } from '@ionic/angular';
 import { ReferenceFormComponent } from './reference-form/reference-form.component';
+import { ReferenceListComponent } from './reference-list/reference-list.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [
-    ReferenceFormComponent
+    ReferenceFormComponent,
+    ReferenceListComponent
   ],
   imports: [
     CommonModule,
     IonicModule,
-    ReferenceRoutingModule
+    ReferenceRoutingModule,
+    FormsModule
   ]
 })
 export class ReferenceModule { }

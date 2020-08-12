@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  serverUrl: 'http://cloud.neolysi.com/madanapi/'
+  serverUrl: 'http://cloud.neolysi.com/madanapi/api/'
 };
 
 /*

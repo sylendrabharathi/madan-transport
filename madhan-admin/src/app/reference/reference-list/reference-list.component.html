@@ -1,3 +1,72 @@
-<p>
-  reference-list works!
-</p>
+<ion-header [translucent]="true">
+    <ion-toolbar class="toolbar">
+        <ion-title>
+            References
+        </ion-title>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-icon name="add-outline" (click)="newReference()" class="addicon"></ion-icon>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-item class="nobackground">
+        <ion-label style="text-align: right;">Reference </ion-label>
+        <ion-toggle [(ngModel)]="viewChanger" (ionChange)="ChangeView()"></ion-toggle>
+        <ion-label>Reference List </ion-label>
+    </ion-item>
+    <div *ngIf="!viewChanger">
+        <ion-card *ngFor="let item of referenceDetails">
+            <ion-card-content>
+                <div>
+                    <ion-note>
+                        <ion-icon name="person-outline"></ion-icon> Reference Id: {{item.referenceId}}
+                    </ion-note>
+                </div>
+                <div>
+                    <ion-note>
+                        <ion-icon name="calendar-outline"></ion-icon> Name: {{item.name}}
+                    </ion-note>
+                </div>
+                <div>
+                    <ion-note>
+                        <ion-icon name="cash-outline"></ion-icon> Description: {{item.description}}
+                    </ion-note>
+                </div>
+            </ion-card-content>
+        </ion-card>
+    </div>
+    <div *ngIf="viewChanger">
+        <ion-card *ngFor="let item of referenceListDetails">
+            <ion-card-content>
+                <div>
+                    <ion-note>
+                        <ion-icon name="person-outline"></ion-icon> Reference Id: {{item.referenceListId}}
+                    </ion-note>
+                </div>
+                <div>
+                    <ion-note>
+                        <ion-icon name="calendar-outline"></ion-icon> Reference List Name: {{item.referenceListId}}
+                    </ion-note>
+                </div>
+                <div>
+                    <ion-note>
+                        <ion-icon name="cash-outline"></ion-icon> Reference List Description: {{item.referenceListIdName}}
+                    </ion-note>
+                </div>
+                <div>
+                    <ion-note>
+                        <ion-icon name="calendar-outline"></ion-icon> Reference Name: {{item.referenceListIdDescription}}
+                    </ion-note>
+                </div>
+                <div>
+                    <ion-note>
+                        <ion-icon name="cash-outline"></ion-icon> Reference Description: {{item.referenceDescription}}
+                    </ion-note>
+                </div>
+            </ion-card-content>
+        </ion-card>
+    </div>
+</ion-content>

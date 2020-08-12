@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ReciptsApiService } from '../service/api/recipts-api.service';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-new-receipt',
@@ -11,8 +13,11 @@ export class NewReceiptComponent implements OnInit {
   vehicleBookings = [];
   paymentPurposes = [];
   paymentModes = [];
+  reciptForm = this.fb.group([]);
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+    private reciptApi: ReciptsApiService,
+    private fb: FormBuilder) { }
 
   ngOnInit() {
     this.getVehicelBookings();
@@ -21,7 +26,7 @@ export class NewReceiptComponent implements OnInit {
   }
 
   getVehicelBookings() {
-    for(let i = 0; i < 5; i++) {
+    for (let i = 0; i < 5; i++) {
       const obj = {
         vehicleBookingMappingId: i,
         polBookingMappingId: i,
@@ -34,15 +39,15 @@ export class NewReceiptComponent implements OnInit {
   }
 
   getPaymentPurposes() {
-    this.paymentPurposes = [{id: 1, name: 'Advance'}, {id: 1, name: 'Settlement'}, {id: 3, name: 'Toll Fee'}];
+    this.paymentPurposes = [{ id: 1, name: 'Advance' }, { id: 1, name: 'Settlement' }, { id: 3, name: 'Toll Fee' }];
   }
 
   getPaymentModes() {
-    this.paymentModes = [{id: 1, name: 'Cash'}, {id: 2, name: 'Card'}, {id: 3, name: 'UPI Payment'}, {id: 4, name: 'Paytm'}];
+    this.paymentModes = [{ id: 1, name: 'Cash' }, { id: 2, name: 'Card' }, { id: 3, name: 'UPI Payment' }, { id: 4, name: 'Paytm' }];
   }
 
   submit() {
-    this.router.navigate(['booking-receipt']);    
+    this.router.navigate(['booking-receipt']);
   }
 
 }

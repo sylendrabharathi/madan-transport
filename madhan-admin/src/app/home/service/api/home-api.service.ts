@@ -9,9 +9,9 @@ export class HomeApiService {
   constructor(private api: ApiService) { }
 
   getICData() {
-    return this.api.get('api/BookingFlowReports/getAdminDashboard');
+    return this.api.get('BookingFlowReports/getAdminDashboard');
   }
   getFindTruck(source) {
-    return this.api.get('api/BookingFlowReports/getAdminFindTruck/?Location=' + source);
+    return this.api.get('BookingFlowReports/getAdminFindTruck/?Location=' + source);
   }
 }

@@ -9,6 +9,6 @@ export class VehicleDetailsapiService {
   constructor(private api: ApiService) { }
 
   getWillingVehicles() {
-    return this.api.get('api/BookingFlowReports/getAdminVehicleWillingDetails');
+    return this.api.get('BookingFlowReports/getAdminVehicleWillingDetails');
   }
 }

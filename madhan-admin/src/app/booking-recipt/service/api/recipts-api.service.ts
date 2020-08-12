@@ -9,7 +9,7 @@ export class ReciptsApiService {
   constructor(private api: ApiService) { }
 
   getBookingRecipts(paymentId, bookingId, mappingId) {
-    return this.api.get(`api/BookingReceipt/GetBookingReceiptDetails/?=BookingReceiptId=${paymentId}&bookingId=${bookingId}
+    return this.api.get(`BookingReceipt/GetBookingReceiptDetails/?=BookingReceiptId=${paymentId}&bookingId=${bookingId}
     &VehicleBookingMappingId=${mappingId} `);
   }
 }

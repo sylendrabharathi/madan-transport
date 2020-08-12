@@ -8,6 +8,17 @@ export class RateApiService {
   constructor(private api: ApiService) { }
 
   getRateList(rateType) {
-    return this.api.get('api/rate/GetRateByName/?name=' + rateType);
+    return this.api.get('rate/GetRateByName/?name=' + rateType);
   }
+  getRateFor() {
+    return this.api.get('ReferenceList/GetRLByRName/?name=rate');
+  }
+  getLocations() {
+    return this.api.get('ReferenceList/GetRLByRName/?name=LodingPoints');
+  }
+  addRate(newRateData) {
+    return this.api.post('rate', newRateData);
+  }
+
 }
+
