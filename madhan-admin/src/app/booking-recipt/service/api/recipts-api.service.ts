@@ -12,4 +12,13 @@ export class ReciptsApiService {
     return this.api.get(`BookingReceipt/GetBookingReceiptDetails/?=BookingReceiptId=${paymentId}&bookingId=${bookingId}
     &VehicleBookingMappingId=${mappingId} `);
   }
+  getpaymentMode() {
+    return this.api.get('ReferenceList/GetRLByRName/?name=PaymentMode');
+  }
+  getPaymentPurpose() {
+    return this.api.get('ReferenceList/GetRLByRName/?name=PaymentPurpose');
+  }
+  addRecipt(newRecipt) {
+    return this.api.put('BookingReceipt/', newRecipt);
+  }
 }

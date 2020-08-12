@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RateApiService } from '../Service/api/rate-api.service';
-import { FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { RateCardModel } from 'src/app/models/RateCardModel';
 import { ToastController } from '@ionic/angular';
@@ -75,6 +75,7 @@ export class RateCardFormComponent implements OnInit {
         failure => {
           console.log('failure', failure);
         });
+      this.newRateForm.reset();
       this.router.navigate(['rate-card']);
     }
     else {

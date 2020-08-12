@@ -19,4 +19,4 @@ import { NewReceiptComponent } from './new-receipt/new-receipt.component';
   ],
   declarations: [BookingReciptPage, NewReceiptComponent]
 })
-export class BookingReciptPageModule {}
+export class BookingReciptPageModule { }
