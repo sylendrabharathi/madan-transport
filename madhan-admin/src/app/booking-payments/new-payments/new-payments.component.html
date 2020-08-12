@@ -14,42 +14,42 @@
 
     <ion-card>
         <ion-card-content class="receipt-card-content">
-            <form>
+            <form [formGroup]="paymentForm">
                 <ion-item class="form-item">
                     <ion-label position="floating">Vehicel Booking Mapping Id</ion-label>
-                    <ion-select placeholder="Select One">
-                        <ion-select-option *ngFor="let item of vehicleBookings" value="item.vehicleBookingMappingId">
+                    <ion-select placeholder="Select One" interface="popover" mode="ios" formControlName="vehicleBookingId" class="select">
+                        <ion-select-option *ngFor="let item of vehicleBookings" [value]="item.vehicleBookingMappingId">
                             {{item.vehicleNo}}
                         </ion-select-option>
                     </ion-select>
                 </ion-item>
                 <ion-item class="form-item">
                     <ion-label position="floating">Payment Mode</ion-label>
-                    <ion-select placeholder="Select One">
-                        <ion-select-option *ngFor="let item of paymentModes" value="item.id">
-                            {{item.name}}
+                    <ion-select placeholder="Select One" interface="popover" mode="ios" formControlName="paymentMode" class="select">
+                        <ion-select-option *ngFor="let item of paymentModes" [value]="item.referenceListId">
+                            {{item.referenceListIdName}}
                         </ion-select-option>
                     </ion-select>
                 </ion-item>
                 <ion-item class="form-item">
                     <ion-label position="floating">Payment Purpose</ion-label>
-                    <ion-select placeholder="Select One">
-                        <ion-select-option *ngFor="let item of paymentPurposes" value="item.id">
-                            {{item.name}}
+                    <ion-select placeholder="Select One" interface="popover" mode="ios" formControlName="paymentPurpose" class="select">
+                        <ion-select-option *ngFor="let item of paymentPurposes" [value]="item.referenceListId">
+                            {{item.referenceListIdName}}
                         </ion-select-option>
                     </ion-select>
                 </ion-item>
                 <ion-item class="form-item">
                     <ion-label position="floating">Payment Date</ion-label>
-                    <ion-datetime value="2019-10-01T15:43:40.394Z" display-timezone="utc"></ion-datetime>
+                    <ion-datetime display-timezone="utc" formControlName="paymentDate"></ion-datetime>
                 </ion-item>
                 <ion-item class="form-item">
                     <ion-label position="floating">Amount</ion-label>
-                    <ion-input type="number"></ion-input>
+                    <ion-input type="number" formControlName="ammount"></ion-input>
                 </ion-item>
                 <ion-item class="form-item">
                     <ion-label position="floating">Description</ion-label>
-                    <ion-textarea></ion-textarea>
+                    <ion-textarea formControlName="description"></ion-textarea>
                 </ion-item>
 
             </form>

@@ -12,5 +12,17 @@ export class PaymentsApiService {
     return this.api.get(`BookingPayments/GetBookingPaymentsDetails/?bookingPaymentsId=${paymentId}&bookingId=${bookingId}
     &VehicleBookingMappingId=${mappingId} `);
   }
+  getpaymentMode() {
+    return this.api.get('ReferenceList/GetRLByRName/?name=PaymentMode');
+  }
+  getPaymentPurpose() {
+    return this.api.get('ReferenceList/GetRLByRName/?name=PaymentPurpose');
+  }
+  addPayment(newRecipt) {
+    return this.api.put('BookingPayments/', newRecipt);
+  }
 
+  getVehicleId() {
+    return this.api.get('VehicleBookingMapping/GetVBMDetails');
+  }
 }

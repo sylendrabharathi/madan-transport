@@ -38,16 +38,25 @@ export class NewReceiptComponent implements OnInit {
   }
 
   getVehicelBookings() {
-    for (let i = 0; i < 5; i++) {
-      const obj = {
-        vehicleBookingMappingId: i,
-        polBookingMappingId: i,
-        refBookingId: i,
-        vehicleId: i,
-        vehicleNo: `TN ${(i + 1) * 10} AA ${1111 * (i + 1)}`
-      };
-      this.vehicleBookings.push(obj);
-    }
+    // for (let i = 0; i < 5; i++) {
+    //   const obj = {
+    //     vehicleBookingMappingId: i,
+    //     polBookingMappingId: i,
+    //     refBookingId: i,
+    //     vehicleId: i,
+    //     vehicleNo: `TN ${(i + 1) * 10} AA ${1111 * (i + 1)}`
+    //   };
+    //   this.vehicleBookings.push(obj);
+    // }
+    this.reciptApi.getVehicleId().pipe().subscribe(
+      success => {
+        console.log('success', success);
+        this.vehicleBookings = success;
+      },
+      failure => {
+        console.log('failure', failure);
+      }
+    );
   }
 
   getPaymentPurposes() {

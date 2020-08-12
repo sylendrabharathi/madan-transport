@@ -21,4 +21,7 @@ export class ReciptsApiService {
   addRecipt(newRecipt) {
     return this.api.put('BookingReceipt/', newRecipt);
   }
+  getVehicleId() {
+    return this.api.get('VehicleBookingMapping/GetVBMDetails');
+  }
 }
