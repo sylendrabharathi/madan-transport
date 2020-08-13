@@ -17,32 +17,42 @@
         <ion-toggle [(ngModel)]="viewChanger" (ionChange)="ChangeView()"></ion-toggle>
         <ion-label>Transpoter Rate</ion-label>
     </ion-item>
-    <ion-card *ngFor="let item of rateList">
-        <ion-card-content>
-            <div>
-                <ion-note>
-                    <ion-icon name="person-outline"></ion-icon> Rate For: {{item.rlRateForName}}
-                </ion-note>
-            </div>
-            <div>
-                <ion-note>
-                    <ion-icon name="calendar-outline"></ion-icon> Validity: {{item.validityDate | date:'MMM dd, yyyy'}}
-                </ion-note>
-            </div>
-            <div>
-                <ion-note class="highlight route">
-                    <ion-icon name="location"></ion-icon>
-                    {{item.source}}
-                    <ion-icon name="arrow-forward"></ion-icon> {{item.destination}}
-                </ion-note>
-            </div>
-            <div>
-                <ion-note>
-                    <ion-icon name="cash-outline"></ion-icon> Rate: {{item.amount}}
-                </ion-note>
-            </div>
-        </ion-card-content>
-    </ion-card>
-
-
+    <ion-list>
+        <!-- Sliding item with text options on both sides -->
+        <ion-item-sliding *ngFor="let item of rateList">
+            <ion-item>
+                <ion-card>
+                    <ion-card-content>
+                        <div>
+                            <ion-note>
+                                <ion-icon name="person-outline"></ion-icon> Rate For: {{item.rlRateForName}}
+                            </ion-note>
+                        </div>
+                        <div>
+                            <ion-note>
+                                <ion-icon name="calendar-outline"></ion-icon> Validity: {{item.validityDate | date:'MMM dd, yyyy'}}
+                            </ion-note>
+                        </div>
+                        <div>
+                            <ion-note class="highlight route">
+                                <ion-icon name="location"></ion-icon>
+                                {{item.source}}
+                                <ion-icon name="arrow-forward"></ion-icon> {{item.destination}}
+                            </ion-note>
+                        </div>
+                        <div>
+                            <ion-note>
+                                <ion-icon name="cash-outline"></ion-icon> Rate: {{item.amount}}
+                            </ion-note>
+                        </div>
+                    </ion-card-content>
+                    <!-- </ion-item-sliding> -->
+                </ion-card>
+            </ion-item>
+            <ion-item-options side="end">
+                <ion-item-option (click)="favorite(item)">Favorite</ion-item-option>
+                <ion-item-option color="danger" (click)="share(item)">Share</ion-item-option>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
 </ion-content>

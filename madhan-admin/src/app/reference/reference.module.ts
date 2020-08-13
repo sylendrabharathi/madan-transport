@@ -5,7 +5,7 @@ import { ReferenceRoutingModule } from './reference-routing.module';
 import { IonicModule } from '@ionic/angular';
 import { ReferenceFormComponent } from './reference-form/reference-form.component';
 import { ReferenceListComponent } from './reference-list/reference-list.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -17,7 +17,8 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     IonicModule,
     ReferenceRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
   ]
 })
 export class ReferenceModule { }
