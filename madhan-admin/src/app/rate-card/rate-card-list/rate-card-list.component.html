@@ -50,8 +50,12 @@
                 </ion-card>
             </ion-item>
             <ion-item-options side="end">
-                <ion-item-option (click)="favorite(item)">Favorite</ion-item-option>
-                <ion-item-option color="danger" (click)="share(item)">Share</ion-item-option>
+                <ion-item-option color="tertiary" (click)="favorite(item)">
+                    <ion-icon name="pencil-outline" class="slideicon"></ion-icon>
+                </ion-item-option>
+                <ion-item-option color="danger" (click)="share(item)">
+                    <ion-icon name="trash-outline" class="slideicon"></ion-icon>
+                </ion-item-option>
             </ion-item-options>
         </ion-item-sliding>
     </ion-list>
