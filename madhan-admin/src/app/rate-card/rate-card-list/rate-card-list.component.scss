@@ -28,6 +28,8 @@
     .nobackground {
         --background: transparent;
         position: sticky;
+        box-shadow: 0 !important;
+        margin: 0 !important;
     }
     
     ion-toggle {
@@ -46,6 +48,7 @@
         --inner-padding-end: 0px;
         --padding-start: 0px;
         margin: 0 2% 2% 2%;
+        box-shadow: .8px .8px .8px .8px lightgray;
     }
     
     ion-item-option {
