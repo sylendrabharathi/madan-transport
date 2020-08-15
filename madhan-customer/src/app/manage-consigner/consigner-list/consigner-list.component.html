@@ -6,9 +6,34 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button class="new-btn" (click)="createNewConsigner()">&nbsp;<ion-icon name="add-outline"></ion-icon></ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
+  <ion-card *ngFor="let item of consigners" class="card">
+    <ion-card-content>
+      <div>
+        <span class="field">Name</span> <span>: &nbsp;{{item.name}}</span>
+      </div>
+      <div>
+        <span class="field">GST NO</span> <span>: &nbsp;{{item.gstno}}</span>
+      </div>
+      <div>
+        <span class="field">PAN</span> <span>: &nbsp;{{item.pannumber}}</span>
+      </div>    
+      <div>
+        <span class="field">Email</span> <span>: &nbsp;{{item.email}}</span>
+      </div>    
+      <div>
+        <span class="field">Mobile</span> <span>: &nbsp;{{item.mobile}}</span>
+      </div>   
+      <div>
+        <span class="field">City</span> <span>: &nbsp;{{item.city}}</span>
+      </div>     
+    </ion-card-content>
+  </ion-card>
 </ion-content>

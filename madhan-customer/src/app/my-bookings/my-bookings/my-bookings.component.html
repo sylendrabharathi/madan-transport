@@ -11,4 +11,64 @@
 
 <ion-content>
 
+  <ion-card class="card" *ngFor="let item of myBookings">
+    <ion-card-content>
+      <div>
+        <ion-note>
+          <ion-icon name="pin"></ion-icon>&nbsp;Booking ID: {{item.bookingId}}
+        </ion-note>
+      </div>
+      <div>
+        <ion-note>
+          <ion-icon name="home"></ion-icon>&nbsp;Consignee: {{item.consignerName}}
+        </ion-note>
+      </div>
+      <div>
+        <ion-note class="highlight">
+          <ion-icon name="location"></ion-icon>&nbsp;
+          {{item.lpodCityName}} <ion-icon name="arrow-forward"></ion-icon> {{item.podLocation}}
+        </ion-note>
+      </div>
+      <div>
+        <ion-note>
+          <ion-icon name="library"></ion-icon>&nbsp;Material: {{item.material}}
+        </ion-note>
+      </div>
+      <div>
+        <ion-note>
+          <ion-icon name="bus"></ion-icon>&nbsp;Truck Type: {{item.vehicleType}}
+        </ion-note>
+      </div>
+      <div>
+        <ion-note>
+          <ion-icon name="server"></ion-icon>&nbsp;Weight: {{item.totalQty}}
+        </ion-note>
+      </div>
+      <div>
+        <ion-note>
+          <ion-icon name="caret-forward-outline"></ion-icon>&nbsp;Vehicle No: {{item.vvberVehicleNo}}
+        </ion-note>
+      </div>
+      <div>
+        <ion-note>
+          <ion-icon name="person-outline"></ion-icon>&nbsp;Driver: {{item.driverName}}
+        </ion-note>
+      </div>
+      <div>
+        <ion-note>
+          <ion-icon name="call-outline"></ion-icon>&nbsp;Mobile: {{item.transporterMob}}
+        </ion-note>
+      </div>
+      <div>
+        <ion-note>
+          <ion-icon name="exit-outline"></ion-icon>&nbsp;Status: {{item.status}}
+        </ion-note>
+      </div>
+
+
+
+
+
+    </ion-card-content>
+  </ion-card>
 </ion-content>

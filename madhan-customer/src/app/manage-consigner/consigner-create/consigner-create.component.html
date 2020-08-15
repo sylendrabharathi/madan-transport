@@ -1,3 +1,102 @@
-<p>
-  consigner-create works!
-</p>
+<ion-header [translucent]="true">
+  <ion-toolbar class="toolbar">
+    <ion-title>
+      Consigner
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="submit()">Submit</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <form class="form" [formGroup]="consignerForm">
+    <ion-item class="form-item">
+      <ion-label>Name:</ion-label>
+      <ion-input type="text" placeholder="Madan" formControlName="name"></ion-input>
+    </ion-item>
+    <ion-item class="form-item">
+      <ion-label>GSTNO:</ion-label>
+      <ion-input type="text" placeholder="XXXXXXXXXXXXXX" formControlName="gstno"></ion-input>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>PAN:</ion-label>
+      <ion-input type="text" placeholder="XXXXXXXXXXX" formControlName="pannumber"></ion-input>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Phone No:</ion-label>
+      <ion-input type="number" placeholder="9632147850" formControlName="phoneNo"></ion-input>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Mobile No:</ion-label>
+      <ion-input type="number" placeholder="9632147850" formControlName="mobileNo"></ion-input>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Email:</ion-label>
+      <ion-input type="email" placeholder="a@a.com" formControlName="email"></ion-input>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Website:</ion-label>
+      <ion-input type="url" placeholder="www.madan.com" formControlName="website"></ion-input>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Description:</ion-label>
+      <ion-textarea type="text" formControlName="description"></ion-textarea>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>City</ion-label>
+      <ion-select placeholder="Select One" formControlName="refReferenceListCityId">
+        <ion-select-option *ngFor="let item of cities" 
+        [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>State</ion-label>
+      <ion-select placeholder="Select One" formControlName="refReferenceListStateId">
+        <ion-select-option *ngFor="let item of states" 
+        [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Country</ion-label>
+      <ion-select placeholder="Select One" formControlName="refReferenceListCountryId">
+        <ion-select-option *ngFor="let item of countries" 
+        [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Flat/Building No:</ion-label>
+      <ion-textarea type="text" formControlName="address1"></ion-textarea>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Address Line 1:</ion-label>
+      <ion-textarea type="text" formControlName="address2"></ion-textarea>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Address Line 2:</ion-label>
+      <ion-textarea type="text" formControlName="address3"></ion-textarea>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Land Mark:</ion-label>
+      <ion-textarea type="text" formControlName="address4"></ion-textarea>
+    </ion-item>
+
+  </form>
+</ion-content>

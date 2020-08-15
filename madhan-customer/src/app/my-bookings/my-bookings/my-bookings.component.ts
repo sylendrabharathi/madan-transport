@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MyBookinsApiService } from '../service/api/my-bookins-api.service';
 
 @Component({
   selector: 'app-my-bookings',
@@ -7,8 +8,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyBookingsComponent implements OnInit {
 
-  constructor() { }
+  id = 2;
+  myBookings = [];
+  constructor(private api: MyBookinsApiService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
+
+  ionViewWillEnter() {
+    this.getMyBookings();
+  }
+
+  getMyBookings() {
+    this.api.getMyBookings(this.id).subscribe((resp: any) => {
+      console.log(resp);
+      this.myBookings = resp || [];
+    }, err => {
+
+    })
+  }
 
 }

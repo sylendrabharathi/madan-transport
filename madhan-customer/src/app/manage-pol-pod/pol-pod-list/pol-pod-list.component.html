@@ -6,9 +6,34 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button class="new-btn" (click)="createPolPod()">&nbsp;<ion-icon name="add-outline"></ion-icon></ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
+  <ion-card *ngFor="let item of polPods" class="card">
+    <ion-card-content>
+      <div>
+        <span class="field">POL POD ID</span> <span>: &nbsp;{{item.polpodid}}</span>
+      </div>
+      <div>
+        <span class="field">Loading Type</span> <span>: &nbsp;{{item.loadingType}}</span>
+      </div>
+      <div>
+        <span class="field">Location</span> <span>: &nbsp;{{item.location}}</span>
+      </div>
+      <div>
+        <span class="field">City</span> <span>: &nbsp;{{item.city}}</span>
+      </div>
+      <div>
+        <span class="field">State</span> <span>: &nbsp;{{item.state}}</span>
+      </div>
+      <div>
+        <span class="field">Country</span> <span>: &nbsp;{{item.country}}</span>
+      </div>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

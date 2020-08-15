@@ -9,7 +9,7 @@ const routes: Routes = [
     path: '', component: ConsignerListComponent
   },
   {
-    path: 'create', component: ConsignerCreateComponent
+    path: 'new', component: ConsignerCreateComponent
   }
 ];
 

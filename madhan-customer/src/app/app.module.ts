@@ -14,6 +14,11 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { LoginComponent } from './login/login.component';
 import { ApiService } from './service/api/api.service';
+import { ManageConsignerModule } from './manage-consigner/manage-consigner.module';
+import { MyBookingsModule } from './my-bookings/my-bookings.module';
+import { ManagePolPodModule } from './manage-pol-pod/manage-pol-pod.module';
+import { ProfileModule } from './profile/profile.module';
+import { SettingsModule } from './settings/settings.module';
 
 @NgModule({
   declarations: [
@@ -28,13 +33,19 @@ import { ApiService } from './service/api/api.service';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ManageConsignerModule,
+    MyBookingsModule,
+    ManagePolPodModule,
+    ProfileModule,
+    SettingsModule
+
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    ApiService
+    ApiService,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
 })

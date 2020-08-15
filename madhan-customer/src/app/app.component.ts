@@ -38,9 +38,9 @@ export class AppComponent implements OnInit {
   }
 
   formMenuList() {
-    const menuIcons = ['home', 'book-outline', 'basket-outline', 'chevron-up-outline', 'settings-outline', 'person-outline'];
-    const menuTitles = ['Home', 'My Bookings', 'Manage Consigner', 'Manage POL & POD', 'Settings', 'My Profile'];
-    const menuLinks = ['home', 'my-bookings', 'manage-consigner', 'manage-pol-pod', 'settings', 'my-profile'];
+    const menuIcons = ['home', 'add-outline', 'book-outline', 'basket-outline', 'chevron-up-outline', 'settings-outline', 'person-outline'];
+    const menuTitles = ['Home', 'New Booking', 'My Bookings', 'Manage Consigner', 'Manage POL & POD', 'Settings', 'My Profile'];
+    const menuLinks = ['home', 'new-booking', 'my-bookings', 'manage-consigner', 'manage-pol-pod', 'settings', 'my-profile'];
     for (let i = 0; i < menuTitles.length; i++) {
       const menuListItem = {
         icon: menuIcons[i],

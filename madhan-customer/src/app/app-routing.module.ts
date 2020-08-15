@@ -40,7 +40,12 @@ const routes: Routes = [
   {
     path: 'my-profile',
     loadChildren:() => import('./profile/profile.module').then(m => m.ProfileModule)
+  },
+  {
+    path: 'new-booking',
+    loadChildren: () => import('./new-booking/new-booking.module').then(m => m.NewBookingModule)
   }
+
 ];
 
 @NgModule({

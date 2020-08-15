@@ -9,7 +9,7 @@ const routes: Routes = [
     path: '', component: PolPodListComponent
   },
   {
-    path: 'create', component: PolPodCreateComponent
+    path: 'new', component: PolPodCreateComponent
   }
 ];
 
