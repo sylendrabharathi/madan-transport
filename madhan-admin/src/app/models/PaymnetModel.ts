@@ -1,11 +1,11 @@
 export class PaymentModel {
-    RefOrgId = 3;
+    refOrgId = 3;
     RefVehicleBookingMappingId = 0;
-    RefReferenceListModeId = 0;
-    RefReferenceListPayPurposeId = 0;
-    RefCreatedBy = 1;
-    RecipetDate = new Date;
-    Amount = 0;
-    Description = '';
+    refReferenceListModeId = 0;
+    refReferenceListPayPurposeId = 0;
+    refCreatedBy = 1;
+    PaymentDate = new Date;
+    amount = 0;
+    description = '';
 
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
 import { ReferenceApiService } from '../service/api/reference-api.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-reference-form',
@@ -10,30 +11,42 @@ import { ReferenceApiService } from '../service/api/reference-api.service';
 })
 export class ReferenceFormComponent implements OnInit {
   referenceIds: any = [];
+  sub: any;
   referenceForm = this.fb.group({
     refOrgId: ['3'],
-    refCreatedBy: ['1'],
+    refCreatedBy: null,
     name: ['', [Validators.required]],
     description: ['', [Validators.required]]
   });
   referenceListForm = this.fb.group({
-    refOrgId: ['3'],
+    refOrgId: [3],
     refReferenceId: ['', [Validators.required]],
-    refCreatedBy: ['1'],
+    refCreatedBy: null,
     name: ['', [Validators.required]],
     description: ['', [Validators.required]]
   });
+  id: number;
+  type: string;
   constructor(private fb: FormBuilder,
     private toaster: ToastController,
-    private referenceApi: ReferenceApiService) { }
+    private referenceApi: ReferenceApiService,
+    private router: Router,
+    private aRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    this.sub = this.aRoute.params.subscribe(param => {
+      this.id = Number(param['id']);
+      this.type = param['type'];
+    });
+    console.log('id', 'type', this.id, this.type);
+    this.loadEditData(this.id, this.type);
     this.getReferenceIds('');
   }
   getReferenceIds(rateType) {
     this.referenceApi.getReferenceDetails(rateType).pipe().subscribe(success => {
       console.log('success', success);
       this.referenceIds = success;
+
     },
       failure => {
         console.log('failure', failure);
@@ -42,7 +55,16 @@ export class ReferenceFormComponent implements OnInit {
   async onReferenceCreation() {
     if (this.referenceForm.valid) {
       console.log('valid', this.referenceForm.value);
-      this.referenceForm.reset();
+      this.referenceApi.addReference(this.referenceForm.value).pipe().subscribe(success => {
+        console.log('added success', success);
+        this.referenceForm.reset();
+        this.router.navigate(['reference']);
+        // this.referenceIds = success;
+      },
+        failure => {
+          console.log('failure', failure);
+        });
+
     }
     else {
       const toast = await this.toaster.create({
@@ -59,7 +81,17 @@ export class ReferenceFormComponent implements OnInit {
   async onReferenceListCreation() {
     if (this.referenceListForm.valid) {
       console.log('valid', this.referenceListForm.value);
-      this.referenceListForm.reset();
+      this.referenceApi.addReferenceList(this.referenceListForm.value).pipe().subscribe(success => {
+        console.log('added success', success);
+        // this.referenceIds = success;
+        this.referenceListForm.reset();
+        this.router.navigate(['reference']);
+      },
+        failure => {
+          console.log('failure', failure);
+        });
+
+
     }
     else {
       const toast = await this.toaster.create({
@@ -71,6 +103,35 @@ export class ReferenceFormComponent implements OnInit {
         translucent: true
       });
       toast.present();
+    }
+  }
+  loadEditData(id, type) {
+    if (type == 'Referece') {
+      this.referenceApi.getReferenceById(id).pipe().subscribe(
+        (success: any) => {
+          console.log('s', success);
+          this.referenceForm.get('name').setValue(success[0].name);
+          this.referenceForm.get('description').setValue(success[0].description);
+          this.referenceForm.updateValueAndValidity();
+        },
+        failure => {
+          console.log('f', failure);
+        }
+      );
+    }
+    else {
+      this.referenceApi.getReferenceById(id).pipe().subscribe(
+        (success: any) => {
+          console.log('s', success);
+          this.referenceListForm.get('refReferenceId').setValue(success[0].referenceId);
+          this.referenceListForm.get('name').setValue(success[0].name);
+          this.referenceListForm.get('description').setValue(success[0].description);
+          this.referenceForm.updateValueAndValidity();
+        },
+        failure => {
+          console.log('f', failure);
+        }
+      );
     }
   }
 

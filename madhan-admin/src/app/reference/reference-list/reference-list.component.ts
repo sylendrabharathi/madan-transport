@@ -63,5 +63,12 @@ export class ReferenceListComponent implements OnInit {
       });
 
   }
-
+  edit(id) {
+    if (!this.viewChanger) {
+      this.router.navigate(['reference', id, 'Referece', 'edit']);
+    }
+    else {
+      this.router.navigate(['reference', id, 'RefereceList', 'edit']);
+    }
+  }
 }

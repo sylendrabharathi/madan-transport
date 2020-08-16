@@ -15,7 +15,7 @@ export class NewPaymentsComponent implements OnInit {
   vehicleBookings: any = [];
   paymentPurposes: any = [];
   paymentModes: any = [];
-  reciptJson: PaymentModel;
+  paymentJson: PaymentModel;
   paymentForm = this.fb.group({
     vehicleBookingId: ['', [Validators.required]],
     paymentMode: ['', [Validators.required]],
@@ -34,7 +34,7 @@ export class NewPaymentsComponent implements OnInit {
     this.getVehicelBookings();
     this.getPaymentPurposes();
     this.getPaymentModes();
-    this.reciptJson = new PaymentModel();
+    this.paymentJson = new PaymentModel();
   }
 
   getVehicelBookings() {
@@ -87,16 +87,17 @@ export class NewPaymentsComponent implements OnInit {
 
   async submit() {
     if (this.paymentForm.valid) {
-      console.log('Rateform->', this.paymentForm.value);
       this.formRateJson(this.paymentForm.value);
-      this.paymentApi.addPayment(this.reciptJson).pipe().subscribe(success => {
+      console.log('Rateform->', this.paymentJson);
+
+      this.paymentApi.addPayment(this.paymentJson).pipe().subscribe(success => {
         console.log('success', success);
       },
         failure => {
           console.log('failure', failure);
         });
       this.paymentForm.reset();
-      this.router.navigate(['booking-receipt']);
+      this.router.navigate(['booking-payments']);
     }
     else {
       const toast = await this.toaster.create({
@@ -111,12 +112,12 @@ export class NewPaymentsComponent implements OnInit {
     }
   }
   formRateJson(data) {
-    this.reciptJson.Amount = data.ammount;
-    this.reciptJson.Description = data.description;
-    this.reciptJson.RefReferenceListModeId = data.paymentMode;
-    this.reciptJson.RefReferenceListPayPurposeId = data.paymentPurpose;
-    this.reciptJson.RecipetDate = data.paymentDate;
-    this.reciptJson.RefVehicleBookingMappingId = data.vehicleBookingId;
+    this.paymentJson.amount = data.ammount;
+    this.paymentJson.description = data.description;
+    this.paymentJson.refReferenceListModeId = data.paymentMode;
+    this.paymentJson.refReferenceListPayPurposeId = data.paymentPurpose;
+    this.paymentJson.PaymentDate = data.paymentDate;
+    this.paymentJson.RefVehicleBookingMappingId = data.vehicleBookingId;
 
   }
 

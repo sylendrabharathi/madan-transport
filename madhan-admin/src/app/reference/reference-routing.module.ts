@@ -7,6 +7,8 @@ import { ReferenceListComponent } from './reference-list/reference-list.componen
 const routes: Routes = [
   { path: '', component: ReferenceListComponent },
   { path: 'new', component: ReferenceFormComponent },
+  { path: ':id/:type/edit', component: ReferenceFormComponent },
+
 ];
 
 @NgModule({

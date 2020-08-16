@@ -18,13 +18,16 @@
             <form [formGroup]="referenceForm">
                 <ion-item>
                     <ion-label>Name</ion-label>
-                    <ion-input formControlName="name" type="text" placeholder="Reference Name"></ion-input>
+                    <ion-input style="text-align: right;" formControlName="name" type="text" placeholder="Reference Name"></ion-input>
                 </ion-item>
                 <ion-item>
                     <ion-label>Description</ion-label>
-                    <ion-textarea formControlName="description"></ion-textarea>
+                    <ion-textarea style="text-align: right;" formControlName="description"></ion-textarea>
                 </ion-item>
             </form>
+            <br>
+            <br>
+            <br>
             <ion-fab vertical="bottom" horizontal="end" slot="fixed">
                 <ion-fab-button style="--background: var(--primary-color) !important; " (click)="onReferenceCreation()">
                     <ion-icon name="add-outline"></ion-icon>
@@ -47,13 +50,16 @@
                 </ion-item>
                 <ion-item>
                     <ion-label>Name</ion-label>
-                    <ion-input formControlName="name" type="text" placeholder="Reference Name"></ion-input>
+                    <ion-input style="text-align: right;" formControlName="name" type="text" placeholder="Reference Name"></ion-input>
                 </ion-item>
                 <ion-item>
                     <ion-label>Description</ion-label>
-                    <ion-textarea formControlName="description"></ion-textarea>
+                    <ion-textarea style="text-align: right;" formControlName="description"></ion-textarea>
                 </ion-item>
             </form>
+            <br>
+            <br>
+            <br>
             <ion-fab vertical="bottom" horizontal="end" slot="fixed">
                 <ion-fab-button style="--background: var(--primary-color) !important; " (click)="onReferenceListCreation()">
                     <ion-icon name="add-outline"></ion-icon>

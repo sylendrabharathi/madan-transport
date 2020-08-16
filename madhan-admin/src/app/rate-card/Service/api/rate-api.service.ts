@@ -19,6 +19,14 @@ export class RateApiService {
   addRate(newRateData) {
     return this.api.post('rate', newRateData);
   }
-
+  getRateById(rateId) {
+    return this.api.get(this.api.formUrl('rate', rateId));
+  }
+  editRate(editedRate) {
+    return this.api.put('', editedRate);
+  }
+  getDataAgainstId(id) {
+    return this.api.get(this.api.formUrl('ReferenceList', id));
+  }
 }
 
