@@ -6,7 +6,8 @@ import { RateCardListComponent } from './rate-card-list/rate-card-list.component
 
 const routes: Routes = [
   { path: '', component: RateCardListComponent },
-  { path: 'new', component: RateCardFormComponent }
+  { path: 'new', component: RateCardFormComponent },
+  { path: ':id/edit', component: RateCardFormComponent }
 ];
 
 @NgModule({

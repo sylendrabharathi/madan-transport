@@ -18,14 +18,14 @@
     <form class="form" [formGroup]="newRateForm">
         <ion-item class="form-item">
             <ion-label>Rate For</ion-label>
-            <ion-select placeholder="select Rate For" formControlName="rateFor" interface="popover" mode="android" class="select">
+            <ion-select placeholder="select Rate For" formControlName="rateFor" interface="popover" mode="ios" class="select">
                 <ion-select-option *ngFor="let item of rateForList" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
             </ion-select>
         </ion-item>
 
         <ion-item class="form-item">
             <ion-label>Source</ion-label>
-            <ion-select placeholder="select Source" formControlName="source" interface="popover" class="select">
+            <ion-select placeholder="select Source" formControlName="source" interface="popover" mode="ios" class="select">
                 <ion-select-option *ngFor="let item of locationsList" [value]="item.referenceListId">{{item.referenceListIdName}}
                 </ion-select-option>
             </ion-select>
@@ -33,14 +33,14 @@
 
         <ion-item class="form-item">
             <ion-label>Destination</ion-label>
-            <ion-select placeholder="select Destination" formControlName="destination" interface="popover" mode="android" class="select">
+            <ion-select placeholder="select Destination" formControlName="destination" interface="popover" mode="ios" class="select">
                 <ion-select-option *ngFor="let item of locationsList" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
             </ion-select>
         </ion-item>
 
         <ion-item class="form-item">
             <ion-label>Amount Per Ton</ion-label>
-            <ion-input style="text-align: right;" formControlName="ammount" type="number" placeholder="100"></ion-input>
+            <ion-input style="text-align: right;" formControlName="amount" type="number" placeholder="100"></ion-input>
         </ion-item>
 
         <ion-item class="form-item">

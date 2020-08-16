@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+
 import { RateApiService } from '../Service/api/rate-api.service';
 
 @Component({
@@ -11,12 +11,15 @@ import { RateApiService } from '../Service/api/rate-api.service';
 export class RateCardListComponent implements OnInit {
   rateList: any = [];
   viewChanger: any;
-  constructor(private router: Router, private rateApi: RateApiService) { }
+
+  constructor(private router: Router,
+    private rateApi: RateApiService) { }
 
   ngOnInit() {
-    // this.getDetails();
+
     this.getRateList('CustomerRate');
   }
+
   getDetails() {
     for (let i = 0; i < 15; i++) {
       const rate = {
@@ -51,6 +54,9 @@ export class RateCardListComponent implements OnInit {
         console.log('failure', failure);
       });
 
+  }
+  editRate(id) {
+    this.router.navigate(['rate-card', id, 'edit'])
   }
 
 }

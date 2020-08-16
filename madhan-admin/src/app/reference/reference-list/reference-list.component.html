@@ -43,7 +43,7 @@
                     </ion-card>
                 </ion-item>
                 <ion-item-options side="end">
-                    <ion-item-option color="tertiary" (click)="favorite(item)">
+                    <ion-item-option color="tertiary" (click)="edit(item.referenceId)">
                         <ion-icon name="pencil-outline" class="slideicon"></ion-icon>
                     </ion-item-option>
                     <ion-item-option color="danger" (click)="share(item)">
@@ -89,7 +89,7 @@
                     </ion-card>
                 </ion-item>
                 <ion-item-options side="end">
-                    <ion-item-option color="tertiary" (click)="favorite(item)">
+                    <ion-item-option color="tertiary" (click)="edit(item.referenceListId)">
                         <ion-icon name="pencil-outline" class="slideicon"></ion-icon>
                     </ion-item-option>
                     <ion-item-option color="danger" (click)="share(item)">

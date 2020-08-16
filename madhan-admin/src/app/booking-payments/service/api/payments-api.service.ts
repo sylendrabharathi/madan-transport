@@ -18,8 +18,8 @@ export class PaymentsApiService {
   getPaymentPurpose() {
     return this.api.get('ReferenceList/GetRLByRName/?name=PaymentPurpose');
   }
-  addPayment(newRecipt) {
-    return this.api.put('BookingPayments/', newRecipt);
+  addPayment(newPaymnet) {
+    return this.api.put('BookingPayments', newPaymnet);
   }
 
   getVehicleId() {
