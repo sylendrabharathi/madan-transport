@@ -5,13 +5,9 @@
     padding: 4px 0px;
 }
 
-
-
 .item {
     --border-color: transparent;
 }
-
-
 
 ion-card-content {
     div {
@@ -24,4 +20,30 @@ ion-card-content {
 
 .addicon {
     font-size: 32px;
+}
+
+ion-list {
+    background: var(--bg-color);
+}
+
+ion-item {
+    --background: white;
+    --inner-padding-end: 0px;
+    --padding-start: 0px;
+    margin: 0 2% 2% 2%;
+    box-shadow: .8px .8px .8px .8px lightgray;
+    padding: 0px !important;
+}
+
+ion-item-option {
+    margin: 0 0% 2% 1%;
+}
+
+ion-card {
+    width: 100%;
+    margin: 0px;
+}
+
+.slideicon {
+    font-size: 23px;
 }

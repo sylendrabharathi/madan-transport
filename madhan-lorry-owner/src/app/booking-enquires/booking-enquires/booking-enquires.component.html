@@ -1,14 +1,65 @@
 <ion-header [translucent]="true">
-  <ion-toolbar class="toolbar">
-    <ion-title>
-      Booking Enquires
-    </ion-title>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar class="toolbar">
+        <ion-title>
+            Booking Enquires
+        </ion-title>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
-
 <ion-content>
+
+    <ion-card class="card" *ngFor="let item of bookingEnquires">
+        <ion-card-content>
+            <div>
+                <ion-note>
+                    <ion-icon name="pin"></ion-icon>&nbsp;Booking ID: {{item.bookingId}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-note class="highlight">
+                    <ion-icon name="location"></ion-icon>&nbsp; {{item.location}}
+                    <ion-icon name="arrow-forward"></ion-icon> {{item.podLocation}}
+                </ion-note>
+            </div>
+
+            <div>
+                <ion-note>
+                    <ion-icon name="library"></ion-icon>&nbsp;Material: {{item.material}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="server"></ion-icon>&nbsp;Total Qty: {{item.totalQty}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="bus"></ion-icon>&nbsp;Vehicle Type: {{item.vehicleType}}
+                </ion-note>
+            </div>
+
+            <div>
+                <ion-note>
+                    <ion-icon name="caret-forward-outline"></ion-icon>&nbsp;Loading Date: {{item.estimatedLoadingTime| date:'MMM dd, y'}}
+                </ion-note>
+            </div>
+            <span>
+            <ion-fab vertical="bottom" style="margin-left: 70%;">
+            <ion-fab-button style="--background: var(--primary-color) !important; "size="small">
+            <ion-icon name="checkmark-done"></ion-icon>
+            </ion-fab-button>
+            
+          </ion-fab>
+          <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+            <ion-fab-button style="--background: var(--primary-color) !important; "size="small">
+            <ion-icon name="close"></ion-icon>
+            </ion-fab-button>
+          </ion-fab>
+          
+        </span>
+        </ion-card-content>
+    </ion-card>
 </ion-content>

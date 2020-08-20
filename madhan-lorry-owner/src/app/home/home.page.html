@@ -1,14 +1,34 @@
 <ion-header [translucent]="true">
-  <ion-toolbar class="toolbar">
-    <ion-title>
-      Home
-    </ion-title>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar class="toolbar">
+        <ion-title>
+            Home
+        </ion-title>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 
 <ion-content>
+    <ion-card class="card" *ngFor="let item of transportRate">
+        <ion-card-content>
+            <!-- <div>
+                <span class="field">Source : </span> <span> {{item.source}}</span>
+            </div>
+            <div>
+                <span class="field">Destination : </span> <span> {{item.destination}}</span>
+            </div> -->
+            <div>
+                <ion-note class="highlight">
+                    <ion-icon name="location"></ion-icon>&nbsp; {{item.source}}
+                    <ion-icon name="arrow-forward"></ion-icon> {{item.destination}}
+                </ion-note>
+            </div>
+
+            <div>
+                <span class="field">Rate : </span> <span> {{item.amount}}</span>
+            </div>
+        </ion-card-content>
+    </ion-card>
 </ion-content>

@@ -1,1 +1,50 @@
 @import './../../global.scss';
+.app-text {
+    text-align: center;
+    color: var(--primary-color);
+    font-style: italic;
+    font-family: monospace;
+}
+
+.item {
+    --background: white;
+    --color: black;
+}
+
+.login-img {
+    padding-top: 45px;
+    text-align: center;
+    img {
+        width: 50%;
+        margin: auto;
+        border-radius: 5px;
+    }
+    margin-bottom: 25px;
+}
+
+ion-card-content {
+    form {
+        padding: 5px;
+    }
+}
+
+.btns {
+    margin-top: 35px;
+    .login {
+        --background: var(--primary-color);
+        --color: white;
+        width: 100px;
+        height: 35px;
+        position: absolute;
+        right: 0px;
+    }
+    .signup {
+        --background: transparent;
+        --color: var(--primary-color);
+        width: 100px;
+        height: 35px;
+        --border-color: var(--primary-color);
+        --border-width: 1px;
+        --border-style: solid;
+    }
+}

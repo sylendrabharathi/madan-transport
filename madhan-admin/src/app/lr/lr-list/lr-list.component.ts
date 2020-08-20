@@ -50,7 +50,7 @@ export class LrListComponent implements OnInit {
   calculateBalance(total, advance = 0) {
     return total - advance;
   }
-  calculateTotal(qty, ratePerTon = 0, lodingCharges = 100) {
+  calculateTotal(qty, ratePerTon = 1, lodingCharges = 100) {
     return (qty * ratePerTon) + lodingCharges;
   }
 }
