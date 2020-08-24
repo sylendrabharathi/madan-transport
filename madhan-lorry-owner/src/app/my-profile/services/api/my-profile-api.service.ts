@@ -7,4 +7,8 @@ import { ApiService } from 'src/app/services/api/api.service';
 export class MyProfileApiService {
 
   constructor(private api: ApiService) { }
+
+  getProfileData(userId) {
+    return this.api.get(this.api.formUrl('User', userId));
+  }
 }

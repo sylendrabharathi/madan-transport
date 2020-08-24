@@ -1,15 +1,44 @@
 <ion-header [translucent]="true">
-  <ion-toolbar class="toolbar">
-    <ion-title>
-      New Driver-In-Out
-    </ion-title>
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    
-  </ion-toolbar>
+    <ion-toolbar class="toolbar">
+        <ion-title>
+            New Driver-In-Out
+        </ion-title>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-buttons slot="end" class="submit">
+            <ion-icon (click)="submit()" class="sendbtn" name="send-sharp"></ion-icon>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
-
 <ion-content>
+    <ion-card>
+        <ion-card-content>
+            <form [formGroup]="timeForm">
+                <ion-item>
+                    <ion-label>Driver Name :</ion-label>
+                    <ion-select formControlName="driverName" placeholder="Select Driver" mode="ios" interface="popover">
+                        <ion-select-option *ngFor="let driver of drivers" [value]="driver.driverId">{{driver.driverName}}</ion-select-option>
+
+                    </ion-select>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Vehicle Number :</ion-label>
+                    <ion-select formControlName="vehicleNumber" placeholder="Select Vehicle" mode="ios" interface="popover">
+                        <ion-select-option *ngFor="let vehicle of vehicles" [value]="vehicle.vehicleId">{{vehicle.vvberVehicleNo}}</ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item>
+                    <ion-label>In Time :</ion-label>
+                    <ion-datetime formControlName="inTime" display-format="DD.MM.YYYY HH:mm"> </ion-datetime>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Out Time :</ion-label>
+                    <ion-datetime formControlName="outTime" display-format="DD.MM.YYYY HH:mm"></ion-datetime>
+                </ion-item>
+            </form>
+        </ion-card-content>
+    </ion-card>
+
 </ion-content>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ManageDriverApiService } from '../services/api/manage-driver-api.service';
 
 @Component({
   selector: 'app-manage-driver-create',
@@ -7,8 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManageDriverCreateComponent implements OnInit {
 
-  constructor() { }
+  newDriverForm = this.fb.group({
+    driverName: ['', [Validators.required]],
+    mobile: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+    licenceNo: ['', [Validators.required]],
+    licenceValidity: [new Date, [Validators.required]],
+    password: ['', [Validators.required, Validators.minLength(7)]],
+    cnfPassword: ['', [Validators.required, Validators.minLength(7)]]
+  });
+  constructor(private fb: FormBuilder,
+    private driverApi: ManageDriverApiService) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
+  ionViewWillEnter() { }
+
 
 }

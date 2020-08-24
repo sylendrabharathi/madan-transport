@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DriverInOutApiService } from '../services/api/driver-in-out-api.service';
 
 @Component({
   selector: 'app-driver-in-out',
@@ -8,14 +9,28 @@ import { Router } from '@angular/router';
 })
 export class DriverInOutComponent implements OnInit {
 
-  constructor(
-    private router: Router
-  ) { }
+  drivers: any = [];
+  constructor(private route: Router,
+    private inOutApi: DriverInOutApiService) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   newDriverInOut() {
-    this.router.navigate(['driver-in-out', 'create']);
+    this.route.navigate(['driver-in-out', 'create']);
   }
-
+  ionViewWillEnter() {
+    this.getDriverInOut(4);
+  }
+  getDriverInOut(transpoterId) {
+    this.inOutApi.getdriverInOut(transpoterId).subscribe(success => {
+      console.log('success', success);
+      this.drivers = success;
+    },
+      failure => {
+        console.log('failure', failure);
+      });
+  }
+  edit(driverInOutId) {
+    this.route.navigate(['driver-in-out', driverInOutId, 'edit']);
+  }
 }

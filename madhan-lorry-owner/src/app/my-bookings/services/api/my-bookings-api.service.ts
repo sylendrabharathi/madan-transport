@@ -7,4 +7,7 @@ import { ApiService } from 'src/app/services/api/api.service';
 export class MyBookingsApiService {
 
   constructor(private api: ApiService) { }
+  getMyBookings(transpoterId) {
+    return this.api.get('VehicleBookingEnqResponse/GetBookingEnqDetails/?name= &transporterId=' + transpoterId + '&isconfirmed=');
+  }
 }

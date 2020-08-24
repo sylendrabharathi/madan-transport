@@ -5,12 +5,9 @@ import { NewDriverInOutComponent } from './new-driver-in-out/new-driver-in-out.c
 
 
 const routes: Routes = [
-  {
-    path: '', component: DriverInOutComponent
-  },
-  {
-    path: 'create', component: NewDriverInOutComponent 
-  }
+  { path: '', component: DriverInOutComponent },
+  { path: 'create', component: NewDriverInOutComponent },
+  { path: ':driverInOutId/edit', component: NewDriverInOutComponent }
 ];
 
 @NgModule({

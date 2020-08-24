@@ -1,17 +1,63 @@
 <ion-header [translucent]="true">
-  <ion-toolbar class="toolbar">
-    <ion-title>
-      Manage Drivers
-    </ion-title>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button class="create-btn" (click)="createDriver()"><ion-icon name="add-outline"></ion-icon></ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar class="toolbar">
+        <ion-title>
+            Manage Drivers
+        </ion-title>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button class="create-btn" (click)="createDriver()">
+                <ion-icon name="add-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 
 <ion-content>
+    <ion-card class="card" *ngFor="let driver of drivers">
+        <ion-card-content>
+            <div>
+                <ion-note>
+                    <ion-icon name="person-outline"></ion-icon>
+                    <span>&nbsp;Driver Name : &nbsp;</span>
+                    <span>{{driver.driverName}}</span>
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="call-outline"></ion-icon>
+                    <span>&nbsp;Mobile Number : &nbsp;</span>
+                    <span>{{driver.mobileNo}}</span>
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="reader-outline"></ion-icon>
+                    <span>&nbsp;License NO : &nbsp;</span>
+                    <span>{{driver.licenceNo }}</span>
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="today-outline"></ion-icon>
+                    <span>&nbsp;License Validity : &nbsp;</span>
+                    <span>{{driver.licenceValidity | date:'MMM dd, yyyy'}}</span>
+                </ion-note>
+            </div>
+            <span>
+             <ion-fab vertical="bottom" style="margin-left: 78%;">
+             <ion-fab-button class="btn">
+               <ion-icon name="pencil-outline"></ion-icon>
+              </ion-fab-button>
+              </ion-fab>
+              <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+              <ion-fab-button class="btn">
+              <ion-icon name="trash-outline"></ion-icon>
+              </ion-fab-button>
+              </ion-fab>
+              </span>
+        </ion-card-content>
+    </ion-card>
 </ion-content>

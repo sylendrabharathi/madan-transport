@@ -1,14 +1,73 @@
 <ion-header [translucent]="true">
-  <ion-toolbar class="toolbar">
-    <ion-title>
-      My Bookings
-    </ion-title>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar class="toolbar">
+        <ion-title>
+            My Bookings
+        </ion-title>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 
 <ion-content>
+    <ion-card class="card" *ngFor="let booking of myBookings">
+        <ion-card-content>
+            <div>
+                <ion-note>
+                    <ion-icon name="person-outline"></ion-icon>
+                    <span>&nbsp;Booking Id : &nbsp;</span>
+                    <span>{{booking.bookingId}}</span>
+                </ion-note>
+            </div>
+            <div>
+                <ion-note class="highlight">
+                    <ion-icon name="location"></ion-icon>&nbsp; {{booking.location}}
+                    <ion-icon name="arrow-forward"></ion-icon> {{booking.podLocation}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="library-outline"></ion-icon>
+                    <span>&nbsp;Material : &nbsp;</span>
+                    <span>{{booking.material}}</span>
+                </ion-note>
+                <ion-note slot="end">
+                    &nbsp;
+                    <ion-icon name="pricetag-outline"></ion-icon>
+                    <span>&nbsp;TotalQty : &nbsp;</span>
+                    <span>{{booking.totalQty}}</span>
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="construct-outline"></ion-icon>
+                    <span>&nbsp;vehicleType : &nbsp;</span>
+                    <span>{{booking.vehicleType}}</span>
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="language-outline"></ion-icon>
+                    <span>&nbsp;vehicle NO : &nbsp;</span>
+                    <span>{{booking.vvberVehicleNo}}</span>
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="person-outline"></ion-icon>
+                    <span>&nbsp;Driver Name : &nbsp;</span>
+                    <span>{{booking.driverName}}</span>
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="call-outline"></ion-icon>
+                    <span>&nbsp;Driver Mobile : &nbsp;</span>
+                    <span>{{booking.mobileNo}}</span>
+                </ion-note>
+            </div>
+        </ion-card-content>
+    </ion-card>
+
 </ion-content>

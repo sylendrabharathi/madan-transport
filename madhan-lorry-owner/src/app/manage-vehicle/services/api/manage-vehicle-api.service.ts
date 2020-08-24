@@ -7,4 +7,7 @@ import { ApiService } from 'src/app/services/api/api.service';
 export class ManageVehicleApiService {
 
   constructor(private api: ApiService) { }
+  getVehicles(transpoterId) {
+    return this.api.get('Vehicle/GetVehicleDetails/?cid=' + transpoterId);
+  }
 }

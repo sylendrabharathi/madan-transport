@@ -27,7 +27,7 @@ export class ApiService {
   }
 
   formUrl(...urls): string {
-    return urls.join(',');
+    return urls.join('/');
   }
 
 }

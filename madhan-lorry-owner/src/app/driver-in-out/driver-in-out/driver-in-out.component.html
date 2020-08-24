@@ -1,17 +1,63 @@
 <ion-header [translucent]="true">
-  <ion-toolbar class="toolbar">
-    <ion-title>
-      Driver-In-Out
-    </ion-title>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button class="create-btn" (click)="newDriverInOut()"><ion-icon name="add-outline"></ion-icon></ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar class="toolbar">
+        <ion-title>
+            Driver-In-Out
+        </ion-title>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button class="create-btn" (click)="newDriverInOut()">
+                <ion-icon name="add-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 
 <ion-content>
+    <ion-card class="card" *ngFor="let driver of drivers">
+        <ion-card-content>
+            <div>
+                <ion-note>
+                    <ion-icon name="person-outline"></ion-icon>
+                    <span>&nbsp;Driver Name : &nbsp;</span>
+                    <span>{{driver.driverName}}</span>
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="call-outline"></ion-icon>
+                    <span>&nbsp;Mobile Number : &nbsp;</span>
+                    <span>{{driver.mobileNo}}</span>
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="time-outline"></ion-icon>
+                    <span>&nbsp;In Time  : &nbsp;</span>
+                    <span>{{driver.inTime  | date:'MMM dd, yyyy HH:mm'}}</span>
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="time-outline"></ion-icon>
+                    <span>&nbsp;Out Time : &nbsp;</span>
+                    <span>{{driver.outTime  | date:'MMM dd, yyyy HH:mm'}}</span>
+                </ion-note>
+            </div>
+            <span>
+             <ion-fab vertical="bottom" style="margin-left: 70%;">
+             <ion-fab-button style="--background: var(--primary-color) !important; " (click)="edit(driver.driverInOutId)" size="small">
+               <ion-icon name="pencil-outline"></ion-icon>
+              </ion-fab-button>
+              </ion-fab>
+              <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+              <ion-fab-button style="--background: var(--primary-color) !important; " size="small">
+              <ion-icon name="trash-outline"></ion-icon>
+              </ion-fab-button>
+              </ion-fab>
+              </span>
+        </ion-card-content>
+    </ion-card>
 </ion-content>
