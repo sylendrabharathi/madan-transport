@@ -43,23 +43,24 @@
 
             <div>
                 <ion-note>
-                    <ion-icon name="today-outline"></ion-icon>&nbsp;Loading Date: {{item.estimatedLoadingTime | date:'MMM dd, yyyy'}}
+                    <ion-icon name="today-outline"></ion-icon>&nbsp;Loading Date:
+                    {{item.estimatedLoadingTime | date:'MMM dd, yyyy'}}
                 </ion-note>
             </div>
-            <span>
-            <ion-fab vertical="bottom" style="margin-left: 70%;">
-            <ion-fab-button style="--background: var(--primary-color) !important; "size="small">
-            <ion-icon name="checkmark-done"></ion-icon>
-            </ion-fab-button>
-            
-          </ion-fab>
-          <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-            <ion-fab-button style="--background: var(--primary-color) !important; "size="small">
-            <ion-icon name="close"></ion-icon>
-            </ion-fab-button>
-          </ion-fab>
-          
-        </span>
+            <div>
+                <ion-fab vertical="top" horizontal="end" style="margin-top: 25px;">
+                    <ion-fab-button style="--background: var(--primary-color) !important;" size="small">
+                        <ion-icon name="checkmark-done"></ion-icon>
+                    </ion-fab-button>
+
+                </ion-fab>
+                <ion-fab vertical="bottom" horizontal="end">
+                    <ion-fab-button style="--background: var(--primary-color) !important; " size="small">
+                        <ion-icon name="close"></ion-icon>
+                    </ion-fab-button>
+                </ion-fab>
+
+            </div>
         </ion-card-content>
     </ion-card>
 </ion-content>
