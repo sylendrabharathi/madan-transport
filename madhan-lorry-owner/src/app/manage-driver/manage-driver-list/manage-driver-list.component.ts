@@ -34,5 +34,7 @@ export class ManageDriverListComponent {
   createDriver() {
     this.router.navigate(['manage-driver', 'create']);
   }
-
+  edit(driverId) {
+    this.router.navigate(['manage-driver', 'edit', driverId]);
+  }
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { ManageVehicleApiService } from '../services/api/manage-vehicle-api.service';
 
 @Component({
   selector: 'app-manage-vehicle-create',
@@ -7,8 +9,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManageVehicleCreateComponent implements OnInit {
 
-  constructor() { }
+  constructor(private fb: FormBuilder,
+    private vehicleApi: ManageVehicleApiService) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
 }

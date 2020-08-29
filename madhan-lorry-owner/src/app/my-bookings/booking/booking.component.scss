@@ -1,0 +1,18 @@
+@import './../../../global.scss';
+ion-item {
+    --background: white;
+    --color: black;
+}
+
+ion-input {
+    text-align: right;
+}
+
+.sendbtn {
+    color: white;
+    font-size: 32px;
+}
+
+ion-note {
+    font-size: large;
+}

@@ -15,7 +15,7 @@
         <ion-card-content>
             <div>
                 <ion-note>
-                    <ion-icon name="person-outline"></ion-icon>
+                    <ion-icon name="pin"></ion-icon>
                     <span>&nbsp;Booking Id : &nbsp;</span>
                     <span>{{booking.bookingId}}</span>
                 </ion-note>
@@ -28,7 +28,7 @@
             </div>
             <div>
                 <ion-note>
-                    <ion-icon name="library-outline"></ion-icon>
+                    <ion-icon name="library"></ion-icon>
                     <span>&nbsp;Material : &nbsp;</span>
                     <span>{{booking.material}}</span>
                 </ion-note>
@@ -39,13 +39,13 @@
                     <span>{{booking.totalQty}}</span>
                 </ion-note>
             </div>
-            <div>
+            <!-- <div>
                 <ion-note>
                     <ion-icon name="construct-outline"></ion-icon>
                     <span>&nbsp;vehicleType : &nbsp;</span>
                     <span>{{booking.vehicleType}}</span>
                 </ion-note>
-            </div>
+            </div> -->
             <div>
                 <ion-note>
                     <ion-icon name="language-outline"></ion-icon>
@@ -60,13 +60,20 @@
                     <span>{{booking.driverName}}</span>
                 </ion-note>
             </div>
-            <div>
+            <!-- <div>
                 <ion-note>
                     <ion-icon name="call-outline"></ion-icon>
                     <span>&nbsp;Driver Mobile : &nbsp;</span>
                     <span>{{booking.mobileNo}}</span>
                 </ion-note>
-            </div>
+            </div> -->
+            <span>
+                 <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+            <ion-fab-button style="--background: var(--primary-color) !important; "size="small" (click)="getBooking(booking.bookingId)">
+            <ion-icon name="arrow-forward-circle-outline"></ion-icon>
+            </ion-fab-button>
+          </ion-fab>
+            </span>
         </ion-card-content>
     </ion-card>
 

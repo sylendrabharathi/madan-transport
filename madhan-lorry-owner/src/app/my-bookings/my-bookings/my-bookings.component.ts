@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MyBookingsApiService } from '../services/api/my-bookings-api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-bookings',
@@ -9,14 +10,15 @@ import { MyBookingsApiService } from '../services/api/my-bookings-api.service';
 export class MyBookingsComponent implements OnInit {
 
   myBookings: any = [];
-  constructor(private bookingApi: MyBookingsApiService) { }
+  constructor(private bookingApi: MyBookingsApiService,
+    private router: Router) { }
 
   ngOnInit() { }
   ionViewWillEnter() {
-    this.getMyBookings('');
+    this.getMyBookings(4, '');
   }
-  getMyBookings(transpoterId) {
-    this.bookingApi.getMyBookings(transpoterId).subscribe(success => {
+  getMyBookings(transpoterId, bookingId) {
+    this.bookingApi.getMyBookings(transpoterId, bookingId).subscribe(success => {
       console.log('success', success);
       this.myBookings = success;
     },
@@ -24,5 +26,7 @@ export class MyBookingsComponent implements OnInit {
         console.log('failure', failure);
       });
   }
-
+  getBooking(bookingid) {
+    this.router.navigate(['my-bookings', 'booking', bookingid]);
+  }
 }

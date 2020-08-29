@@ -5,12 +5,9 @@ import { ManageDriverCreateComponent } from './manage-driver-create/manage-drive
 
 
 const routes: Routes = [
-  {
-    path: '', component: ManageDriverListComponent
-  },
-  {
-    path: 'create', component: ManageDriverCreateComponent
-  }
+  { path: '', component: ManageDriverListComponent },
+  { path: 'create', component: ManageDriverCreateComponent },
+  { path: 'edit/:driverId', component: ManageDriverCreateComponent }
 ];
 
 @NgModule({
