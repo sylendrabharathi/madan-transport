@@ -39,9 +39,13 @@ export class TruckDetailComponent implements OnInit {
     });
     this.getNearByTrucks(this.location);
     await this.platform.ready();
-    await this.loadMap();
 
   }
+
+  ionViewDidLoad() {
+    this.loadMap();
+  }
+
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
