@@ -7,7 +7,11 @@ import { ApiService } from 'src/app/services/api/api.service';
 export class ManageVehicleApiService {
 
   constructor(private api: ApiService) { }
-  getVehicles(transpoterId) {
-    return this.api.get('Vehicle/GetVehicleDetails/?cid=' + transpoterId);
+  getVehicles(transpoterId, vehicleId) {
+    return this.api.get('Vehicle/GetVehicleDetails/?cid=' + transpoterId + '&vid=' + vehicleId);
   }
+  getByReferenceList(name) {
+    return this.api.get('ReferenceList/GetRLByRName/?name=' + name);
+  }
+
 }

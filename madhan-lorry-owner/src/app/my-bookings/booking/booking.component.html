@@ -11,7 +11,7 @@
 
 
 <ion-content>
-    <ion-card>
+    <ion-card class="card">
         <ion-card-content>
             <div>
                 <ion-note>
@@ -44,8 +44,8 @@
             <div>
                 <ion-note>
                     <ion-icon name="construct-outline"></ion-icon>
-                    <span>&nbsp;vehicleType : &nbsp;</span>
-                    <span>{{bookingDetails.vehicleType}}</span>
+                    <span>&nbsp;vehicleType : &nbsp;</span><br>
+                    <span>&nbsp;&nbsp;{{bookingDetails.vehicleType}}</span>
                 </ion-note>
             </div>
             <div>
@@ -72,15 +72,15 @@
             <div>
                 <ion-note>
                     <ion-icon name="time-outline"></ion-icon>
-                    <span>&nbsp;LoadingDateTime : &nbsp;</span>
-                    <span>{{bookingDetails.estimatedLoadingTime}}</span>
+                    <span>&nbsp;LoadingDateTime : &nbsp;</span><br>
+                    <span>&nbsp;&nbsp;{{bookingDetails.estimatedLoadingTime | date:'MMM dd, yyyy / HH : MM'}}</span>
                 </ion-note>
             </div>
             <div>
                 <ion-note>
                     <ion-icon name="today-outline"></ion-icon>
-                    <span>&nbsp;PaymentDate : &nbsp;</span>
-                    <span>{{bookingDetails.bpPaymentDate}}</span>
+                    <span>&nbsp;PaymentDate : &nbsp;</span><br>
+                    <span>&nbsp;&nbsp;{{bookingDetails.bpPaymentDate | date:'MMM dd, yyyy / HH : MM'}}</span>
                 </ion-note>
             </div>
             <div>

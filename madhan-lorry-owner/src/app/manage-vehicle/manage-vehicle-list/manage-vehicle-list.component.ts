@@ -10,17 +10,18 @@ import { ManageVehicleApiService } from '../services/api/manage-vehicle-api.serv
 export class ManageVehicleListComponent implements OnInit {
 
   vehicles: any = [];
-
+  transpoterId = 4;
+  vehicleId = '';
   constructor(private router: Router,
     private vehicleApi: ManageVehicleApiService) { }
 
   ngOnInit() { }
   ionViewWillEnter() {
-    this.getVehicles(4);
+    this.getVehicles(this.transpoterId, this.vehicleId);
   }
 
-  getVehicles(transpoterId) {
-    this.vehicleApi.getVehicles(transpoterId).subscribe(success => {
+  getVehicles(transpoterId, vehicleId) {
+    this.vehicleApi.getVehicles(transpoterId, vehicleId).subscribe(success => {
       console.log('vehiclesuccess', success);
       this.vehicles = success;
     },
@@ -31,5 +32,7 @@ export class ManageVehicleListComponent implements OnInit {
   createVehicle() {
     this.router.navigate(['manage-vehicle', 'create']);
   }
-
+  edit(vehicleId) {
+    this.router.navigate(['manage-vehicle', 'edit', vehicleId]);
+  }
 }

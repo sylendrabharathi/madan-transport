@@ -46,18 +46,18 @@
                     <span>{{driver.licenceValidity | date:'MMM dd, yyyy'}}</span>
                 </ion-note>
             </div>
-            <span>
-             <ion-fab vertical="bottom" style="margin-left: 70%;">
-             <ion-fab-button style="--background: var(--primary-color) !important; " size="small" (click)="edit(driver.driverId)" >
-               <ion-icon name="pencil-outline"></ion-icon>
-              </ion-fab-button>
-              </ion-fab>
-              <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-              <ion-fab-button style="--background: var(--primary-color) !important; " size="small">
-              <ion-icon name="trash-outline"></ion-icon>
-              </ion-fab-button>
-              </ion-fab>
-              </span>
+            <div>
+                <ion-fab vertical="top" horizontal="end">
+                    <ion-fab-button class="accpt" size="small" (click)="edit(driver.driverId)">
+                        <ion-icon class="highlight" name="pencil-outline"></ion-icon>
+                    </ion-fab-button>
+                </ion-fab>
+                <ion-fab vertical="bottom" horizontal="end">
+                    <ion-fab-button class="cancel" size="small">
+                        <ion-icon name="trash-outline"></ion-icon>
+                    </ion-fab-button>
+                </ion-fab>
+            </div>
         </ion-card-content>
     </ion-card>
 </ion-content>

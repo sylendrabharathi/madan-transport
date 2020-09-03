@@ -19,4 +19,10 @@ export class DriverInOutApiService {
   getInOutDetail(driverId) {
     return this.api.get(this.api.formUrl('DriverInOut', driverId));
   }
+  editInOut(inOutDetails, driverId) {
+    return this.api.put(this.api.formUrl('DriverInOut', driverId), inOutDetails);
+  }
+  saveInOut(inOutDetails) {
+    return this.api.post('DriverInOut', inOutDetails);
+  }
 }

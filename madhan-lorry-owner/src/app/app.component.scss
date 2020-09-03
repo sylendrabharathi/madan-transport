@@ -1,5 +1,4 @@
 @import './../global.scss';
-
 .router-link-active {
     --background: var(--primary-color);
     --color: var(--primary-color);
@@ -23,12 +22,13 @@
 }
 
 .side-menu-title {
-    --color: white;
+    --color: var(--primary-color);
+    // background: var(--bg-color);
     font-weight: bolder;
 }
 
 ion-toolbar {
-    --background: var(--primary-color);
+    --background: var(--bg-color);
 }
 
 .title-label {

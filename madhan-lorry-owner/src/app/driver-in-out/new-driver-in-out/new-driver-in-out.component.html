@@ -18,14 +18,14 @@
             <form [formGroup]="timeForm">
                 <ion-item>
                     <ion-label>Driver Name :</ion-label>
-                    <ion-select formControlName="driverName" placeholder="Select Driver" mode="ios" interface="popover">
+                    <ion-select formControlName="refDriverId" placeholder="Select Driver" mode="ios" interface="popover">
                         <ion-select-option *ngFor="let driver of drivers" [value]="driver.driverId">{{driver.driverName}}</ion-select-option>
 
                     </ion-select>
                 </ion-item>
                 <ion-item>
                     <ion-label>Vehicle Number :</ion-label>
-                    <ion-select formControlName="vehicleNumber" placeholder="Select Vehicle" mode="ios" interface="popover">
+                    <ion-select formControlName="refVehicleId" placeholder="Select Vehicle" mode="ios" interface="popover">
                         <ion-select-option *ngFor="let vehicle of vehicles" [value]="vehicle.vehicleId">{{vehicle.vvberVehicleNo}}</ion-select-option>
                     </ion-select>
                 </ion-item>

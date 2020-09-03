@@ -14,4 +14,10 @@ export class ManageDriverApiService {
   getDriver(driverId) {
     return this.api.get(this.api.formUrl('Driver', driverId));
   }
+  saveDriver(driverDetails) {
+    return this.api.post('Driver/', driverDetails);
+  }
+  editDriver(driverDetails, driverId) {
+    return this.api.put(this.api.formUrl('Driver', driverId), driverDetails);
+  }
 }

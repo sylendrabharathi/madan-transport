@@ -11,80 +11,76 @@
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
-
-
 <ion-content>
     <ion-card>
         <ion-card-content>
-            <ion-item>
-                <ion-label>&nbsp;Vehicle Type :</ion-label>
-                <ion-select value="peperoni" mode="ios" placeholder="Select Pizza">
-                    <ion-select-option value="peperoni">Peperoni</ion-select-option>
-                    <ion-select-option value="hawaii">Hawaii</ion-select-option>
-                </ion-select>
-            </ion-item>
-            <ion-item>
-                <ion-label>&nbsp;Vehicle NO :</ion-label>
-                <ion-input type="text" placeholder="Enter Vehicle Number"></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-label>FC Validity :</ion-label>
-                <ion-datetime placeholder="Select Date" display-format="DD.MM.YYYY"></ion-datetime>
-            </ion-item>
-            <ion-item>
-                <ion-label>FC Document</ion-label>
-            </ion-item>
-            <ion-item>
-                <ion-label>Insurence Validity :</ion-label>
-                <ion-datetime placeholder="Select Date" display-format="DD.MM.YYYY "></ion-datetime>
-            </ion-item>
-            <ion-item>
-                <ion-label>Insurence Document</ion-label>
-            </ion-item>
-            <ion-item>
-                <ion-label>RC Document</ion-label>
-            </ion-item>
-            <ion-item>
-                <ion-label>Description :</ion-label>
-                <ion-textarea style="text-align: right;" placeholder=" description"></ion-textarea>
-            </ion-item>
-            <ion-item>
-                <ion-label>City</ion-label>
-                <ion-select placeholder="Select City">
-                    <ion-select-option value="peperoni">Peperoni</ion-select-option>
-                    <ion-select-option value="hawaii">Hawaii</ion-select-option>
-                </ion-select>
-            </ion-item>
-            <ion-item>
-                <ion-label>State</ion-label>
-                <ion-select placeholder="Select State">
-                    <ion-select-option value="peperoni">Peperoni</ion-select-option>
-                    <ion-select-option value="hawaii">Hawaii</ion-select-option>
-                </ion-select>
-            </ion-item>
-            <ion-item>
-                <ion-label>Country</ion-label>
-                <ion-select placeholder="Select Country">
-                    <ion-select-option value="peperoni">Peperoni</ion-select-option>
-                    <ion-select-option value="hawaii">Hawaii</ion-select-option>
-                </ion-select>
-            </ion-item>
-            <ion-item>
-                <ion-label>&nbsp;Flat/Bulding No :</ion-label>
-                <ion-input type="text" placeholder="Enter Vehicle Number"></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-label>&nbsp;Address Line 1:</ion-label>
-                <ion-input type="text" placeholder="Enter Vehicle Number"></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-label>&nbsp;Address Line 2 :</ion-label>
-                <ion-input type="text" placeholder="Enter Vehicle Number"></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-label>&nbsp;Land Mark :</ion-label>
-                <ion-input type="text" placeholder="Enter Vehicle Number"></ion-input>
-            </ion-item>
+            <form [formGroup]="vehicleForm">
+                <ion-item>
+                    <ion-label>&nbsp;Vehicle Type :</ion-label>
+                    <ion-select mode="ios" formControlName="vType" interface="action-sheet" placeholder="Select Vehicle Type">
+                        <ion-select-option *ngFor="let item of vehicleType" [value]="item.referenceListId">{{item.referenceListIdDescription}}</ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item>
+                    <ion-label>&nbsp;Vehicle NO :</ion-label>
+                    <ion-input type="text" formControlName="vNo" placeholder="Enter Vehicle Number"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label>FC Validity :</ion-label>
+                    <ion-datetime placeholder="Select Date" formControlName="fcValidity" display-format="DD.MM.YYYY"></ion-datetime>
+                </ion-item>
+                <ion-item>
+                    <ion-label>FC Document</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Insurence Validity :</ion-label>
+                    <ion-datetime placeholder="Select Date" formControlName="iValidity" display-format="DD.MM.YYYY "></ion-datetime>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Insurence Document</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-label>RC Document</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Description :</ion-label>
+                    <ion-textarea style="text-align: right;" formControlName="description" placeholder=" description"></ion-textarea>
+                </ion-item>
+                <ion-item>
+                    <ion-label>City</ion-label>
+                    <ion-select mode="ios" formControlName="city" interface="popover" placeholder="Select City">
+                        <ion-select-option *ngFor="let item of citys" [value]="item.referenceListId">{{item.referenceListIdDescription}}</ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item>
+                    <ion-label>State</ion-label>
+                    <ion-select mode="ios" formControlName="state" interface="popover" placeholder="Select State">
+                        <ion-select-option *ngFor="let item of states" [value]="item.referenceListId">{{item.referenceListIdDescription}}</ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Country</ion-label>
+                    <ion-select mode="ios" formControlName="country" interface="popover" placeholder="Select Country">
+                        <ion-select-option *ngFor="let item of countrys" [value]="item.referenceListId">{{item.referenceListIdDescription}}</ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item>
+                    <ion-label>&nbsp;Flat/Bulding No :</ion-label>
+                    <ion-input type="text" formControlName="flatNo" placeholder="Enter Vehicle Number"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label>&nbsp;Address Line 1:</ion-label>
+                    <ion-input type="text" formControlName="addressL1" placeholder="Enter Vehicle Number"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label>&nbsp;Address Line 2 :</ion-label>
+                    <ion-input type="text" formControlName="addressL2" placeholder="Enter Vehicle Number"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label>&nbsp;Land Mark :</ion-label>
+                    <ion-input type="text" formControlName="landMark" placeholder="Enter Vehicle Number"></ion-input>
+                </ion-item>
+            </form>
         </ion-card-content>
     </ion-card>
 </ion-content>

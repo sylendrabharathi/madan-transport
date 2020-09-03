@@ -5,12 +5,9 @@ import { ManageVehicleCreateComponent } from './manage-vehicle-create/manage-veh
 
 
 const routes: Routes = [
-  {
-    path: '', component: ManageVehicleListComponent
-  },
-  {
-    path: 'create', component: ManageVehicleCreateComponent
-  }
+  { path: '', component: ManageVehicleListComponent },
+  { path: 'create', component: ManageVehicleCreateComponent },
+  { path: 'edit/:vehicleId', component: ManageVehicleCreateComponent }
 ];
 
 @NgModule({
