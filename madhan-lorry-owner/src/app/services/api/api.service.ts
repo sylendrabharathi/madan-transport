@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -22,12 +22,14 @@ export class ApiService {
     return this.http.put(this.baseURL + url, req);
   }
 
-  delete(url) {
-    return this.http.delete(this.baseURL + url);
+  delete(url, req) {
+    return this.http.delete(this.baseURL + url, req);
   }
 
   formUrl(...urls): string {
     return urls.join('/');
   }
-
+  getGstData(gstNo) {
+    return this.http.get('https://appyflow.in/api/verifyGST/?gstNo=' + gstNo + '&key_secret=mqDMTdJpfIU6qpmfyQWp5qMOxbm2 ');
+  }
 }

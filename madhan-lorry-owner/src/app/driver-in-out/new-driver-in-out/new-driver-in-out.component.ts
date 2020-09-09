@@ -3,11 +3,13 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DriverInOutApiService } from '../services/api/driver-in-out-api.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-new-driver-in-out',
   templateUrl: './new-driver-in-out.component.html',
   styleUrls: ['./new-driver-in-out.component.scss'],
+  providers: [DatePipe]
 })
 export class NewDriverInOutComponent implements OnInit {
 
@@ -23,20 +25,25 @@ export class NewDriverInOutComponent implements OnInit {
 
   });
   driverInOutId = -1;
-  transpoterId = 4;
+  transpoterId;
   driverData: any = [];
+  currentYear;
+  maxyear;
+  date;
   constructor(private route: Router,
     private inOutApi: DriverInOutApiService,
     private fb: FormBuilder,
     private aroute: ActivatedRoute,
-    private toaster: ToastController) { }
+    private toaster: ToastController, private datePipe: DatePipe) { }
 
   ngOnInit() {
 
   }
   ionViewWillEnter() {
+    this.transpoterId = Number(localStorage.getItem('TranspoterId'));
     this.getVehicleDetails(this.transpoterId);
     this.getDriverDetails(this.transpoterId);
+    this.loadDates();
     this.aroute.params.subscribe(data => {
       this.driverInOutId = data['driverInOutId'];
     });
@@ -44,6 +51,12 @@ export class NewDriverInOutComponent implements OnInit {
       this.loadInOutData(this.driverInOutId);
     }
 
+  }
+  loadDates() {
+    this.date = new Date('01' + '-' + '01' + '-' + new Date().getFullYear().toString());
+    this.currentYear = this.datePipe.transform(this.date, 'yyyy-MM-dd').toString();
+    this.date.setFullYear(this.date.getFullYear() + 20);
+    this.maxyear = this.datePipe.transform(this.date, 'yyyy-MM-dd').toString();
   }
   getDriverDetails(transpoterId) {
     this.inOutApi.getDrivers(transpoterId).subscribe(
@@ -87,7 +100,7 @@ export class NewDriverInOutComponent implements OnInit {
     this.timeForm.updateValueAndValidity();
   }
 
-  async successToaster() {
+  async successToaster(message) {
     console.log('inside-->');
     let toast: any;
     if (this.failure) {
@@ -100,19 +113,10 @@ export class NewDriverInOutComponent implements OnInit {
         mode: "ios"
       });
     }
-    else if (this.driverInOutId > -1) {
-      toast = await this.toaster.create({
-        message: 'Driver details updated successfully.',
-        duration: 2000,
-        position: 'top',
-        animated: true,
-        color: "success",
-        mode: "ios"
-      });
-    }
+
     else {
       toast = await this.toaster.create({
-        message: 'Driver added successfully.',
+        message: message,
         duration: 2000,
         position: 'top',
         animated: true,
@@ -132,7 +136,8 @@ export class NewDriverInOutComponent implements OnInit {
       }
     }
     else {
-      this.successToaster();
+      this.failure = true;
+      this.successToaster('');
     }
   }
   editDetails(data) {
@@ -141,17 +146,28 @@ export class NewDriverInOutComponent implements OnInit {
     req.isActive = this.driverData.isActive;
     req.refModifiedBy = this.transpoterId;
     console.log('req-->', req);
+    this.inOutApi.editInOut(req, this.driverInOutId).subscribe((success: any) => {
+      console.log('success', success, 'success.status', success.status);
+      if (success[0].status == 2) {
+        console.log('inside');
 
-    this.inOutApi.editInOut(req, this.driverInOutId).subscribe(success => {
-      console.log('success', success);
-      this.successToaster();
-      this.route.navigate(['driver-in-out']);
+        this.successToaster(success[0].msg);
+        this.route.navigate(['driver-in-out']);
+      }
+
     }, failure => { console.log('failure', failure); });
   }
   saveNewDetails(data) {
-    this.inOutApi.saveInOut(data).subscribe(success => {
+    this.inOutApi.saveInOut(data).subscribe((success: any) => {
+      const req = data;
+      req.refrefCreatedBy = this.transpoterId;
       console.log('success', success);
+      if (success[0].status == 1) {
+        this.successToaster(success[0].msg);
+        this.route.navigate(['driver-in-out']);
+      }
 
     }, failure => { console.log('failure', failure); });
   }
+
 }

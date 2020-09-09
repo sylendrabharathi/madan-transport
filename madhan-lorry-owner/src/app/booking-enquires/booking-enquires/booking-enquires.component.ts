@@ -20,7 +20,7 @@ export class BookingEnquiresComponent implements OnInit {
 
   ngOnInit() { }
   ionViewWillEnter() {
-    this.transpoterId = 4;
+    this.transpoterId = Number(localStorage.getItem('TranspoterId'));
     this.getEnqData(this.transpoterId);
     this.responseJson.RefModifiedBy = this.transpoterId;
   }
@@ -62,12 +62,7 @@ export class BookingEnquiresComponent implements OnInit {
         }, {
           text: 'Ok',
           handler: (alertData) => {
-            this.responseJson.FeedBack = 'Accepted' + alertData.Feedback;
-            this.benqApi.submitResponse(this.responseJson).subscribe(success => {
-              console.log('success', success);
-            }, failure => {
-              console.log('failure', failure);
-            });
+            this.accepted(alertData.Feedback);
 
           }
         }
@@ -76,6 +71,16 @@ export class BookingEnquiresComponent implements OnInit {
 
     await alert.present();
 
+  }
+  accepted(feedback) {
+    this.responseJson.FeedBack = 'Accepted ' + feedback;
+    console.log('this.responseJson', this.responseJson);
+
+    this.benqApi.submitResponse(this.responseJson).subscribe(success => {
+      console.log('success', success);
+    }, failure => {
+      console.log('failure', failure);
+    });
   }
   reject(enquireRosponseId) {
     this.responseJson.VehicleBookingEnqResponseId = enquireRosponseId;

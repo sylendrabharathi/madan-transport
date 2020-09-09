@@ -13,5 +13,13 @@ export class ManageVehicleApiService {
   getByReferenceList(name) {
     return this.api.get('ReferenceList/GetRLByRName/?name=' + name);
   }
-
+  saveVehicle(vehicleData) {
+    return this.api.post('Vehicle', vehicleData);
+  }
+  editVehicle(vehicleData, vehicleId) {
+    return this.api.put(this.api.formUrl('Vehicle', vehicleId), vehicleData);
+  }
+  deleteVehicle(vehicleId, vehicleData) {
+    return this.api.delete(this.api.formUrl('Vehicle', vehicleId), vehicleData);
+  }
 }

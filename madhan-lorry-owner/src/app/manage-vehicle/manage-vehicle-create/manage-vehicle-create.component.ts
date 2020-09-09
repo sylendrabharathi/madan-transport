@@ -2,45 +2,69 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ManageVehicleApiService } from '../services/api/manage-vehicle-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-manage-vehicle-create',
   templateUrl: './manage-vehicle-create.component.html',
   styleUrls: ['./manage-vehicle-create.component.scss'],
+  providers: [DatePipe]
 })
 export class ManageVehicleCreateComponent implements OnInit {
+  transpoterId;
+  currentYear;
+  maxyear;
+  date;
   vehicleForm = this.fb.group({
-    vType: ['', [Validators.required]],
-    vNo: ['', [Validators.required]],
+    RefReferenceListVehicleTypeid: ['', [Validators.required]],
+    VehicleNo: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(10)]],
     fcValidity: ['', [Validators.required]],
-    iValidity: ['', [Validators.required]],
+    fCDocument: [''],
+    insurenceValidty: ['', [Validators.required]],
+    insurenceDocument: [''],
+    rCDocument: [''],
     description: ['',],
-    city: ['', [Validators.required]],
-    state: ['', [Validators.required]],
-    country: ['', [Validators.required]],
-    flatNo: ['', [Validators.required]],
-    addressL1: ['', [Validators.required]],
-    addressL2: ['', [Validators.required]],
-    landMark: ['', [Validators.required]]
+    refReferenceListCityId: ['', [Validators.required]],
+    refReferenceListStateId: ['', [Validators.required]],
+    refReferenceListCountryId: ['', [Validators.required]],
+    address1: ['', [Validators.required]],
+    address2: ['', [Validators.required]],
+    address3: ['', [Validators.required]],
+    address4: ['', [Validators.required]],
+    RefOrgId: [3],
+    RefCustId: [],
   });
-  vehicleEditId = 0;
+  vehicleEditId = -1;
   vehicleType: any = [];
   states: any = [];
   citys: any = [];
   countrys: any = [];
-  transpoterId = 4;
+  failure = false;
+  vehicleEditData: any = [];
   constructor(private fb: FormBuilder,
     private vehicleApi: ManageVehicleApiService,
     private aRoute: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private toaster: ToastController,
+    private datePipe: DatePipe) { }
 
   ngOnInit() { }
   ionViewWillEnter() {
+    this.transpoterId = Number(localStorage.getItem('TranspoterId'));
+    this.loadDates();
     this.loadIntialDetails();
     this.getParamData();
-    if (this.vehicleEditId != 0) {
+    if (this.vehicleEditId > -1) {
       this.loadEditDetails(this.transpoterId, this.vehicleEditId);
     }
+  }
+  loadDates() {
+    this.date = new Date();
+    this.currentYear = this.datePipe.transform(this.date, 'yyyy-MM-dd').toString();
+    this.date.setFullYear(this.date.getFullYear() + 20);
+    this.maxyear = this.datePipe.transform(this.date, 'yyyy-MM-dd').toString();
+
   }
 
   loadIntialDetails() {
@@ -69,6 +93,7 @@ export class ManageVehicleCreateComponent implements OnInit {
     this.vehicleApi.getVehicles(transpoterId, vehicleId).subscribe(
       success => {
         console.log('success', success[0]);
+        this.vehicleEditData = success[0];
         this.setDataToForm(success[0]);
       },
       failure => {
@@ -76,18 +101,86 @@ export class ManageVehicleCreateComponent implements OnInit {
       });
   }
   setDataToForm(data) {
-    this.vehicleForm.get('vType').setValue(data.rlvtId);
-    this.vehicleForm.get('vNo').setValue(data.vvberVehicleNo);
+    this.vehicleForm.get('RefReferenceListVehicleTypeid').setValue(data.rlvtId);
+    this.vehicleForm.get('VehicleNo').setValue(data.vvberVehicleNo);
     this.vehicleForm.get('fcValidity').setValue(data.fcvalidity);
-    this.vehicleForm.get('iValidity').setValue(data.insurenceValidty);
+    this.vehicleForm.get('insurenceValidty').setValue(data.insurenceValidty);
     this.vehicleForm.get('description').setValue(data.description);
-    this.vehicleForm.get('city').setValue(data.vehiLocationCityId);
-    this.vehicleForm.get('state').setValue(data.vehiLocationStateId);
-    this.vehicleForm.get('country').setValue(data.vehiLocationCountryId);
-    this.vehicleForm.get('flatNo').setValue(data.vehiLocationAddress1);
-    this.vehicleForm.get('addressL1').setValue(data.vehiLocationAddress2);
-    this.vehicleForm.get('addressL2').setValue(data.vehiLocationAddress3);
-    this.vehicleForm.get('landMark').setValue(data.vehiLocationAddress4);
+    this.vehicleForm.get('refReferenceListCityId').setValue(data.vehiLocationCityId);
+    this.vehicleForm.get('refReferenceListStateId').setValue(data.vehiLocationStateId);
+    this.vehicleForm.get('refReferenceListCountryId').setValue(data.vehiLocationCountryId);
+    this.vehicleForm.get('address1').setValue(data.vehiLocationAddress1);
+    this.vehicleForm.get('address2').setValue(data.vehiLocationAddress2);
+    this.vehicleForm.get('address3').setValue(data.vehiLocationAddress3);
+    this.vehicleForm.get('address4').setValue(data.vehiLocationAddress4);
     this.vehicleForm.updateValueAndValidity();
+  }
+  async successToaster(message) {
+    console.log('inside-->');
+    let toast: any;
+    if (this.failure) {
+      toast = await this.toaster.create({
+        message: 'Fill all required fields.',
+        duration: 2000,
+        position: 'top',
+        animated: true,
+        color: "danger",
+        mode: "ios"
+      });
+    }
+    else {
+      toast = await this.toaster.create({
+        message: message,
+        duration: 2000,
+        position: 'top',
+        animated: true,
+        color: "success",
+        mode: "ios"
+      });
+    }
+
+    toast.present();
+  }
+  submit() {
+    if (this.vehicleForm.valid) {
+      this.vehicleForm.get('RefCustId').setValue(this.transpoterId);
+      if (this.vehicleEditId > -1) {
+        this.editDetails(this.vehicleForm.value);
+      }
+      else {
+        this.saveNewDetails(this.vehicleForm.value);
+      }
+    }
+    else {
+      this.failure = true;
+      this.successToaster('');
+    }
+  }
+  editDetails(data) {
+    const req = data;
+    req.VehicleId = Number(this.vehicleEditId);
+    req.isActive = true;
+    req.refModifiedBy = this.transpoterId;
+    console.log('req-->', req);
+    this.vehicleApi.editVehicle(req, this.vehicleEditId).subscribe((success: any) => {
+      console.log('success', success, 'success.status', success[0].status);
+      if (success[0].status == 2) {
+        this.successToaster(success[0].msg);
+        this.router.navigate(['manage-vehicle']);
+      }
+    }, failure => { console.log('failure', failure); });
+  }
+  saveNewDetails(data) {
+    const req = data;
+    console.log('req', req);
+    req.RefCreatedBy = this.transpoterId;
+    this.vehicleApi.saveVehicle(req).subscribe((success: any) => {
+      console.log('success', success);
+      if (success[0].status == 1) {
+        this.successToaster(success[0].msg);
+        this.router.navigate(['manage-vehicle']);
+      }
+
+    }, failure => { console.log('failure', failure); });
   }
 }

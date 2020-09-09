@@ -25,4 +25,7 @@ export class DriverInOutApiService {
   saveInOut(inOutDetails) {
     return this.api.post('DriverInOut', inOutDetails);
   }
+  deleteInOut(inOutDetails, driverId) {
+    return this.api.delete(this.api.formUrl('DriverInOut', driverId), inOutDetails);
+  }
 }

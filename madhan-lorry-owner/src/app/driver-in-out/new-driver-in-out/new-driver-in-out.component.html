@@ -31,11 +31,11 @@
                 </ion-item>
                 <ion-item>
                     <ion-label>In Time :</ion-label>
-                    <ion-datetime formControlName="inTime" display-format="DD.MM.YYYY HH:mm"> </ion-datetime>
+                    <ion-datetime formControlName="inTime" placeholder="YYYY-MM-DD HH:mm" display-format="YYYY-MM-DD HH:mm" [min]="currentYear" [max]="maxyear"> </ion-datetime>
                 </ion-item>
                 <ion-item>
                     <ion-label>Out Time :</ion-label>
-                    <ion-datetime formControlName="outTime" display-format="DD.MM.YYYY HH:mm"></ion-datetime>
+                    <ion-datetime formControlName="outTime" placeholder="YYYY-MM-DD HH:mm" display-format="YYYY-MM-DD HH:mm" [min]="currentYear" [max]="maxyear"></ion-datetime>
                 </ion-item>
             </form>
         </ion-card-content>

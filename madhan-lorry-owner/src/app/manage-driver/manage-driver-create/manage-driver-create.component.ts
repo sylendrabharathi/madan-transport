@@ -13,18 +13,32 @@ export class ManageDriverCreateComponent implements OnInit {
   // editDriver:any = [];
   newDriverForm = this.fb.group({
     driverName: ['', [Validators.required]],
-    mobileNo: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+    mobileNo: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(12)]],
     licenceNo: ['', [Validators.required]],
     licenceValidity: ['', [Validators.required]],
     refOrgId: [''],
     refCustId: [''],
-    licenceDocument: ['c:']
+    licenceDocument: ['c:'],
+    mailId: [''],
     // refCreatedBy: ['']
-    // password: [''],
-    // cnfPassword: ['']
+    password: [''],
+    cnfPassword: ['']
+  });
+  userForm = this.fb.group({
+    refOrgid: [3],
+    refCreatedBy: null,
+    userName: [''],
+    email: [''],
+    mobileNo: [''],
+    password: [''],
+    processing: [],
+    comments: [''],
+    emailVerified: [],
+    RefEmpId: [],
+    refCustId: []
   });
   driverId = -1;
-  transpoterId = 4;
+  transpoterId;
   driverIns: any = {};
   failure: boolean = false;
   constructor(private fb: FormBuilder,
@@ -35,6 +49,7 @@ export class ManageDriverCreateComponent implements OnInit {
 
   ngOnInit() { }
   ionViewWillEnter() {
+    this.transpoterId = Number(localStorage.getItem('TranspoterId'));
     this.driverIns = {};
     this.aRoute.params.subscribe(data => {
       this.driverId = data.driverId;
@@ -71,41 +86,48 @@ export class ManageDriverCreateComponent implements OnInit {
       const req: any = this.newDriverForm.value;
       console.log('inside');
       if (this.driverId > -1) {
-        req.driverId = this.driverIns.driverId;
-        req.isActive = this.driverIns.isActive;
-        req.RefModifiedBy = this.transpoterId;
-        console.log('-->', req);
-        this.driverApi.editDriver(req.value, this.driverId).subscribe(success => {
-          console.log('success', success);
-          this.successToaster();
-          this.router.navigate(['manage-driver']);
-        },
-          failure => {
-            console.log('failure', failure);
-          })
+        this.editDriver(req);
       }
       else {
-        req.RefCreatedBy = this.transpoterId;
-        console.log('==>', req);
-        this.driverApi.saveDriver(req.value).subscribe(success => {
-          console.log('success', success);
-          this.successToaster();
-          this.router.navigate(['manage-driver']);
-        },
-          failure => {
-            console.log('failure', failure);
-          })
+        this.saveDriver(req);
       }
     }
     else {
       console.log('else');
       this.failure = true;
-      this.successToaster();
+      this.successToaster('');
       this.newDriverForm.markAllAsTouched();
       this.newDriverForm.updateValueAndValidity();
     }
   }
-  async successToaster() {
+  editDriver(req) {
+    req.driverId = this.driverIns.driverId;
+    req.isActive = this.driverIns.isActive;
+    req.RefModifiedBy = this.transpoterId;
+    console.log('-->', req);
+    this.driverApi.editDriver(req, this.driverId).subscribe(success => {
+      console.log('success', success);
+      this.successToaster(success[0].msg);
+      this.router.navigate(['manage-driver']);
+    },
+      failure => {
+        console.log('failure', failure);
+      })
+  }
+  saveDriver(req) {
+    req.RefCreatedBy = this.transpoterId;
+    console.log('==>', req);
+    this.setUserData(req);
+    this.driverApi.saveDriver(req.value).subscribe(success => {
+      console.log('success', success);
+      this.successToaster(success[0].msg);
+      this.router.navigate(['manage-driver']);
+    },
+      failure => {
+        console.log('failure', failure);
+      })
+  }
+  async successToaster(message) {
     console.log('inside-->');
     let toast: any;
     if (this.failure) {
@@ -118,19 +140,10 @@ export class ManageDriverCreateComponent implements OnInit {
         mode: "ios"
       });
     }
-    else if (this.driverId != -1) {
-      toast = await this.toaster.create({
-        message: 'Driver details updated successfully.',
-        duration: 2000,
-        position: 'top',
-        animated: true,
-        color: "success",
-        mode: "ios"
-      });
-    }
+
     else {
       toast = await this.toaster.create({
-        message: 'Driver added successfully.',
+        message: message,
         duration: 2000,
         position: 'top',
         animated: true,
@@ -139,5 +152,13 @@ export class ManageDriverCreateComponent implements OnInit {
       });
     }
     toast.present();
+  }
+  setUserData(req) {
+    this.userForm.get('userName').setValue(this.newDriverForm.get('driverName').value);
+    this.userForm.get('mobileNo').setValue(this.newDriverForm.get('mobileNo').value);
+    this.userForm.get('password').setValue(this.newDriverForm.get('password').value);
+    this.userForm.get('refCustId').setValue(this.newDriverForm.get('refCustId').value);
+    this.userForm.get('comments').setValue('Driver');
+    // this.userForm.get('userName').setValue(this.newDriverForm.get('driverName').value);
   }
 }

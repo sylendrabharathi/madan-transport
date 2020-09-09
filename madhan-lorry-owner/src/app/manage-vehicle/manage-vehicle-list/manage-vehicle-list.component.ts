@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ManageVehicleApiService } from '../services/api/manage-vehicle-api.service';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-manage-vehicle-list',
@@ -10,13 +11,16 @@ import { ManageVehicleApiService } from '../services/api/manage-vehicle-api.serv
 export class ManageVehicleListComponent implements OnInit {
 
   vehicles: any = [];
-  transpoterId = 4;
+  transpoterId;
   vehicleId = '';
+  deleteJson: any = {};
   constructor(private router: Router,
-    private vehicleApi: ManageVehicleApiService) { }
+    private vehicleApi: ManageVehicleApiService,
+    private toaster: ToastController) { }
 
   ngOnInit() { }
   ionViewWillEnter() {
+    this.transpoterId = Number(localStorage.getItem('TranspoterId'));
     this.getVehicles(this.transpoterId, this.vehicleId);
   }
 
@@ -34,5 +38,31 @@ export class ManageVehicleListComponent implements OnInit {
   }
   edit(vehicleId) {
     this.router.navigate(['manage-vehicle', 'edit', vehicleId]);
+  }
+  deleteVehicle(vehicleId) {
+    this.deleteJson.VehicleId = vehicleId;
+    this.deleteJson.RefModifiedBy = this.transpoterId;
+    this.vehicleApi.deleteVehicle(vehicleId, this.deleteJson).subscribe(success => {
+      console.log('success', success);
+      this.successToaster(success[0].msg);
+      this.ionViewWillEnter();
+    },
+      failure => {
+        console.log('failure', failure);
+      });
+  }
+  async successToaster(message) {
+    console.log('inside-->');
+    let toast = await this.toaster.create({
+      message: message,
+      duration: 2000,
+      position: 'top',
+      animated: true,
+      color: "success",
+      mode: "ios"
+    });
+
+
+    toast.present();
   }
 }

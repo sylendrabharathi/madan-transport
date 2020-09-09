@@ -10,21 +10,21 @@
     </div>
     <ion-card>
         <ion-card-content>
-            <form>
+            <form [formGroup]='loginForm'>
                 <ion-item class="item">
-                    <ion-label position="fixed">Email</ion-label>
-                    <ion-input type="text" placeholder="a@a.com"></ion-input>
+                    <ion-label position="float">Email / Phone Number : </ion-label>
+                    <ion-input type="text" formControlName='userId' placeholder=""></ion-input>
                 </ion-item>
 
                 <ion-item class="item">
-                    <ion-label position="fixed">Password</ion-label>
-                    <ion-input type="password" placeholder="********"></ion-input>
+                    <ion-label position="float">Password : </ion-label>
+                    <ion-input type="password" formControlName='password' placeholder="********"></ion-input>
                 </ion-item>
 
                 <ion-buttons class="btns">
                     <ion-button slot="start" class="signup" (click)="singup()">Sign Up</ion-button>
 
-                    <ion-button slot="end" class="login">Login</ion-button>
+                    <ion-button slot="end" class="login" (click)="login()">Login</ion-button>
                 </ion-buttons>
             </form>
         </ion-card-content>

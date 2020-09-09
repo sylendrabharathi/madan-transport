@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../services/api/api.service';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
+import { SignUpApiService } from './service/api/sign-up-api.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -28,18 +28,56 @@ export class SignUpComponent implements OnInit {
     email: ['', [Validators.required]],
     website: ['', [Validators.required]],
     desc: ['', [Validators.required]],
-    city: ['', [Validators.required]],
-    state: ['', [Validators.required]],
-    country: ['', [Validators.required]],
-    fno: ['', [Validators.required]],
-    add1: ['', [Validators.required]],
-    add2: ['', [Validators.required]],
-    lmark: ['', [Validators.required]],
+    refReferenceListCityId: ['', [Validators.required]],
+    refReferenceListStateId: ['', [Validators.required]],
+    refReferenceListCountryId: ['', [Validators.required]],
+    address1: ['', [Validators.required]],
+    address2: ['', [Validators.required]],
+    address3: ['', [Validators.required]],
+    address4: ['', [Validators.required]],
+    password: ['', [Validators.required, Validators.minLength(7)]],
+    cnfpassword: ['', [Validators.required, Validators.minLength(7)]],
+    RefOrgId: [],
+    RefRoleId: [],
+    RefCreatedBy: []
+
   });
-  constructor(private apiService: ApiService,
+  states: any = [];
+  citys: any = [];
+  countrys: any = [];
+  gstDetails: any = [];
+  constructor(private signUpApi: SignUpApiService,
     private router: Router,
     private fb: FormBuilder) { }
 
   ngOnInit() { }
+  ionViewWillEnter() {
+    this.loadIntialDetails();
+  }
+  submit() {
+
+  }
+  loadIntialDetails() {
+    this.signUpApi.getReferceListDatas('state').subscribe(success => {
+      this.states = success;
+      console.log(success);
+    }, failure => { });
+    this.signUpApi.getReferceListDatas('city').subscribe(success => {
+      this.citys = success;
+    }, failure => { });
+    this.signUpApi.getReferceListDatas('country').subscribe(success => {
+      this.countrys = success;
+    }, failure => { });
+  }
+  getDetailsFromGst() {
+    const gstNo = this.registrationForm.get('gstno').value.trim();
+    if (gstNo != '')
+      console.log('gst-->', gstNo);
+    this.signUpApi.getReferceListDatas(gstNo).subscribe(success => {
+      console.log('success', success);
+    }, failure => {
+      console.log('failure', failure);
+    });
+  }
 
 }

@@ -9,7 +9,7 @@ export class BookingEnquiresApiService {
   constructor(private api: ApiService) { }
 
   getAllBookingEnq(ownerId) {
-    return this.api.get('VehicleBookingEnqResponse/GetBookingEnqDetails/?name=&transporterId=' + ownerId);
+    return this.api.get('VehicleBookingEnqResponse/GetBookingEnqDetails/?name=VES&transporterId=' + ownerId);
   }
   submitResponse(responseJson) {
     return this.api.post('VehicleBookingEnqResponse/PutBookingEnqFeedback/?id=' + responseJson.VehicleBookingEnqResponseId, responseJson);
