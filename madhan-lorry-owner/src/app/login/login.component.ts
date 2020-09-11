@@ -48,8 +48,8 @@ export class LoginComponent implements OnInit {
         .subscribe((success: any) => {
           console.log('success', success);
           // this.local.set('TrasnpoterId', success[0].userId);
-          // localStorage.setItem('TranspoterId', success.userId);
-          localStorage.setItem('TranspoterId', '4');
+          localStorage.setItem('TranspoterId', success.userId);
+          // localStorage.setItem('TranspoterId', '4');
           this.router.navigate(['home']);
         },
           failure => {

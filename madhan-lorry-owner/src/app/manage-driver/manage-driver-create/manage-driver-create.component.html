@@ -34,14 +34,16 @@
                 </ion-item>
                 <ion-item>
                     <ion-label>Licence Validity :</ion-label>
-                    <ion-datetime formControlName="licenceValidity" display-format="DD.MM.YYYY"></ion-datetime>
+                    <ion-datetime formControlName="licenceValidity" display-format="YYYY-MM-DD" [min]="currentYear" [max]="maxyear"></ion-datetime>
                 </ion-item>
                 <ion-item>
                     <ion-label>Licence Document :</ion-label>
                 </ion-item>
+            </form>
+            <form [formGroup]="driverUserForm">
                 <ion-item>
                     <ion-label>Email Id</ion-label>
-                    <ion-input formControlName="mailId" type="mail" placeholder="Enter Email"></ion-input>
+                    <ion-input formControlName="mailId" type="mail" placeholder="XXX@gmail.com"></ion-input>
                 </ion-item>
                 <ion-item>
                     <ion-label>Password :</ion-label>

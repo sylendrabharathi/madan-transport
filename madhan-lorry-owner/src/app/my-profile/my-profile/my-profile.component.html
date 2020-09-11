@@ -43,7 +43,7 @@
                 <ion-item *ngIf="!editForm">
                     <ion-label>
                         <ion-icon name="lock-open-outline"></ion-icon>&nbsp;&nbsp;&nbsp;Old Password : </ion-label>
-                    <ion-input type="password" formControlName="oldPassword"></ion-input>
+                    <ion-input type="password" formControlName="oldPassword" (ionBlur)="checkOldPassword()"></ion-input>
                 </ion-item>
                 <ion-item *ngIf="!editForm">
                     <ion-label>
@@ -53,7 +53,7 @@
                 <ion-item *ngIf="!editForm">
                     <ion-label>
                         <ion-icon name="lock-closed-outline"></ion-icon>&nbsp;&nbsp;&nbsp;Confirm Password : </ion-label>
-                    <ion-input type="password" formControlName="cnfPassword"></ion-input>
+                    <ion-input type="password" formControlName="cnfPassword" (ionBlur)="checkCnfPassword()"></ion-input>
                 </ion-item>
 
             </form>
@@ -66,7 +66,7 @@
                             </ion-button>
                         </ion-col>
                         <ion-col size="6">
-                            <ion-button class="submitbtn">
+                            <ion-button class="submitbtn" (click)="submit()">
                                 Submit
                             </ion-button>
                         </ion-col>

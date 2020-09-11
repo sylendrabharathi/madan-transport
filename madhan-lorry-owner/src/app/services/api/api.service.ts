@@ -30,6 +30,8 @@ export class ApiService {
     return urls.join('/');
   }
   getGstData(gstNo) {
-    return this.http.get('https://appyflow.in/api/verifyGST/?gstNo=' + gstNo + '&key_secret=mqDMTdJpfIU6qpmfyQWp5qMOxbm2 ');
+    console.log('https://appyflow.in/api/verifyGST/?gstNo=' + gstNo + '&key_secret=mqDMTdJpfIU6qpmfyQWp5qMOxbm2');
+
+    return this.http.get('https://appyflow.in/api/verifyGST/?gstNo=' + gstNo + '&key_secret=mqDMTdJpfIU6qpmfyQWp5qMOxbm2');
   }
 }

@@ -20,7 +20,16 @@ export class ManageDriverApiService {
   editDriver(driverDetails, driverId) {
     return this.api.put(this.api.formUrl('Driver', driverId), driverDetails);
   }
-  deleteDriver() {
-    // return this.api.delete(); 
+  deleteDriver(driverDetails, driverId) {
+    return this.api.delete(this.api.formUrl('Driver', driverId), driverDetails);
+  }
+  addUser(userReq) {
+    return this.api.post('User/', userReq);
+  }
+  editUser(userId, userDetails) {
+    return this.api.put(this.api.formUrl('User', userId), userDetails);
+  }
+  getUser(userId) {
+    return this.api.get(this.api.formUrl('User', userId));
   }
 }

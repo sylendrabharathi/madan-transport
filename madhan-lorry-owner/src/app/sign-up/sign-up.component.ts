@@ -16,13 +16,13 @@ export class SignUpComponent implements OnInit {
     Validators.minLength(10)]],
     panno: ['', [Validators.required,
     Validators.minLength(10)]],
-    lname: ['', [Validators.required]],
+    legalName: ['', [Validators.required]],
     address: ['', [Validators.required]],
     naddress: ['', [Validators.required]],
     etype: ['', [Validators.required]],
     rtype: ['', [Validators.required]],
     dtype: ['', [Validators.required]],
-    regdate: ['', [Validators.required]],
+    registrationDate: ['', [Validators.required]],
     telno: ['', [Validators.required]],
     mobno: ['', [Validators.required]],
     email: ['', [Validators.required]],
@@ -73,11 +73,17 @@ export class SignUpComponent implements OnInit {
     const gstNo = this.registrationForm.get('gstno').value.trim();
     if (gstNo != '')
       console.log('gst-->', gstNo);
-    this.signUpApi.getReferceListDatas(gstNo).subscribe(success => {
+    this.signUpApi.getGstDetails(gstNo).subscribe(success => {
       console.log('success', success);
+      this.gstDetails = success;
+      this.setDataFromGst(this.gstDetails);
     }, failure => {
       console.log('failure', failure);
     });
   }
+  setDataFromGst(data) {
+    this.registrationForm.get('legalName').setValue(data.taxpayerInfo.lgnm);
+    this.registrationForm.get('registrationDate').setValue(data.taxpayerInfo.rgdt);
 
+  }
 }

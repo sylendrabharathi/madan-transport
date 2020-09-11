@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ManageDriverApiService } from '../services/api/manage-driver-api.service';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-manage-driver-list',
@@ -9,15 +10,18 @@ import { ManageDriverApiService } from '../services/api/manage-driver-api.servic
 })
 export class ManageDriverListComponent {
 
-  constructor(private router: Router,
-    private driverApi: ManageDriverApiService) { }
   drivers: any = [];
+  driverDeleteJson: any = {};
+  transpoterId;
+  constructor(private router: Router,
+    private driverApi: ManageDriverApiService,
+    private toaster: ToastController) { }
+
   ngOnInit() { }
 
   ionViewWillEnter() {
-    console.log('hhhh');
-
-    this.getDriverList(4);
+    this.transpoterId = Number(localStorage.getItem('TranspoterId'));
+    this.getDriverList(this.transpoterId);
   }
 
   getDriverList(transpoterId) {
@@ -36,5 +40,28 @@ export class ManageDriverListComponent {
   }
   edit(driverId) {
     this.router.navigate(['manage-driver', 'edit', driverId]);
+  }
+  deleteDriver(driverId) {
+    this.driverDeleteJson.driverId = driverId;
+    this.driverDeleteJson.refrefCreatedBy = this.transpoterId;
+    this.driverApi.deleteDriver(this.driverDeleteJson, driverId).subscribe(success => {
+      console.log('success', success);
+      this.successToaster(success[0].msg);
+      this.ionViewWillEnter();
+    }, failure => { });
+  }
+  async successToaster(message) {
+    console.log('inside-->');
+    let toast = await this.toaster.create({
+      message: message,
+      duration: 2000,
+      position: 'top',
+      animated: true,
+      color: "success",
+      mode: "ios"
+    });
+
+
+    toast.present();
   }
 }
