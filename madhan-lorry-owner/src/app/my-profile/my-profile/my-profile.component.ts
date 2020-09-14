@@ -34,7 +34,7 @@ export class MyProfileComponent implements OnInit {
     isActive: [true],
     refModifiedBy: [],
   });
-  transpoterId;
+  userId;
   doNotProceed = false;
   editForm: boolean = true;
   constructor(private profileApi: MyProfileApiService,
@@ -44,8 +44,8 @@ export class MyProfileComponent implements OnInit {
   profileDatas: any = [];
   ngOnInit() { }
   ionViewWillEnter() {
-    this.transpoterId = Number(localStorage.getItem('TranspoterId'));
-    this.getProfileData(this.transpoterId);
+    this.userId = Number(localStorage.getItem('userId'));
+    this.getProfileData(this.userId);
   }
 
   getProfileData(userId) {
@@ -77,7 +77,7 @@ export class MyProfileComponent implements OnInit {
   cancel() {
     this.editForm = true;
     this.profileForm.reset();
-    this.getProfileData(this.transpoterId);
+    this.getProfileData(this.userId);
   }
 
   submit() {
@@ -85,7 +85,7 @@ export class MyProfileComponent implements OnInit {
 
       console.log('this.profileForm.valid ', this.setUserData());
 
-      this.profileApi.editProfile(this.setUserData(), this.transpoterId).subscribe(
+      this.profileApi.editProfile(this.setUserData(), this.userId).subscribe(
         success => {
           console.log('success', success);
           if (success[0].status == 2) {
@@ -151,7 +151,7 @@ export class MyProfileComponent implements OnInit {
     this.userForm.get('processing').setValue(this.profileDatas.processing);
     this.userForm.get('userId').setValue(this.profileDatas.userId);
     this.userForm.get('refEmpId').setValue(this.profileDatas.refEmpId);
-    this.userForm.get('refModifiedBy').setValue(this.transpoterId);
+    this.userForm.get('refModifiedBy').setValue(this.userId);
     this.userForm.get('refCustId').setValue(this.profileDatas.refCustId);
     return this.userForm.value;
   }

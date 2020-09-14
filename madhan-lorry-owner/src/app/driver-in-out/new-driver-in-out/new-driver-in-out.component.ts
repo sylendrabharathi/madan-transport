@@ -25,11 +25,12 @@ export class NewDriverInOutComponent implements OnInit {
 
   });
   driverInOutId = -1;
-  transpoterId;
+  userId;
   driverData: any = [];
   currentYear;
   maxyear;
   date;
+  transpoterId;
   constructor(private route: Router,
     private inOutApi: DriverInOutApiService,
     private fb: FormBuilder,
@@ -40,7 +41,8 @@ export class NewDriverInOutComponent implements OnInit {
 
   }
   ionViewWillEnter() {
-    this.transpoterId = Number(localStorage.getItem('TranspoterId'));
+    this.userId = Number(localStorage.getItem('userId'));
+    this.transpoterId = Number(localStorage.getItem('customerId'));
     this.getVehicleDetails(this.transpoterId);
     this.getDriverDetails(this.transpoterId);
     this.loadDates();
@@ -144,7 +146,7 @@ export class NewDriverInOutComponent implements OnInit {
     const req = data;
     req.driverInOutId = Number(this.driverInOutId);
     req.isActive = this.driverData.isActive;
-    req.refModifiedBy = this.transpoterId;
+    req.refModifiedBy = this.userId;
     console.log('req-->', req);
     this.inOutApi.editInOut(req, this.driverInOutId).subscribe((success: any) => {
       console.log('success', success, 'success.status', success.status);
@@ -160,7 +162,7 @@ export class NewDriverInOutComponent implements OnInit {
   saveNewDetails(data) {
     this.inOutApi.saveInOut(data).subscribe((success: any) => {
       const req = data;
-      req.refrefCreatedBy = this.transpoterId;
+      req.refrefCreatedBy = this.userId;
       console.log('success', success);
       if (success[0].status == 1) {
         this.successToaster(success[0].msg);

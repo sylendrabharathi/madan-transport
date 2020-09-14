@@ -10,12 +10,14 @@ import { Router } from '@angular/router';
 export class MyBookingsComponent implements OnInit {
 
   myBookings: any = [];
+  transpoterId: number;
   constructor(private bookingApi: MyBookingsApiService,
     private router: Router) { }
 
   ngOnInit() { }
   ionViewWillEnter() {
-    this.getMyBookings(4, '');
+    this.transpoterId = Number(localStorage.getItem('customerId'));
+    this.getMyBookings(this.transpoterId, '');
   }
   getMyBookings(transpoterId, bookingId) {
     this.bookingApi.getMyBookings(transpoterId, bookingId).subscribe(success => {

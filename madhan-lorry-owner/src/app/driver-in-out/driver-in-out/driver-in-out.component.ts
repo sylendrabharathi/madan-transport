@@ -23,7 +23,7 @@ export class DriverInOutComponent implements OnInit {
     this.route.navigate(['driver-in-out', 'create']);
   }
   ionViewWillEnter() {
-    this.tranpoterId = Number(localStorage.getItem('TranspoterId'));
+    this.tranpoterId = Number(localStorage.getItem('customerId'));
     this.getDriverInOut(this.tranpoterId);
   }
   getDriverInOut(transpoterId) {

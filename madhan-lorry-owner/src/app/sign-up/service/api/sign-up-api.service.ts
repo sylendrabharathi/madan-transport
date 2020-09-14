@@ -15,4 +15,16 @@ export class SignUpApiService {
   getGstDetails(gstNo) {
     return this.api.getGstData(gstNo);
   }
+
+  registerDetails(data) {
+    return this.api.post('Customer', data);
+  }
+
+  addUser(userReq) {
+    return this.api.post('User/', userReq);
+  }
+
+  getLorryOwnerRole() {
+    return this.api.get('role/GetRolebyName/?name=LorryOwner');
+  }
 }

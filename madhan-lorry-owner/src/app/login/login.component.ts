@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   });
   userName = '';
   userId = '';
-  local;
+  // local;
   phoneNumber: number;
   constructor(
     private router: Router,
@@ -47,9 +47,10 @@ export class LoginComponent implements OnInit {
       this.loginApi.login(this.userName, this.userId, this.phoneNumber, this.loginForm.get('password').value)
         .subscribe((success: any) => {
           console.log('success', success);
-          // this.local.set('TrasnpoterId', success[0].userId);
-          localStorage.setItem('TranspoterId', success.userId);
-          // localStorage.setItem('TranspoterId', '4');
+          localStorage.setItem('userId', success[0].userId.toString());
+          console.log('-->', localStorage.getItem('userId'));
+          // localStorage.setItem('newId', success[0].userId);
+          localStorage.setItem('customerId', success[0].customerId.toString());
           this.router.navigate(['home']);
         },
           failure => {

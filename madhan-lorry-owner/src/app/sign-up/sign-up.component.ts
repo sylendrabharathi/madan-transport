@@ -2,63 +2,90 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { SignUpApiService } from './service/api/sign-up-api.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { ToastController } from '@ionic/angular';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss'],
+  providers: [DatePipe]
 })
 export class SignUpComponent implements OnInit {
 
   registrationForm = this.fb.group({
     name: ['', [Validators.required]],
     gstno: ['', [Validators.required,
-    Validators.minLength(10)]],
-    panno: ['', [Validators.required,
+    Validators.minLength(15)]],
+    GSTDOCUrl: ['C:/'],
+    PANDOCUrl: ['C:/'],
+    Pannumber: ['', [Validators.required,
     Validators.minLength(10)]],
     legalName: ['', [Validators.required]],
     address: ['', [Validators.required]],
-    naddress: ['', [Validators.required]],
-    etype: ['', [Validators.required]],
-    rtype: ['', [Validators.required]],
-    dtype: ['', [Validators.required]],
+    natureOfBusiness: ['', [Validators.required]],
+    entityType: ['', [Validators.required]],
+    registrationType: ['', [Validators.required]],
+    deptCodeAndType: ['', [Validators.required]],
     registrationDate: ['', [Validators.required]],
-    telno: ['', [Validators.required]],
-    mobno: ['', [Validators.required]],
-    email: ['', [Validators.required]],
-    website: ['', [Validators.required]],
-    desc: ['', [Validators.required]],
+    telePhone: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
+    mobile: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+    email: ['', [Validators.required, Validators.email]],
+    website: [''],
+    description: [''],
     refReferenceListCityId: ['', [Validators.required]],
     refReferenceListStateId: ['', [Validators.required]],
     refReferenceListCountryId: ['', [Validators.required]],
     address1: ['', [Validators.required]],
     address2: ['', [Validators.required]],
-    address3: ['', [Validators.required]],
+    address3: [''],
     address4: ['', [Validators.required]],
-    password: ['', [Validators.required, Validators.minLength(7)]],
-    cnfpassword: ['', [Validators.required, Validators.minLength(7)]],
-    RefOrgId: [],
+    // password: ['', [Validators.required, Validators.minLength(7)]],
+    // cnfpassword: ['', [Validators.required, Validators.minLength(7)]],
+    RefOrgId: [3],
     RefRoleId: [],
     RefCreatedBy: []
 
+  });
+  password = '';
+  cnfpassword = '';
+  userForm = this.fb.group({
+    refOrgid: [3],
+    userName: [''],
+    refCreatedBy: [],
+    email: [''],
+    mobileNo: [''],
+    password: [''],
+    processing: ['0'],
+    comments: [''],
+    emailVerified: [true],
+    RefEmpId: [null],
+    refCustId: [],
+    refDriverId: [null],
+    RefConsignerId: [null]
   });
   states: any = [];
   citys: any = [];
   countrys: any = [];
   gstDetails: any = [];
+  gstNo: string = '';
+  companyName = '';
+  doNotProceed = false;
+  lorryOwner: any = [];
   constructor(private signUpApi: SignUpApiService,
     private router: Router,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    private toaster: ToastController,
+    private datePipe: DatePipe) { }
 
   ngOnInit() { }
   ionViewWillEnter() {
     this.loadIntialDetails();
   }
-  submit() {
 
-  }
   loadIntialDetails() {
-    this.signUpApi.getReferceListDatas('state').subscribe(success => {
+    this.signUpApi.getReferceListDatas('states').subscribe(success => {
       this.states = success;
       console.log(success);
     }, failure => { });
@@ -68,12 +95,17 @@ export class SignUpComponent implements OnInit {
     this.signUpApi.getReferceListDatas('country').subscribe(success => {
       this.countrys = success;
     }, failure => { });
+    this.signUpApi.getLorryOwnerRole().subscribe(success => {
+      this.lorryOwner = success[0];
+      console.log('success', success);
+    }, failure => { });
+
   }
   getDetailsFromGst() {
-    const gstNo = this.registrationForm.get('gstno').value.trim();
-    if (gstNo != '')
-      console.log('gst-->', gstNo);
-    this.signUpApi.getGstDetails(gstNo).subscribe(success => {
+    this.gstNo = this.registrationForm.get('gstno').value.trim();
+    if (this.gstNo != '')
+      console.log('gst-->', this.gstNo);
+    this.signUpApi.getGstDetails(this.gstNo).subscribe(success => {
       console.log('success', success);
       this.gstDetails = success;
       this.setDataFromGst(this.gstDetails);
@@ -82,8 +114,113 @@ export class SignUpComponent implements OnInit {
     });
   }
   setDataFromGst(data) {
+    console.log('dataaa', data);
+    this.companyName = data.taxpayerInfo.tradeNam.trim();
+    const panNo = this.gstNo.substring(2, 12);
+    let regDate: string = data.taxpayerInfo.rgdt;
+    let dateString = regDate.split('/');
+    regDate = dateString[2] + '-' + dateString[1] + '-' + dateString[0];
+    regDate += 'T00:00:00';
+    console.log(regDate);
+    const address = data.taxpayerInfo.pradr.addr.bno + ' ' + data.taxpayerInfo.pradr.addr.st + ' '
+      + data.taxpayerInfo.pradr.addr.loc + ' ' + data.taxpayerInfo.pradr.addr.pncd;
     this.registrationForm.get('legalName').setValue(data.taxpayerInfo.lgnm);
-    this.registrationForm.get('registrationDate').setValue(data.taxpayerInfo.rgdt);
+    this.registrationForm.get('registrationDate').setValue(regDate);
+    this.registrationForm.get('name').setValue(this.companyName);
+    this.registrationForm.get('entityType').setValue(data.taxpayerInfo.ctb);
+    this.registrationForm.get('registrationType').setValue(data.taxpayerInfo.dty);
+    this.registrationForm.get('deptCodeAndType').setValue(data.taxpayerInfo.ctj);
+    this.registrationForm.get('natureOfBusiness').setValue(data.taxpayerInfo.pradr.ntr);
+    this.registrationForm.get('address').setValue(address);
+    this.registrationForm.get('Pannumber').setValue(panNo);
+    this.registrationForm.get('RefRoleId').setValue(this.lorryOwner.roleId);
+    this.registrationForm.updateValueAndValidity();
+  }
+  submit() {
+    if (this.registrationForm.valid && !this.doNotProceed) {
+      console.log('this.registrationForm.value', this.registrationForm.value);
 
+      this.signUpApi.registerDetails(this.registrationForm.value).subscribe(
+        success => {
+          console.log('success registered', success);
+          if (success[0].status == 1) {
+            this.saveUser(success[0].id);
+
+          }
+          else {
+            this.Toaster(success[0].msg, 'danger');
+            return;
+          }
+        },
+        failure => {
+          console.log('failure re', failure);
+
+        }
+      );
+    }
+    else {
+      this.Toaster('Fill all required Details', 'danger');
+      this.registrationForm.markAllAsTouched();
+      this.registrationForm.updateValueAndValidity();
+    }
+  }
+  async Toaster(message, color) {
+    console.log('inside-->');
+    let toast: any;
+
+    toast = await this.toaster.create({
+      message: message,
+      duration: 2000,
+      position: 'top',
+      animated: true,
+      color: color,
+      mode: "ios"
+    });
+
+    toast.present();
+  }
+  saveUser(refCustId) {
+    this.setUserData(refCustId);
+    this.signUpApi.addUser(this.userForm.value).subscribe(success => {
+      console.log('success', success);
+      if (success[0].status == 1) {
+        this.Toaster(success[0].msg, 'success');
+        this.router.navigate(['']);
+      }
+      else {
+        this.Toaster(success[0].msg, 'success');
+        return;
+      }
+    }, failure => {
+      console.log('failure', failure);
+      this.Toaster(failure[0].msg, 'success');
+      return;
+    });
+  }
+  setUserData(refCustId) {
+    this.userForm.get('refCustId').setValue(refCustId);
+    this.userForm.get('userName').setValue(this.registrationForm.get('legalName').value);
+    this.userForm.get('email').setValue(this.registrationForm.get('email').value);
+    // this.userForm.get('processing').setValue(1);
+    this.userForm.get('comments').setValue(this.lorryOwner.roleName);
+    // this.userForm.get('emailVerified').setValue(false);
+    this.userForm.get('password').setValue(this.password);
+    this.userForm.get('mobileNo').setValue(this.registrationForm.get('mobile').value);
+    this.userForm.get('refCreatedBy').setValue(refCustId);
+
+
+  }
+  checkCnfPassword() {
+    this.doNotProceed = false;
+    if ((this.password == '' && this.cnfpassword == '')) {
+      this.Toaster(`Enter valid password `, 'warning');
+      this.doNotProceed = true;
+      return;
+    }
+    if (this.password != this.cnfpassword) {
+      this.Toaster(`Password and confirm password doesn't match `, 'warning');
+      this.doNotProceed = true;
+      return;
+    }
   }
 }

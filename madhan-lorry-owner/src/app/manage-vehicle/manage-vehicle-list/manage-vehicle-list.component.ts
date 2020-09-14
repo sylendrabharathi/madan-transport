@@ -11,7 +11,7 @@ import { ToastController } from '@ionic/angular';
 export class ManageVehicleListComponent implements OnInit {
 
   vehicles: any = [];
-  transpoterId;
+  transpoterId: number;
   vehicleId = '';
   deleteJson: any = {};
   constructor(private router: Router,
@@ -20,7 +20,9 @@ export class ManageVehicleListComponent implements OnInit {
 
   ngOnInit() { }
   ionViewWillEnter() {
-    this.transpoterId = Number(localStorage.getItem('TranspoterId'));
+    this.transpoterId = Number(localStorage.getItem('customerId'));
+    // this.transpoterId = 6;
+    console.log('this', this.transpoterId);
     this.getVehicles(this.transpoterId, this.vehicleId);
   }
 

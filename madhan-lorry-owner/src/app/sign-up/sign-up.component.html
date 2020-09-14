@@ -13,16 +13,16 @@
 <ion-content>
     <form class="signup-form" [formGroup]="registrationForm">
         <ion-item class="form-item">
-            <ion-label position="floating">Name:</ion-label>
-            <ion-input type="text" formControlName="name"></ion-input>
-        </ion-item>
-        <ion-item class="form-item">
             <ion-label position="floating">GST:</ion-label>
             <ion-input type="text" formControlName="gstno" (ionBlur)="getDetailsFromGst()"></ion-input>
         </ion-item>
         <ion-item class="form-item">
+            <ion-label position="floating">Name:</ion-label>
+            <ion-input type="text" formControlName="name" [readonly]="companyName!=''"></ion-input>
+        </ion-item>
+        <ion-item class="form-item">
             <ion-label position="floating">PAN:</ion-label>
-            <ion-input type="text" formControlName="panno"></ion-input>
+            <ion-input type="text" formControlName="Pannumber" [readonly]="true"></ion-input>
         </ion-item>
         <ion-item class="form-item">
             <ion-label position="floating">Legal Name:</ion-label>
@@ -30,23 +30,23 @@
         </ion-item>
         <ion-item class="form-item">
             <ion-label position="floating">Address:</ion-label>
-            <ion-input type="text" formControlName="address" [readonly]="true"></ion-input>
+            <ion-textarea type="text" formControlName="address" [readonly]="true"></ion-textarea>
         </ion-item>
         <ion-item class="form-item">
-            <ion-label position="floating">Nature Of Address:</ion-label>
-            <ion-input type="text" formControlName="naddress" [readonly]="true"></ion-input>
+            <ion-label position="floating">Nature Of Business:</ion-label>
+            <ion-textarea type="text" formControlName="natureOfBusiness" [readonly]="true"></ion-textarea>
         </ion-item>
         <ion-item class="form-item">
             <ion-label position="floating">Entitiy Type:</ion-label>
-            <ion-input type="text" formControlName="etype" [readonly]="true"></ion-input>
+            <ion-input type="text" formControlName="entityType" [readonly]="true"></ion-input>
         </ion-item>
         <ion-item class="form-item">
             <ion-label position="floating">Registration Type:</ion-label>
-            <ion-input type="text" formControlName="rtype" [readonly]="true"></ion-input>
+            <ion-input type="text" formControlName="registrationType" [readonly]="true"></ion-input>
         </ion-item>
         <ion-item class="form-item">
             <ion-label position="floating">DeptCode And Type:</ion-label>
-            <ion-input type="text" formControlName="dtype" [readonly]="true"></ion-input>
+            <ion-input type="text" formControlName="deptCodeAndType" [readonly]="true"></ion-input>
         </ion-item>
         <ion-item class="form-item">
             <ion-label position="floating">Registration Date:</ion-label>
@@ -54,50 +54,50 @@
         </ion-item>
         <ion-item class="form-item">
             <ion-label position="floating">Telephone:</ion-label>
-            <ion-input type="text" formControlName="telno" [readonly]="true"></ion-input>
+            <ion-input type="text" formControlName="telePhone" placeholder="044-12345678"></ion-input>
         </ion-item>
         <ion-item class="form-item">
             <ion-label position="floating">Mobile:</ion-label>
-            <ion-input type="text" formControlName="mobno" [readonly]="true"></ion-input>
+            <ion-input type="text" formControlName="mobile" placeholder="9884156285"></ion-input>
         </ion-item>
         <ion-item class="form-item">
             <ion-label position="floating">Email:</ion-label>
-            <ion-input type="text" formControlName="email" [readonly]="true"></ion-input>
+            <ion-input type="text" formControlName="email" placeholder="xyz@gmail.com"></ion-input>
         </ion-item>
         <ion-item class="form-item">
             <ion-label position="floating">Website:</ion-label>
-            <ion-input type="text" formControlName="website" [readonly]="true"></ion-input>
+            <ion-input type="text" formControlName="website" placeholder="www.abcd.com"></ion-input>
         </ion-item>
         <ion-item class="form-item">
             <ion-label position="floating">Description:</ion-label>
-            <ion-input type="text" formControlName="desc" [readonly]="true"></ion-input>
+            <ion-input type="text" formControlName="description"></ion-input>
         </ion-item>
         <ion-item class="form-item">
             <ion-label position="floating">City:</ion-label>
             <ion-select mode="ios" formControlName="refReferenceListCityId" interface="popover" placeholder="Select City">
-                <ion-select-option *ngFor="let item of citys" [value]="item.referenceListId">{{item.referenceListIdDescription}}</ion-select-option>
+                <ion-select-option *ngFor="let item of citys" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
             </ion-select>
         </ion-item>
         <ion-item class="form-item">
             <ion-label position="floating">State:</ion-label>
             <ion-select mode="ios" formControlName="refReferenceListStateId" interface="popover" placeholder="Select State">
-                <ion-select-option *ngFor="let item of states" [value]="item.referenceListId">{{item.referenceListIdDescription}}</ion-select-option>
+                <ion-select-option *ngFor="let item of states" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
             </ion-select>
 
         </ion-item>
         <ion-item class="form-item">
             <ion-label position="floating">Country:</ion-label>
             <ion-select mode="ios" formControlName="refReferenceListCountryId" interface="popover" placeholder="Select Country">
-                <ion-select-option *ngFor="let item of countrys" [value]="item.referenceListId">{{item.referenceListIdDescription}}</ion-select-option>
+                <ion-select-option *ngFor="let item of countrys" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
             </ion-select>
         </ion-item>
         <ion-item class="form-item">
             <ion-label position="floating">Flat/Building No:</ion-label>
-            <ion-input type="text" formControlName="address1"></ion-input>
+            <ion-input type="text" formControlName="address1" placeholder="Door Number"></ion-input>
         </ion-item>
         <ion-item class="form-item">
             <ion-label position="floating">Address Line1:</ion-label>
-            <ion-input type="text" formControlName="address2"></ion-input>
+            <ion-input type="text" formControlName="address2" placeholder="Street/locality"></ion-input>
         </ion-item>
         <ion-item class="form-item">
             <ion-label position="floating">Address Line2:</ion-label>
@@ -105,16 +105,19 @@
         </ion-item>
         <ion-item class="form-item">
             <ion-label position="floating">Land Mark:</ion-label>
-            <ion-input type="text" formControlName="address4"></ion-input>
+            <ion-input type="text" formControlName="address4" placeholder="ABC school"></ion-input>
         </ion-item>
+    </form>
+    <div class="signup">
+
         <ion-item class="form-item">
             <label position="floating">Password: </label>
-            <ion-input type="password" formControlName="password"></ion-input>
+            <ion-input type="password" [(ngModel)]="password" placeholder="********"></ion-input>
         </ion-item>
         <ion-item class="form-item">
             <label position="floating">Confirm Password: </label>
-            <ion-input type="password" formControlName="cnfpassword"></ion-input>
+            <ion-input type="password" [(ngModel)]="cnfpassword" placeholder="********" (ionBlur)="checkCnfPassword()"></ion-input>
         </ion-item>
+    </div>
 
-    </form>
 </ion-content>

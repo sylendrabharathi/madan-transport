@@ -24,28 +24,33 @@ export class ManageDriverCreateComponent implements OnInit {
     refOrgId: [3],
     refCustId: [],
     licenceDocument: ['c:'],
+    refRoleId: ['']
   });
   driverUserForm = this.fb.group({
     mailId: ['', [Validators.required]],
     password: ['', [Validators.required]],
     cnfPassword: ['', [Validators.required]]
-  })
+  });
   userForm = this.fb.group({
     refOrgid: [3],
     userName: [''],
+    // refCreatedBy: [],
     email: [''],
     mobileNo: [''],
     password: [''],
-    processing: [],
+    processing: ['0'],
     comments: [''],
-    emailVerified: [],
+    emailVerified: [true],
     RefEmpId: [null],
-    refCustId: [null]
+    refCustId: [null],
+    refDriverId: [],
+    RefConsignerId: [null]
   });
   driverId = -1;
   transpoterId;
+  userId;
   driverIns: any = {};
-
+  role: any;
   constructor(private fb: FormBuilder,
     private driverApi: ManageDriverApiService,
     private router: Router,
@@ -55,19 +60,31 @@ export class ManageDriverCreateComponent implements OnInit {
 
   ngOnInit() { }
   ionViewWillEnter() {
-    this.transpoterId = Number(localStorage.getItem('TranspoterId'));
+    this.transpoterId = Number(localStorage.getItem('customerId'));
+    this.userId = Number(localStorage.getItem('userId'))
     this.newDriverForm.get('refCustId').setValue(this.transpoterId);
-    this.loadDates();
     this.driverIns = {};
     this.aRoute.params.subscribe(data => {
       this.driverId = data.driverId;
       console.log('this.driverId', this.driverId);
     });
+    this.loadDates();
     if (this.driverId > -1) {
       this.getDriver(this.driverId);
     }
-  }
+    this.getsetRoleId();
 
+  }
+  getsetRoleId() {
+    this.driverApi.getRole('Driver').subscribe(success => {
+      console.log('success', success);
+      this.role = success[0];
+      this.newDriverForm.get('refRoleId').setValue(this.role.roleId);
+    }, failure => {
+      console.log('failure', failure);
+    });
+
+  }
   loadDates() {
     this.date = new Date();
     this.currentYear = this.datePipe.transform(this.date, 'yyyy-MM-dd').toString();
@@ -123,7 +140,7 @@ export class ManageDriverCreateComponent implements OnInit {
   editDriver(req) {
     req.driverId = this.driverIns.driverId;
     req.isActive = this.driverIns.isActive;
-    req.RefModifiedBy = this.transpoterId;
+    req.RefModifiedBy = this.userId;
     console.log('-->', req);
     this.driverApi.editDriver(req, this.driverId).subscribe(success => {
       console.log('success', success);
@@ -136,13 +153,18 @@ export class ManageDriverCreateComponent implements OnInit {
   }
 
   saveDriver(req) {
-    req.RefCreatedBy = this.transpoterId;
+    req.RefCreatedBy = this.userId;
     console.log('==>', req);
     this.driverApi.saveDriver(req).subscribe(success => {
       console.log('success', success);
-      this.saveUser(req);
-      this.successToaster(success[0].msg, 'success');
-      this.router.navigate(['manage-driver']);
+      if (success[0].status == 1) {
+        this.saveUser(req, success[0].Id);
+      }
+      else {
+        this.successToaster(success[0].msg, 'secondary');
+        return;
+      }
+
     },
       failure => {
         console.log('failure', failure);
@@ -163,20 +185,33 @@ export class ManageDriverCreateComponent implements OnInit {
     toast.present();
   }
 
-  saveUser(req) {
-    const userReq = this.setUserData(req);
-    userReq.refCreatedBy = this.newDriverForm.get('refCustId').value;
+  saveUser(req, newDriverId) {
+    const userReq = this.setUserData(req, newDriverId);
+    userReq.refCreatedBy = this.userId;
     this.driverApi.addUser(req).subscribe(success => {
       console.log('user success', success);
-    }, failure => { console.log('user failure', failure); });
+      if (success[0].status == 1) {
+        this.successToaster(success[0].msg, 'success');
+        this.router.navigate(['manage-driver']);
+      }
+      else {
+        this.successToaster(success[0].msg, 'secondary');
+        return;
+      }
+    }, failure => {
+      console.log('user failure', failure);
+      this.successToaster(failure.error, 'secondary');
+      return;
+    });
   }
 
-  setUserData(req) {
+  setUserData(req, newDriverId) {
     this.userForm.get('userName').setValue(req.driverName);
     this.userForm.get('mobileNo').setValue(req.mobileNo);
     this.userForm.get('password').setValue(this.driverUserForm.get('password').value);
     this.userForm.get('email').setValue(this.driverUserForm.get('mailId').value);
-    this.userForm.get('comments').setValue('Driver');
+    this.userForm.get('comments').setValue(this.role.roleName);
+    this.userForm.get('refDriverId').setValue(newDriverId);
     return this.userForm.value;
   }
 }

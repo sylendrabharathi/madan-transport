@@ -20,13 +20,13 @@
             <form [formGroup]="vehicleForm">
                 <ion-item>
                     <ion-label>&nbsp;Vehicle Type :</ion-label>
-                    <ion-select mode="ios" formControlName="RefReferenceListVehicleTypeid" interface="action-sheet" placeholder="Select Vehicle Type">
-                        <ion-select-option *ngFor="let item of vehicleType" [value]="item.referenceListId">{{item.referenceListIdDescription}}</ion-select-option>
+                    <ion-select mode="ios" formControlName="refReferenceListVehicleTypeid" interface="action-sheet" placeholder="Select Vehicle Type">
+                        <ion-select-option *ngFor="let item of vehicleType" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
                     </ion-select>
                 </ion-item>
                 <ion-item>
                     <ion-label>&nbsp;Vehicle NO :</ion-label>
-                    <ion-input type="text" formControlName="VehicleNo" placeholder="Enter Vehicle Number"></ion-input>
+                    <ion-input type="text" formControlName="vehicleNo" placeholder="Enter Vehicle Number"></ion-input>
                 </ion-item>
                 <ion-item>
                     <ion-label>FC Validity :</ion-label>
@@ -52,19 +52,19 @@
                 <ion-item>
                     <ion-label>City</ion-label>
                     <ion-select mode="ios" formControlName="refReferenceListCityId" interface="popover" placeholder="Select City">
-                        <ion-select-option *ngFor="let item of citys" [value]="item.referenceListId">{{item.referenceListIdDescription}}</ion-select-option>
+                        <ion-select-option *ngFor="let item of citys" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
                     </ion-select>
                 </ion-item>
                 <ion-item>
                     <ion-label>State</ion-label>
                     <ion-select mode="ios" formControlName="refReferenceListStateId" interface="popover" placeholder="Select State">
-                        <ion-select-option *ngFor="let item of states" [value]="item.referenceListId">{{item.referenceListIdDescription}}</ion-select-option>
+                        <ion-select-option *ngFor="let item of states" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
                     </ion-select>
                 </ion-item>
                 <ion-item>
                     <ion-label>Country</ion-label>
                     <ion-select mode="ios" formControlName="refReferenceListCountryId" interface="popover" placeholder="Select Country">
-                        <ion-select-option *ngFor="let item of countrys" [value]="item.referenceListId">{{item.referenceListIdDescription}}</ion-select-option>
+                        <ion-select-option *ngFor="let item of countrys" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
                     </ion-select>
                 </ion-item>
                 <ion-item>
@@ -73,11 +73,11 @@
                 </ion-item>
                 <ion-item>
                     <ion-label>&nbsp;Address Line 1:</ion-label>
-                    <ion-input type="text" formControlName="address2" placeholder="Line 1"></ion-input>
+                    <ion-input type="text" formControlName="address2" placeholder="Street/Locality"></ion-input>
                 </ion-item>
                 <ion-item>
                     <ion-label>&nbsp;Address Line 2 :</ion-label>
-                    <ion-input type="text" formControlName="address3" placeholder="Line 2"></ion-input>
+                    <ion-input type="text" formControlName="address3" placeholder=""></ion-input>
                 </ion-item>
                 <ion-item>
                     <ion-label>&nbsp;Land Mark :</ion-label>

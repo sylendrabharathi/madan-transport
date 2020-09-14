@@ -12,7 +12,8 @@ export class ManageDriverListComponent {
 
   drivers: any = [];
   driverDeleteJson: any = {};
-  transpoterId;
+  userId: number;
+  transpoterId: number;
   constructor(private router: Router,
     private driverApi: ManageDriverApiService,
     private toaster: ToastController) { }
@@ -20,7 +21,8 @@ export class ManageDriverListComponent {
   ngOnInit() { }
 
   ionViewWillEnter() {
-    this.transpoterId = Number(localStorage.getItem('TranspoterId'));
+    this.userId = Number(localStorage.getItem('userId'));
+    this.transpoterId = Number(localStorage.getItem('customerId'));
     this.getDriverList(this.transpoterId);
   }
 
@@ -43,7 +45,7 @@ export class ManageDriverListComponent {
   }
   deleteDriver(driverId) {
     this.driverDeleteJson.driverId = driverId;
-    this.driverDeleteJson.refrefCreatedBy = this.transpoterId;
+    this.driverDeleteJson.refrefCreatedBy = this.userId;
     this.driverApi.deleteDriver(this.driverDeleteJson, driverId).subscribe(success => {
       console.log('success', success);
       this.successToaster(success[0].msg);

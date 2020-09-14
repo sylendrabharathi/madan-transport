@@ -15,7 +15,7 @@
     padding-top: 45px;
     text-align: center;
     img {
-        width: 50%;
+        width: 90%;
         margin: auto;
         border-radius: 5px;
     }
@@ -47,4 +47,19 @@ ion-card-content {
         --border-width: 1px;
         --border-style: solid;
     }
+}
+
+.login-form {
+    padding: 10px;
+}
+
+.form-item {
+    margin-top: 15px;
+    // --border-color: grey;
+    --color: black !important;
+    --background: white;
+}
+
+.form-item ion-label {
+    font-size: 13px;
 }

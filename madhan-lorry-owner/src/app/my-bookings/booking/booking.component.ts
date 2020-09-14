@@ -10,14 +10,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class BookingComponent implements OnInit {
   bookingId = 0;
   bookingDetails: any = [];
-  transpoterId;
+  transpoterId: number;
   constructor(private bookingApi: MyBookingsApiService,
     private aroute: ActivatedRoute,
     private route: Router) { }
 
   ngOnInit() { }
   ionViewWillEnter() {
-    this.transpoterId = Number(localStorage.getItem('TranspoterId'));
+    this.transpoterId = Number(localStorage.getItem('customerId'));
     this.aroute.params.subscribe(data => {
       this.bookingId = data.bookingId;
     });

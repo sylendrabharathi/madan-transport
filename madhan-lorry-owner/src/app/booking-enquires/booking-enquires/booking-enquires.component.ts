@@ -20,7 +20,7 @@ export class BookingEnquiresComponent implements OnInit {
 
   ngOnInit() { }
   ionViewWillEnter() {
-    this.transpoterId = Number(localStorage.getItem('TranspoterId'));
+    this.transpoterId = Number(localStorage.getItem('customerId'));
     this.getEnqData(this.transpoterId);
     this.responseJson.RefModifiedBy = this.transpoterId;
   }

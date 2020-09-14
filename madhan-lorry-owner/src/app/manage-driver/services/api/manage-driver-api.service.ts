@@ -32,4 +32,7 @@ export class ManageDriverApiService {
   getUser(userId) {
     return this.api.get(this.api.formUrl('User', userId));
   }
+  getRole(user) {
+    return this.api.get('role/GetRolebyName/?name=' + user)
+  }
 }
