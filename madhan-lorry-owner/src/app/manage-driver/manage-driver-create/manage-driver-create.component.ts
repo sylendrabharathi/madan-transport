@@ -27,7 +27,7 @@ export class ManageDriverCreateComponent implements OnInit {
     refRoleId: ['']
   });
   driverUserForm = this.fb.group({
-    mailId: ['', [Validators.required]],
+    mailId: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
     cnfPassword: ['', [Validators.required]]
   });
@@ -43,7 +43,7 @@ export class ManageDriverCreateComponent implements OnInit {
     emailVerified: [true],
     RefEmpId: [null],
     refCustId: [null],
-    refDriverId: [],
+    RefDriverId: [null],
     RefConsignerId: [null]
   });
   driverId = -1;
@@ -158,7 +158,7 @@ export class ManageDriverCreateComponent implements OnInit {
     this.driverApi.saveDriver(req).subscribe(success => {
       console.log('success', success);
       if (success[0].status == 1) {
-        this.saveUser(req, success[0].Id);
+        this.saveUser(req, success[0].id);
       }
       else {
         this.successToaster(success[0].msg, 'secondary');
@@ -188,6 +188,28 @@ export class ManageDriverCreateComponent implements OnInit {
   saveUser(req, newDriverId) {
     const userReq = this.setUserData(req, newDriverId);
     userReq.refCreatedBy = this.userId;
+    console.log('userReq', userReq);
+
+    this.driverApi.addUser(userReq).subscribe(success => {
+      console.log('user success', success);
+      if (success[0].status == 1) {
+        this.successToaster(success[0].msg, 'success');
+        this.router.navigate(['manage-driver']);
+      }
+      else {
+        this.successToaster(success[0].msg, 'secondary');
+        return;
+      }
+    }, failure => {
+      console.log('user failure', failure);
+      this.successToaster(failure.error, 'secondary');
+      return;
+    });
+  }
+  edit(req, newDriverId) {
+    const userReq = this.setUserData(req, newDriverId);
+    userReq.refModifiedBy = this.userId;
+    userReq.isActive = true;
     this.driverApi.addUser(req).subscribe(success => {
       console.log('user success', success);
       if (success[0].status == 1) {
@@ -204,14 +226,15 @@ export class ManageDriverCreateComponent implements OnInit {
       return;
     });
   }
-
   setUserData(req, newDriverId) {
+    console.log('--', newDriverId);
+
     this.userForm.get('userName').setValue(req.driverName);
     this.userForm.get('mobileNo').setValue(req.mobileNo);
     this.userForm.get('password').setValue(this.driverUserForm.get('password').value);
     this.userForm.get('email').setValue(this.driverUserForm.get('mailId').value);
     this.userForm.get('comments').setValue(this.role.roleName);
-    this.userForm.get('refDriverId').setValue(newDriverId);
+    this.userForm.get('RefDriverId').setValue(newDriverId);
     return this.userForm.value;
   }
 }
