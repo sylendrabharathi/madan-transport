@@ -51,6 +51,7 @@ export class ManageDriverCreateComponent implements OnInit {
   userId;
   driverIns: any = {};
   role: any;
+  editUserId: number;
   constructor(private fb: FormBuilder,
     private driverApi: ManageDriverApiService,
     private router: Router,
@@ -66,6 +67,7 @@ export class ManageDriverCreateComponent implements OnInit {
     this.driverIns = {};
     this.aRoute.params.subscribe(data => {
       this.driverId = data.driverId;
+      this.editUserId = data.userId;
       console.log('this.driverId', this.driverId);
     });
     this.loadDates();
@@ -96,7 +98,12 @@ export class ManageDriverCreateComponent implements OnInit {
     this.driverApi.getDriver(driverId).subscribe((success: any) => {
       console.log('driver success', success);
       this.driverIns = JSON.parse(JSON.stringify(success.value));
-      // this.driverApi.
+      this.driverApi.getUser(this.editUserId).subscribe(success => {
+        console.log('success', success);
+        this.setUserDataforForm(success[0]);
+      }, failure => {
+        console.log('driver user failure', failure);
+      });
       this.setFormData(success.value);
     },
       failure => {
@@ -113,7 +120,10 @@ export class ManageDriverCreateComponent implements OnInit {
     this.newDriverForm.get('refCustId').setValue(data.refCustId);
     this.newDriverForm.updateValueAndValidity();
   }
-
+  setUserDataforForm(data) {
+    this.driverUserForm.get('mailId').setValue(data.email);
+    this.driverUserForm.get('password').setValue(data.password);
+  }
   submit() {
     if (this.newDriverForm.valid && this.driverUserForm.valid) {
       const req: any = this.newDriverForm.value;
@@ -144,8 +154,10 @@ export class ManageDriverCreateComponent implements OnInit {
     console.log('-->', req);
     this.driverApi.editDriver(req, this.driverId).subscribe(success => {
       console.log('success', success);
-      this.successToaster(success[0].msg, 'success');
-      this.router.navigate(['manage-driver']);
+      if (success[0].status == 1) {
+        this.edit(req, success[0].id);
+      }
+
     },
       failure => {
         console.log('failure', failure);
@@ -210,9 +222,10 @@ export class ManageDriverCreateComponent implements OnInit {
     const userReq = this.setUserData(req, newDriverId);
     userReq.refModifiedBy = this.userId;
     userReq.isActive = true;
-    this.driverApi.addUser(req).subscribe(success => {
+    userReq.userId = Number(this.editUserId);
+    this.driverApi.editUser(this.editUserId, userReq).subscribe(success => {
       console.log('user success', success);
-      if (success[0].status == 1) {
+      if (success[0].status == 2) {
         this.successToaster(success[0].msg, 'success');
         this.router.navigate(['manage-driver']);
       }

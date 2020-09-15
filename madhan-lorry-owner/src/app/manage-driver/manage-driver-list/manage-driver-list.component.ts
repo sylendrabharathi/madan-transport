@@ -40,8 +40,8 @@ export class ManageDriverListComponent {
   createDriver() {
     this.router.navigate(['manage-driver', 'create']);
   }
-  edit(driverId) {
-    this.router.navigate(['manage-driver', 'edit', driverId]);
+  edit(driver) {
+    this.router.navigate(['manage-driver', 'edit', driver.driverId, driver.userId]);
   }
   deleteDriver(driverId) {
     this.driverDeleteJson.driverId = driverId;
