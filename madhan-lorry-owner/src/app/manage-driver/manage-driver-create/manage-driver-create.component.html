@@ -3,7 +3,7 @@
         <ion-title *ngIf="!driverId">
             Create Driver
         </ion-title>
-        <ion-title *ngIf="driverId>-1">
+        <ion-title *ngIf="driverId > -1">
             Edit Driver
         </ion-title>
         <ion-buttons slot="start">
@@ -38,6 +38,7 @@
                 </ion-item>
                 <ion-item>
                     <ion-label>Licence Document :</ion-label>
+                    <ion-button (click)="chooseFile()">Choose File</ion-button>
                 </ion-item>
             </form>
             <form [formGroup]="driverUserForm">

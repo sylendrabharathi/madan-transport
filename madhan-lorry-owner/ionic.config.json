@@ -1,5 +1,7 @@
 {
   "name": "madhan-lorry-owner",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

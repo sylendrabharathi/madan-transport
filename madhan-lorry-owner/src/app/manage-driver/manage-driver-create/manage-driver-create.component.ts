@@ -4,6 +4,9 @@ import { ManageDriverApiService } from '../services/api/manage-driver-api.servic
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
+import { FileChooser, FileChooserOptions } from '@ionic-native/file-chooser/ngx';
+import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-manage-driver-create',
@@ -26,6 +29,7 @@ export class ManageDriverCreateComponent implements OnInit {
     licenceDocument: ['c:'],
     refRoleId: ['']
   });
+  licenseDocUrl = '';
   driverUserForm = this.fb.group({
     mailId: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
@@ -57,7 +61,9 @@ export class ManageDriverCreateComponent implements OnInit {
     private router: Router,
     private aRoute: ActivatedRoute,
     private toaster: ToastController,
-    private datePipe: DatePipe) { }
+    private datePipe: DatePipe,
+    private fileChooser: FileChooser,
+    private fileTransfer: FileTransfer) { }
 
   ngOnInit() { }
   ionViewWillEnter() {
@@ -128,12 +134,8 @@ export class ManageDriverCreateComponent implements OnInit {
     if (this.newDriverForm.valid && this.driverUserForm.valid) {
       const req: any = this.newDriverForm.value;
       console.log('inside');
-      if (this.driverId > -1) {
-        this.editDriver(req);
-      }
-      else {
-        this.saveDriver(req);
-      }
+      this.fileUpload(req);
+      
     }
     else {
       console.log('else');
@@ -249,5 +251,53 @@ export class ManageDriverCreateComponent implements OnInit {
     this.userForm.get('comments').setValue(this.role.roleName);
     this.userForm.get('RefDriverId').setValue(newDriverId);
     return this.userForm.value;
+  }
+
+  chooseFile() {
+    console.log('chooseFile');
+    if(!this.newDriverForm.get('licenceNo').value) {
+      this.successToaster('Please enter license no before uploading document', 'secondary');
+      return;
+    }
+    const options: FileChooserOptions = {
+      mime: '"application/pdf"'
+    }
+    this.fileChooser.open(options).then((resp) => {
+      console.log(resp);
+      this.licenseDocUrl = resp.toString();
+      
+    }).catch((err) => {
+      console.log(err);
+      
+    })
+  }
+
+  fileUpload(req) {
+    const fileTransfer: FileTransferObject = this.fileTransfer.create();
+
+    // const 
+    const options: FileUploadOptions = {
+      fileKey: 'file',
+      params: {
+        filename: `${req.licenceNo}DriverLicence.pdf`
+      }
+    };
+
+    const licenseDocURL = `F:/DriverLicenceDocument/${req.licenceNo}DriverLicence.pdf`;
+    req.licenceDocument = licenseDocURL;
+
+    fileTransfer.upload(this.licenseDocUrl, `${environment.serverUrl}Common/PostdriverUploads/?file`, options).then((res) => {
+      console.log(res);
+      if (this.driverId > -1) {
+        this.editDriver(req);
+      }
+      else {
+        this.saveDriver(req);
+      }
+    }).catch(err => {
+      console.log(err);
+      
+    })
+
   }
 }

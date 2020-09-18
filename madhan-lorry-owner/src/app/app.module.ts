@@ -14,6 +14,11 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { FileChooser } from '@ionic-native/file-chooser/ngx';
+import { FileTransfer } from '@ionic-native/file-transfer/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { GoogleMaps } from '@ionic-native/google-maps/ngx';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,6 +38,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    FileChooser,
+    FileTransfer,
+    Geolocation,
+    GoogleMaps,
     ApiService
   ],
   bootstrap: [AppComponent]
