@@ -18,6 +18,7 @@ import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { GoogleMaps } from '@ionic-native/google-maps/ngx';
+import { LocalStorageService } from './services/local-storage/local-storage.service';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { GoogleMaps } from '@ionic-native/google-maps/ngx';
     FileTransfer,
     Geolocation,
     GoogleMaps,
-    ApiService
+    ApiService,
+    LocalStorageService
   ],
   bootstrap: [AppComponent]
 })

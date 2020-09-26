@@ -20,3 +20,20 @@
         font-weight: bolder !important;    
     }
 }
+
+.btn {
+    --background: var(--primary-color) !important;
+    height: 30px;
+    width: 30px;
+    font-size: 17px;
+}
+
+.accpt {
+    margin-top: 75px !important;
+    color: white !important;
+}
+
+.delete-btn {
+    --background: var(--danger-color) !important;
+    color: white;
+}

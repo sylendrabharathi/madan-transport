@@ -77,3 +77,8 @@ ion-content {
 ion-card {
     --background: white;
 }
+
+.danger-toast {
+    background-color: red !important;
+    color: white !important;
+}

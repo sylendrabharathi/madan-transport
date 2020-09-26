@@ -10,6 +10,9 @@ const routes: Routes = [
   },
   {
     path: 'new', component: ConsignerCreateComponent
+  },
+  {
+    path: ':id/edit', component: ConsignerCreateComponent
   }
 ];
 

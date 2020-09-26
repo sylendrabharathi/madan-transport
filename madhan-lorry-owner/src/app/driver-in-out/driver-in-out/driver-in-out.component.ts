@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DriverInOutApiService } from '../services/api/driver-in-out-api.service';
 import { ToastController } from '@ionic/angular';
+import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-driver-in-out',
@@ -15,6 +16,7 @@ export class DriverInOutComponent implements OnInit {
   tranpoterId;
   constructor(private route: Router,
     private inOutApi: DriverInOutApiService,
+    private ls: LocalStorageService,
     private toaster: ToastController) { }
 
   ngOnInit() { }
@@ -23,7 +25,7 @@ export class DriverInOutComponent implements OnInit {
     this.route.navigate(['driver-in-out', 'create']);
   }
   ionViewWillEnter() {
-    this.tranpoterId = Number(localStorage.getItem('customerId'));
+    this.tranpoterId = Number(this.ls.getCustomerId());
     this.getDriverInOut(this.tranpoterId);
   }
   getDriverInOut(transpoterId) {

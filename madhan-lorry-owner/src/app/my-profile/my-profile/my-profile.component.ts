@@ -3,6 +3,7 @@ import { MyProfileApiService } from '../services/api/my-profile-api.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-my-profile',
@@ -40,11 +41,12 @@ export class MyProfileComponent implements OnInit {
   constructor(private profileApi: MyProfileApiService,
     private fb: FormBuilder,
     private toaster: ToastController,
+    private ls: LocalStorageService,
     private router: Router) { }
   profileDatas: any = [];
   ngOnInit() { }
   ionViewWillEnter() {
-    this.userId = Number(localStorage.getItem('userId'));
+    this.userId = Number(this.ls.getUserId());
     this.getProfileData(this.userId);
   }
 

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { LoginApiService } from './service/api/login-api.service';
 import { ToastController } from '@ionic/angular';
+import { LocalStorageService } from '../services/local-storage/local-storage.service';
 
 
 @Component({
@@ -24,7 +25,8 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private loginApi: LoginApiService,
-    private toaster: ToastController
+    private toaster: ToastController,
+    private ls: LocalStorageService
   ) {
     // this.local = new Storage();
   }
@@ -47,10 +49,11 @@ export class LoginComponent implements OnInit {
       this.loginApi.login(this.userName, this.userId, this.phoneNumber, this.loginForm.get('password').value)
         .subscribe((success: any) => {
           console.log('success', success);
-          localStorage.setItem('userId', success[0].userId.toString());
-          console.log('-->', localStorage.getItem('userId'));
+          this.ls.setUserId(success[0].userId.toString())
+          
           // localStorage.setItem('newId', success[0].userId);
-          localStorage.setItem('customerId', success[0].customerId.toString());
+          this.ls.setCustomerId(success[0].customerId.toString())
+          
           this.router.navigate(['home']);
         },
           failure => {

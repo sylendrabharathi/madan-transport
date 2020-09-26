@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ConsignerApiService } from '../service/api/consigner-api.service';
 import { Router } from '@angular/router';
+import { LocalstorageService } from 'src/app/service/localstorage/localstorage.service';
 
 @Component({
   selector: 'app-consigner-list',
@@ -9,11 +10,14 @@ import { Router } from '@angular/router';
 })
 export class ConsignerListComponent implements OnInit {
 
-  id = 2;
+  customerId = null;
+  userId = null;
   consigners = [];
-  constructor(private api: ConsignerApiService, private router: Router) { }
+  constructor(private api: ConsignerApiService, private router: Router, private ls: LocalstorageService) { }
 
   ngOnInit() {
+    this.customerId = this.ls.getCustomerId();
+    this.userId = this.ls.getUserId();
   }
 
   ionViewWillEnter() {
@@ -21,7 +25,7 @@ export class ConsignerListComponent implements OnInit {
   }
 
   getConsigners() {
-    this.api.getConsigners(this.id).subscribe((resp: any) => {
+    this.api.getConsigners(this.customerId).subscribe((resp: any) => {
       console.log(resp);
       this.consigners = resp || [];
     }, err => {
@@ -31,6 +35,16 @@ export class ConsignerListComponent implements OnInit {
 
   createNewConsigner() {
     this.router.navigate(['manage-consigner', 'new']);
+  }
+
+  editConsigner(consigner) {
+    console.log(consigner);
+    this.router.navigate(['manage-consigner', consigner.consignerId, 'edit']);
+  }
+
+  deleteConsigner(consigner) {
+    console.log(consigner);
+    
   }
 
 }

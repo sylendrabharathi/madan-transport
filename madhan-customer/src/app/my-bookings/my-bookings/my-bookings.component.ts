@@ -8,11 +8,12 @@ import { MyBookinsApiService } from '../service/api/my-bookins-api.service';
 })
 export class MyBookingsComponent implements OnInit {
 
-  id = 2;
+  id :any = 0;
   myBookings = [];
   constructor(private api: MyBookinsApiService) { }
 
   ngOnInit() {
+    this.id = localStorage.getItem('customerId');
   }
 
   ionViewWillEnter() {

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ManageDriverApiService } from '../services/api/manage-driver-api.service';
 import { ToastController } from '@ionic/angular';
+import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-manage-driver-list',
@@ -16,13 +17,14 @@ export class ManageDriverListComponent {
   transpoterId: number;
   constructor(private router: Router,
     private driverApi: ManageDriverApiService,
+    private ls: LocalStorageService,
     private toaster: ToastController) { }
 
   ngOnInit() { }
 
   ionViewWillEnter() {
-    this.userId = Number(localStorage.getItem('userId'));
-    this.transpoterId = Number(localStorage.getItem('customerId'));
+    this.userId = Number(this.ls.getUserId());
+    this.transpoterId = Number(this.ls.getCustomerId());
     this.getDriverList(this.transpoterId);
   }
 

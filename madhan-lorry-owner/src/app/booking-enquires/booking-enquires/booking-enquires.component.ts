@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BookingEnquiresApiService } from '../services/api/booking-enquires-api.service';
 import { AlertController } from '@ionic/angular';
+import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-booking-enquires',
@@ -16,11 +17,12 @@ export class BookingEnquiresComponent implements OnInit {
   };
   transpoterId = 0;
   constructor(private benqApi: BookingEnquiresApiService,
+    private ls: LocalStorageService,
     public alertController: AlertController) { }
 
   ngOnInit() { }
   ionViewWillEnter() {
-    this.transpoterId = Number(localStorage.getItem('customerId'));
+    this.transpoterId = Number(this.ls.getCustomerId());
     this.getEnqData(this.transpoterId);
     this.responseJson.RefModifiedBy = this.transpoterId;
   }

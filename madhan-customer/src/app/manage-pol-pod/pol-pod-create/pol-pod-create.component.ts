@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 import { ApiService } from 'src/app/service/api/api.service';
+import { LocalstorageService } from 'src/app/service/localstorage/localstorage.service';
+import { ToastService } from 'src/app/service/toast/toast.service';
 import { PolPodApiService } from '../service/api/pol-pod-api.service';
 
 @Component({
@@ -15,13 +19,23 @@ export class PolPodCreateComponent implements OnInit {
   states = [];
   countries = [];
   polPods = [];
-  constructor(private fb:  FormBuilder, private apiService: ApiService, private polPodApi: PolPodApiService) { }
+  customerId = null;
+  userId = null;
+  polPodId = null;
+  constructor(private fb: FormBuilder, 
+    private apiService: ApiService, private polPodApi: PolPodApiService,
+    private toast: ToastService,
+    private ls: LocalstorageService,
+    private router: Router,
+    private toastCtrl: ToastController) { }
 
   ngOnInit() {
+    this.customerId = this.ls.getCustomerId();
+    this.userId = this.ls.getUserId();
     this.createPolPodForm();
   }
 
-  ionViewWillEnter(){
+  ionViewWillEnter() {
     this.getStates();
     this.getCountries();
     this.getCities();
@@ -31,9 +45,10 @@ export class PolPodCreateComponent implements OnInit {
 
   createPolPodForm() {
     this.polPodForm = this.fb.group({
-      regORGId: [3],
-      refCustId: [null],
-      refCreatedBy: [null],
+      regOrgId: [3],
+      polPodId: [this.polPodId, []],
+      refCustId: [this.customerId],
+      refCreatedBy: [this.userId],
       refReferenceListCityId: ['', [Validators.required]],
       refReferenceListStateId: ['', [Validators.required]],
       refReferenceListCountryId: ['', [Validators.required]],
@@ -73,9 +88,36 @@ export class PolPodCreateComponent implements OnInit {
     })
   }
 
-  submit() {
+  async submit() {
     console.log('submit');
+    if (!this.polPodForm.valid) {
+      this.toast.danger('Please fill all the fields');
+      return;
+    }
+
+    console.log(this.polPodForm.value);
+    const req: any = JSON.parse(JSON.stringify(this.polPodForm.value));
+    req.refCustId = parseInt(req.refCustId);
+    req.refCreatedBy = parseInt(req.refCreatedBy);
+    if(!this.polPodForm.value.polPodId) {
+      delete req['polPodId'];
+      this.savePolPod(req);
+      return;
+    }
     
+    
+
+  }
+
+  savePolPod(req) {
+    this.polPodApi.savePolPod(req).subscribe((resp) => {
+      console.log(resp);
+      this
+      this.router.navigate(['manage-pol-pod']);
+    }, err => {
+      console.log(err);
+      
+    })
   }
 
   getPolPods() {

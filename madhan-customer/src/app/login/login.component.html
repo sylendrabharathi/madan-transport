@@ -19,22 +19,22 @@
         Madan Transport
       </h2> -->
       
-      <form>
+      <form [formGroup]="loginForm">
 
         <ion-item>
-          <ion-label position="fixed">Email</ion-label>
-          <ion-input type="text" placeholder="a@a.com"></ion-input>
+          <ion-label position="fixed">Username: </ion-label>
+          <ion-input type="text" placeholder="Email or Username or Phone Number" formControlName="username"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="fixed">Password</ion-label>
-          <ion-input type="password" placeholder="********"></ion-input>
+          <ion-input type="password" placeholder="********" formControlName="password"></ion-input>
         </ion-item>
 
         <ion-buttons class="btns">
           <ion-button slot="start" class="signup" (click)="singup()">Sign Up</ion-button>
 
-          <ion-button slot="end" class="login">Login</ion-button>
+          <ion-button slot="end" class="login" (click)="login()" [disabled]="!loginForm.valid">Login</ion-button>
         </ion-buttons>
 
       </form>

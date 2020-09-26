@@ -19,6 +19,9 @@ import { MyBookingsModule } from './my-bookings/my-bookings.module';
 import { ManagePolPodModule } from './manage-pol-pod/manage-pol-pod.module';
 import { ProfileModule } from './profile/profile.module';
 import { SettingsModule } from './settings/settings.module';
+import { LocalstorageService } from './service/localstorage/localstorage.service';
+import { SharedService } from './service/shared/shared.service';
+import { ToastService } from './service/toast/toast.service';
 
 @NgModule({
   declarations: [
@@ -45,6 +48,9 @@ import { SettingsModule } from './settings/settings.module';
     StatusBar,
     SplashScreen,
     ApiService,
+    LocalstorageService,
+    SharedService,
+    ToastService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

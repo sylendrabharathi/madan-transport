@@ -15,4 +15,8 @@ export class PolPodApiService {
   getRefPolPods() {
     return this.api.get('ReferenceList/GetRLByRName/?name=POL/POD');
   }
+
+  savePolPod(req: any) {
+    return this.api.post('PolPod', req);
+  }
 }

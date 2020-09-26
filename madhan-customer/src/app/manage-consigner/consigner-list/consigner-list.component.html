@@ -29,11 +29,23 @@
         <span class="field">Email</span> <span>: &nbsp;{{item.email}}</span>
       </div>    
       <div>
-        <span class="field">Mobile</span> <span>: &nbsp;{{item.mobile}}</span>
+        <span class="field">Mobile</span> <span>: &nbsp;{{item.mobileNo}}</span>
       </div>   
       <div>
         <span class="field">City</span> <span>: &nbsp;{{item.city}}</span>
-      </div>     
+      </div>    
+      <div>
+        <ion-fab vertical="top" horizontal="end">
+            <ion-fab-button class="accpt" size="small" (click)="editConsigner(item)">
+                <ion-icon class="highlight" name="pencil-outline"></ion-icon>
+            </ion-fab-button>
+        </ion-fab>
+        <ion-fab vertical="bottom" horizontal="end">
+            <ion-fab-button class="delete-btn" size="small" (click)="deleteConsigner(item)">
+                <ion-icon name="trash-outline"></ion-icon>
+            </ion-fab-button>
+        </ion-fab>
+    </div> 
     </ion-card-content>
   </ion-card>
 </ion-content>

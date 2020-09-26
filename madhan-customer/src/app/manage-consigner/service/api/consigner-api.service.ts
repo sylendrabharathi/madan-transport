@@ -11,4 +11,12 @@ export class ConsignerApiService {
   getConsigners(id) {
     return this.api.get(`Consigner/GetConsignerByCustometID/?custid=${id}`);
   }
+
+  getConsigner(id) {
+    return this.api.get(this.api.formUrl('Consigner', id));
+  }
+
+  saveConsigner(req) {
+    return this.api.post(`Consigner`, req);
+  }
 }

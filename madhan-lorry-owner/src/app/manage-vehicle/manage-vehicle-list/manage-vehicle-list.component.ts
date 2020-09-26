@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ManageVehicleApiService } from '../services/api/manage-vehicle-api.service';
 import { ToastController } from '@ionic/angular';
+import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-manage-vehicle-list',
@@ -16,11 +17,12 @@ export class ManageVehicleListComponent implements OnInit {
   deleteJson: any = {};
   constructor(private router: Router,
     private vehicleApi: ManageVehicleApiService,
+    private ls: LocalStorageService,
     private toaster: ToastController) { }
 
   ngOnInit() { }
   ionViewWillEnter() {
-    this.transpoterId = Number(localStorage.getItem('customerId'));
+    this.transpoterId = Number(this.ls.getCustomerId());
     // this.transpoterId = 6;
     console.log('this', this.transpoterId);
     this.getVehicles(this.transpoterId, this.vehicleId);

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MyBookingsApiService } from '../services/api/my-bookings-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-booking',
@@ -13,11 +14,12 @@ export class BookingComponent implements OnInit {
   transpoterId: number;
   constructor(private bookingApi: MyBookingsApiService,
     private aroute: ActivatedRoute,
+    private ls: LocalStorageService,
     private route: Router) { }
 
   ngOnInit() { }
   ionViewWillEnter() {
-    this.transpoterId = Number(localStorage.getItem('customerId'));
+    this.transpoterId = Number(this.ls.getCustomerId());
     this.aroute.params.subscribe(data => {
       this.bookingId = data.bookingId;
     });

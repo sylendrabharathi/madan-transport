@@ -4,6 +4,7 @@ import { DriverInOutApiService } from '../services/api/driver-in-out-api.service
 import { FormBuilder, Validators } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
+import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-new-driver-in-out',
@@ -35,14 +36,15 @@ export class NewDriverInOutComponent implements OnInit {
     private inOutApi: DriverInOutApiService,
     private fb: FormBuilder,
     private aroute: ActivatedRoute,
+    private ls: LocalStorageService,
     private toaster: ToastController, private datePipe: DatePipe) { }
 
   ngOnInit() {
 
   }
   ionViewWillEnter() {
-    this.userId = Number(localStorage.getItem('userId'));
-    this.transpoterId = Number(localStorage.getItem('customerId'));
+    this.userId = Number(this.ls.getUserId());
+    this.transpoterId = Number(this.ls.getCustomerId());
     this.getVehicleDetails(this.transpoterId);
     this.getDriverDetails(this.transpoterId);
     this.loadDates();

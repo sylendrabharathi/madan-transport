@@ -35,6 +35,8 @@
     "cordova-plugin-filechooser": "^1.2.0",
     "cordova-plugin-geolocation": "^4.0.2",
     "cordova-plugin-googlemaps": "git+https://github.com/mapsplugin/cordova-plugin-googlemaps.git#multiple_maps",
+    "leaflet": "^1.7.1",
+    "leaflet-ant-path": "^1.3.0",
     "rxjs": "~6.5.1",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

@@ -7,6 +7,7 @@ import { DatePipe } from '@angular/common';
 import { FileChooser, FileChooserOptions } from '@ionic-native/file-chooser/ngx';
 import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
 import { environment } from 'src/environments/environment';
+import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-manage-driver-create',
@@ -63,12 +64,13 @@ export class ManageDriverCreateComponent implements OnInit {
     private toaster: ToastController,
     private datePipe: DatePipe,
     private fileChooser: FileChooser,
+    private ls: LocalStorageService,
     private fileTransfer: FileTransfer) { }
 
   ngOnInit() { }
   ionViewWillEnter() {
-    this.transpoterId = Number(localStorage.getItem('customerId'));
-    this.userId = Number(localStorage.getItem('userId'))
+    this.transpoterId = Number(this.ls.getCustomerId());
+    this.userId = Number(this.ls.getUserId())
     this.newDriverForm.get('refCustId').setValue(this.transpoterId);
     this.driverIns = {};
     this.aRoute.params.subscribe(data => {

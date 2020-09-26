@@ -4,6 +4,7 @@ import { ManageVehicleApiService } from '../services/api/manage-vehicle-api.serv
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
+import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-manage-vehicle-create',
@@ -49,14 +50,15 @@ export class ManageVehicleCreateComponent implements OnInit {
     private aRoute: ActivatedRoute,
     private router: Router,
     private toaster: ToastController,
+    private ls: LocalStorageService,
     private datePipe: DatePipe) { }
 
   ngOnInit() { }
   ionViewWillEnter() {
-    this.transpoterId = Number(localStorage.getItem('customerId'));
+    this.transpoterId = Number(this.ls.getCustomerId());
     console.log('thissssss', this.transpoterId);
 
-    this.userId = Number(localStorage.getItem('userId'));
+    this.userId = Number(this.ls.getUserId());
     this.loadDates();
     this.loadIntialDetails();
     this.getParamData();

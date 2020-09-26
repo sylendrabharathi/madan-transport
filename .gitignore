@@ -31,6 +31,7 @@ $RECYCLE.BIN/
 /madhan-admin/platforms
 /madhan-admin/plugins
 /madhan-admin/www
+/madhan-admin/zipalign.exe
 
 /madhan-customer/log.txt
 /madhan-customer/npm-debug.log*
@@ -48,3 +49,6 @@ $RECYCLE.BIN/
 /madhan-customer/platforms
 /madhan-customer/plugins
 /madhan-customer/www
+/madhan-admin/zipalign.exe
+
+/madhan-lorry-owner/zipalign.exe
