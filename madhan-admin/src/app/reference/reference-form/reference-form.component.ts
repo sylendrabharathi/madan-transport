@@ -11,21 +11,20 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class ReferenceFormComponent implements OnInit {
   referenceIds: any = [];
+  referenceData: any = [];
+  referenceListData: any = [];
   sub: any;
   referenceForm = this.fb.group({
-    refOrgId: ['3'],
-    refCreatedBy: null,
     name: ['', [Validators.required]],
     description: ['', [Validators.required]]
   });
   referenceListForm = this.fb.group({
     refOrgId: [3],
     refReferenceId: ['', [Validators.required]],
-    refCreatedBy: null,
     name: ['', [Validators.required]],
     description: ['', [Validators.required]]
   });
-  id: number;
+  editId: number = -1;
   type: string;
   constructor(private fb: FormBuilder,
     private toaster: ToastController,
@@ -33,15 +32,18 @@ export class ReferenceFormComponent implements OnInit {
     private router: Router,
     private aRoute: ActivatedRoute) { }
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  ionViewWillEnter() {
     this.sub = this.aRoute.params.subscribe(param => {
-      this.id = Number(param['id']);
+      this.editId = Number(param['id']);
       this.type = param['type'];
     });
-    console.log('id', 'type', this.id, this.type);
-    this.loadEditData(this.id, this.type);
+    console.log('id', 'type', this.editId, this.type);
     this.getReferenceIds('');
+    this.loadEditData(this.editId, this.type);
   }
+
   getReferenceIds(rateType) {
     this.referenceApi.getReferenceDetails(rateType).pipe().subscribe(success => {
       console.log('success', success);
@@ -52,87 +54,163 @@ export class ReferenceFormComponent implements OnInit {
         console.log('failure', failure);
       });
   }
-  async onReferenceCreation() {
+  onReferenceCreation() {
     if (this.referenceForm.valid) {
-      console.log('valid', this.referenceForm.value);
-      this.referenceApi.addReference(this.referenceForm.value).pipe().subscribe(success => {
-        console.log('added success', success);
+      let req: any = this.referenceForm.value;
+      if (this.editId > -1) {
+        this.editReference(req);
+        return;
+      }
+      this.saveReference(req);
+    }
+    else {
+      this.Toaster('Enter all values', 'danger');
+      this.referenceForm.markAllAsTouched();
+      this.referenceForm.updateValueAndValidity();
+    }
+  }
+  saveReference(req) {
+    req.refCreatedBy = 4;
+    req.refOrgId = 3;
+    this.referenceApi.addReference(req).pipe().subscribe(success => {
+      console.log('added success', success);
+      if (success[0].status == 1) {
+        this.Toaster(success[0].msg, 'success');
         this.referenceForm.reset();
         this.router.navigate(['reference']);
-        // this.referenceIds = success;
-      },
-        failure => {
-          console.log('failure', failure);
-        });
+        return;
+      }
+      this.Toaster(success[0].msg, 'danger');
+    },
+      failure => {
+        console.log('failure', failure);
+        this.Toaster(failure[0].msg, 'danger');
+      });
+  }
+  editReference(req) {
+    req.isActive = this.referenceData.isActive
+    req.refModifiedBy = 4;
+    req.referenceId = this.editId;
+    this.referenceApi.editReference(this.editId, req).pipe().subscribe(success => {
+      console.log('added success', success);
+      if (success[0].status == 2) {
+        this.Toaster(success[0].msg, 'success');
+        this.referenceForm.reset();
+        this.router.navigate(['reference']);
+        return;
+      }
+      this.Toaster(success[0].msg, 'danger');
+    },
+      failure => {
+        console.log('failure', failure);
+        this.Toaster(failure[0].msg, 'danger');
+      });
+  }
+  onReferenceListCreation() {
+    if (this.referenceListForm.valid) {
+      let req: any = this.referenceListForm.value;
+      console.log('valid', this.referenceListForm.value);
+      if (this.editId > -1) {
+        this.editReferenceList(req);
+        return;
+      }
+      this.saveReferenceList(req);
 
     }
     else {
-      const toast = await this.toaster.create({
-        header: 'Error',
-        message: 'Enter all values',
-        position: 'top',
-        duration: 300,
-        mode: 'ios',
-        translucent: true
-      });
-      toast.present();
+      this.Toaster('Enter all values', 'danger');
+      this.referenceListForm.markAllAsTouched();
+      this.referenceListForm.updateValueAndValidity();
     }
   }
-  async onReferenceListCreation() {
-    if (this.referenceListForm.valid) {
-      console.log('valid', this.referenceListForm.value);
-      this.referenceApi.addReferenceList(this.referenceListForm.value).pipe().subscribe(success => {
-        console.log('added success', success);
-        // this.referenceIds = success;
+  saveReferenceList(req) {
+    req.refCreatedBy = 1;
+    this.referenceApi.addReferenceList(req).pipe().subscribe(success => {
+      console.log('added success', success);
+      if (success[0].status == 1) {
+        this.Toaster(success[0].msg, 'success');
         this.referenceListForm.reset();
         this.router.navigate(['reference']);
-      },
-        failure => {
-          console.log('failure', failure);
-        });
-
-
-    }
-    else {
-      const toast = await this.toaster.create({
-        header: 'Error',
-        message: 'Enter all values',
-        position: 'top',
-        duration: 300,
-        mode: 'ios',
-        translucent: true
+        return;
+      }
+      this.Toaster(success[0].msg, 'danger');
+    },
+      failure => {
+        console.log('failure', failure);
       });
-      toast.present();
-    }
   }
+  editReferenceList(req) {
+    req.referenceListId = this.editId;
+    req.isActive = this.referenceListData.isActive != null ? this.referenceListData.isActive : true;
+    req.refModifiedBy = 1;
+    this.referenceApi.editReferenceList(this.editId, req).pipe().subscribe(success => {
+      console.log('added success', success);
+      if (success[0].status == 2) {
+        this.Toaster(success[0].msg, 'success');
+        this.referenceListForm.reset();
+        this.router.navigate(['reference']);
+        return;
+      }
+      this.Toaster(success[0].msg, 'danger');
+    },
+      failure => {
+        console.log('failure', failure);
+      });
+  }
+
   loadEditData(id, type) {
+    console.log(id, type);
+
     if (type == 'Referece') {
-      this.referenceApi.getReferenceById(id).pipe().subscribe(
-        (success: any) => {
-          console.log('s', success);
-          this.referenceForm.get('name').setValue(success[0].name);
-          this.referenceForm.get('description').setValue(success[0].description);
-          this.referenceForm.updateValueAndValidity();
-        },
-        failure => {
-          console.log('f', failure);
-        }
-      );
+      this.loadReference(id);
+      return;
     }
-    else {
-      this.referenceApi.getReferenceById(id).pipe().subscribe(
-        (success: any) => {
-          console.log('s', success);
-          this.referenceListForm.get('refReferenceId').setValue(success[0].referenceId);
-          this.referenceListForm.get('name').setValue(success[0].name);
-          this.referenceListForm.get('description').setValue(success[0].description);
-          this.referenceForm.updateValueAndValidity();
-        },
-        failure => {
-          console.log('f', failure);
-        }
-      );
-    }
+    this.loadReferenceList(id);
+  }
+
+  loadReference(id) {
+    this.referenceApi.getReferenceById(id).pipe().subscribe(
+      (success: any) => {
+        console.log('s', success);
+        this.referenceData = success[0];
+        this.referenceForm.get('name').setValue(success[0].name);
+        this.referenceForm.get('description').setValue(success[0].description);
+        this.referenceForm.updateValueAndValidity();
+      },
+      failure => {
+        console.log('f', failure);
+      });
+  }
+
+  loadReferenceList(id) {
+    this.referenceApi.getReferenceListById(id).pipe().subscribe(
+      (success: any) => {
+        console.log('s', success);
+        this.referenceListData = success[0];
+        this.referenceListForm.get('refReferenceId').setValue(success[0].refReferenceId);
+        this.referenceListForm.get('name').setValue(success[0].name);
+        this.referenceListForm.get('description').setValue(success[0].description);
+        this.referenceListForm.get('refReferenceId').updateValueAndValidity();
+        this.referenceListForm.get('name').updateValueAndValidity();
+        this.referenceListForm.get('description').updateValueAndValidity();
+        this.referenceForm.updateValueAndValidity();
+      },
+      failure => {
+        console.log('f', failure);
+      });
+  }
+
+  async Toaster(message, color) {
+    console.log('inside-->');
+    let toast = await this.toaster.create({
+      message: message,
+      duration: 2000,
+      position: 'top',
+      animated: true,
+      color: color,
+      mode: "ios"
+    });
+    toast.present();
   }
 
 }

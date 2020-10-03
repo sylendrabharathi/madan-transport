@@ -8,21 +8,29 @@ export class PaymentsApiService {
 
   constructor(private api: ApiService) { }
 
-  getBookingPayments(paymentId, bookingId, mappingId) {
+  getBookingPaymentsList(paymentId, bookingId, mappingId) {
     return this.api.get(`BookingPayments/GetBookingPaymentsDetails/?bookingPaymentsId=${paymentId}&bookingId=${bookingId}
     &VehicleBookingMappingId=${mappingId} `);
   }
-  getpaymentMode() {
-    return this.api.get('ReferenceList/GetRLByRName/?name=PaymentMode');
+  getRefernceListData(name) {
+    return this.api.get('ReferenceList/GetRLByRName/?name=' + name);
   }
-  getPaymentPurpose() {
-    return this.api.get('ReferenceList/GetRLByRName/?name=PaymentPurpose');
-  }
+
   addPayment(newPaymnet) {
-    return this.api.put('BookingPayments', newPaymnet);
+    return this.api.post('BookingPayments', newPaymnet);
   }
 
   getVehicleId() {
     return this.api.get('VehicleBookingMapping/GetVBMDetails');
+  }
+
+  editBookingPayment(bookingPaymentId, data) {
+    return this.api.put(this.api.formUrl('BookingPayments', bookingPaymentId), data);
+  }
+  deleteBookingPayment(bookingPaymentId, data) {
+    return this.api.delete(this.api.formUrl('BookingPayments', bookingPaymentId), data);
+  }
+  getBookignPaymentById(bookingPaymentId) {
+    return this.api.get(this.api.formUrl('BookingPayments', bookingPaymentId));
   }
 }

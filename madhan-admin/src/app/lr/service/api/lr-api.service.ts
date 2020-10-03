@@ -9,6 +9,19 @@ export class LrApiService {
   constructor(private api: ApiService) { }
 
   getLrList() {
-    return this.api.get(this.api.formUrl('Booking/GetBookingDetails', '?name=VC'));
+    return this.api.get('Booking/GetBookingCumDetails');
   }
+  getLrDetails(bookingId) {
+    return this.api.get('Booking/GetBookingDetails/?name=&bid=' + bookingId);
+  }
+  editLrDetails(bookingId, req) {
+    // return this.api.put(this.)
+  }
+  addLr(req) { }
+
+  getBookingNumbers() {
+    return this.api.get('Booking/GetBookingIDs');
+  }
+
+
 }

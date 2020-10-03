@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MyProfileApiService } from '../services/api/my-profile-api.service';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
+import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Component({
   selector: 'app-my-profile',
@@ -40,7 +40,7 @@ export class MyProfileComponent implements OnInit {
   editForm: boolean = true;
   constructor(private profileApi: MyProfileApiService,
     private fb: FormBuilder,
-    private toaster: ToastController,
+    private toast: ToastService,
     private ls: LocalStorageService,
     private router: Router) { }
   profileDatas: any = [];
@@ -91,11 +91,11 @@ export class MyProfileComponent implements OnInit {
         success => {
           console.log('success', success);
           if (success[0].status == 2) {
-            this.Toaster(success[0].msg, 'success');
+            this.toast.success(success[0].msg);
             this.router.navigate(['my-profile']);
           }
           else {
-            this.Toaster(success[0].msg, 'danger');
+            this.toast.danger(success[0].msg);
           }
         },
         failure => {
@@ -105,7 +105,7 @@ export class MyProfileComponent implements OnInit {
       );
     }
     else {
-      this.Toaster('Fill all details', 'danger');
+      this.toast.danger('Fill all details');
       this.profileForm.markAllAsTouched();
       this.profileForm.updateValueAndValidity();
       return;
@@ -114,7 +114,7 @@ export class MyProfileComponent implements OnInit {
 
   checkOldPassword() {
     if (this.profileForm.get('oldPassword').value != this.profileForm.get('password').value) {
-      this.Toaster(`Old password doesn't match`, 'warning');
+      this.toast.warning(`Old password doesn't match`);
       this.doNotProceed = true;
       return;
     }
@@ -122,26 +122,12 @@ export class MyProfileComponent implements OnInit {
 
   checkCnfPassword() {
     if (this.profileForm.get('newPassword').value != this.profileForm.get('cnfPassword').value) {
-      this.Toaster(`Password and confirm password doesn't match `, 'warning');
+      this.toast.warning(`Password and confirm password doesn't match `);
       this.doNotProceed = true;
       return;
     }
   }
-  async Toaster(message, color) {
-    console.log('inside-->');
-    let toast: any;
 
-    toast = await this.toaster.create({
-      message: message,
-      duration: 2000,
-      position: 'top',
-      animated: true,
-      color: color,
-      mode: "ios"
-    });
-
-    toast.present();
-  }
 
   setUserData() {
     this.userForm.get('userName').setValue(this.profileForm.get('userName').value);

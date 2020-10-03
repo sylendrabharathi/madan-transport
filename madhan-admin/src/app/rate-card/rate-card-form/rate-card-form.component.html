@@ -1,7 +1,10 @@
 <ion-header [translucent]="true">
     <ion-toolbar class="toolbar">
-        <ion-title>
-            Rate Card
+        <ion-title *ngIf="!isEdit">
+            New Rate Card
+        </ion-title>
+        <ion-title *ngIf="isEdit">
+            Edit Rate Card
         </ion-title>
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
@@ -18,14 +21,14 @@
     <form class="form" [formGroup]="newRateForm">
         <ion-item class="form-item">
             <ion-label>Rate For</ion-label>
-            <ion-select placeholder="select Rate For" formControlName="rateFor" interface="popover" mode="ios" class="select">
+            <ion-select placeholder="select Rate For" formControlName="refRateForReferenceList" interface="popover" mode="ios" class="select">
                 <ion-select-option *ngFor="let item of rateForList" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
             </ion-select>
         </ion-item>
 
         <ion-item class="form-item">
             <ion-label>Source</ion-label>
-            <ion-select placeholder="select Source" formControlName="source" interface="popover" mode="ios" class="select">
+            <ion-select placeholder="select Source" formControlName="refSourceReferenceList" interface="popover" mode="ios" class="select">
                 <ion-select-option *ngFor="let item of locationsList" [value]="item.referenceListId">{{item.referenceListIdName}}
                 </ion-select-option>
             </ion-select>
@@ -33,7 +36,7 @@
 
         <ion-item class="form-item">
             <ion-label>Destination</ion-label>
-            <ion-select placeholder="select Destination" formControlName="destination" interface="popover" mode="ios" class="select">
+            <ion-select placeholder="select Destination" formControlName="refDestinationReferenceList" interface="popover" mode="ios" class="select">
                 <ion-select-option *ngFor="let item of locationsList" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
             </ion-select>
         </ion-item>
@@ -45,7 +48,7 @@
 
         <ion-item class="form-item">
             <ion-label postion="fixed">Validity Date</ion-label>
-            <ion-datetime formControlName="validationDate" placeholder="select date" display-timezone="utc"></ion-datetime>
+            <ion-datetime formControlName="ValidityDate" placeholder="select date" display-timezone="utc"></ion-datetime>
         </ion-item>
 
 

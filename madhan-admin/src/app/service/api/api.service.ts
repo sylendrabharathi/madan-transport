@@ -16,10 +16,11 @@ export class ApiService {
     return this.http.post(this.baseUrl + url, request);
   }
   put(url, request) {
-    return this.http.get(this.baseUrl + url, request);
+    return this.http.put(this.baseUrl + url, request);
   }
-  delete(url) {
-    return this.http.get(this.baseUrl + url);
+  delete(url, request) {
+    console.log('delete', url, request);
+    return this.http.delete(this.baseUrl + url, request);
   }
   formUrl(...urls) {
     return urls.join('/');

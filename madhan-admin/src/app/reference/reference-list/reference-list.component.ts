@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 import { RateApiService } from 'src/app/rate-card/Service/api/rate-api.service';
 import { ReferenceApiService } from '../service/api/reference-api.service';
 
@@ -12,24 +13,14 @@ export class ReferenceListComponent implements OnInit {
   referenceDetails: any = [];
   referenceListDetails: any = [];
   viewChanger: any;
-  constructor(private router: Router, private referenceApi: ReferenceApiService) { }
+  constructor(private router: Router,
+    private referenceApi: ReferenceApiService,
+    private toaster: ToastController) { }
 
-  ngOnInit() {
-    // this.getDetails();
+  ngOnInit() { }
+  ionViewWillEnter() {
     this.getRefenceDeatils('');
   }
-  // getDetails() {
-  //   for (let i = 0; i < 15; i++) {
-  //     const rate = {
-  //       rateFor: 'Customer Rate',
-  //       source: 'Chennai',
-  //       destination: 'Mumbai',
-  //       rate: '20,000',
-  //       validity: new Date()
-  //     };
-  //     this.rateList.push(rate);
-  //   }
-  // }
 
   newReference() {
     this.router.navigate(['reference', 'new']);
@@ -70,5 +61,52 @@ export class ReferenceListComponent implements OnInit {
     else {
       this.router.navigate(['reference', id, 'RefereceList', 'edit']);
     }
+  }
+  deleteReference(id) {
+    let req: any = {};
+    req.referenceId = id;
+    req.refModifiedBy = 1;
+    this.referenceApi.deleteReference(id, req).subscribe(success => {
+      // console.log('added success', success);
+      if (success[0].status == 3) {
+        this.Toaster(success[0].msg, 'success');
+        this.ionViewWillEnter();
+        return;
+      }
+      this.Toaster(success[0].msg, 'danger');
+    },
+      failure => {
+        console.log('failure', failure);
+      });
+  }
+  deleteReferenceList(id) {
+    let req: any = {};
+    req.referenceListId = id;
+    req.refModifiedBy = 1;
+    this.referenceApi.deleteReferenceList(id, req).subscribe(success => {
+      // console.log('added success', success);
+      if (success[0].status == 3) {
+        this.Toaster(success[0].msg, 'success');
+        this.ionViewWillEnter();
+        return;
+      }
+      this.Toaster(success[0].msg, 'danger');
+    },
+      failure => {
+        console.log('failure', failure);
+      });
+  }
+
+  async Toaster(message, color) {
+    console.log('inside-->');
+    let toast = await this.toaster.create({
+      message: message,
+      duration: 2000,
+      position: 'top',
+      animated: true,
+      color: color,
+      mode: "ios"
+    });
+    toast.present();
   }
 }

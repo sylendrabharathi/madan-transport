@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { SignUpApiService } from './service/api/sign-up-api.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { ToastController } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
+import { ToastService } from '../services/toast/toast.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -76,7 +76,7 @@ export class SignUpComponent implements OnInit {
   constructor(private signUpApi: SignUpApiService,
     private router: Router,
     private fb: FormBuilder,
-    private toaster: ToastController,
+    private toast: ToastService,
     private datePipe: DatePipe) { }
 
   ngOnInit() { }
@@ -144,11 +144,12 @@ export class SignUpComponent implements OnInit {
         success => {
           console.log('success registered', success);
           if (success[0].status == 1) {
+            this.toast.success(success[0].msg);
             this.saveUser(success[0].id);
 
           }
           else {
-            this.Toaster(success[0].msg, 'danger');
+            this.toast.danger(success[0].msg);
             return;
           }
         },
@@ -159,41 +160,27 @@ export class SignUpComponent implements OnInit {
       );
     }
     else {
-      this.Toaster('Fill all required Details', 'danger');
+      this.toast.danger('Fill all required Details');
       this.registrationForm.markAllAsTouched();
       this.registrationForm.updateValueAndValidity();
     }
   }
-  async Toaster(message, color) {
-    console.log('inside-->');
-    let toast: any;
 
-    toast = await this.toaster.create({
-      message: message,
-      duration: 2000,
-      position: 'top',
-      animated: true,
-      color: color,
-      mode: "ios"
-    });
-
-    toast.present();
-  }
   saveUser(refCustId) {
     this.setUserData(refCustId);
     this.signUpApi.addUser(this.userForm.value).subscribe(success => {
       console.log('success', success);
       if (success[0].status == 1) {
-        this.Toaster(success[0].msg, 'success');
+        this.toast.success(success[0].msg);
         this.router.navigate(['']);
       }
       else {
-        this.Toaster(success[0].msg, 'success');
+        this.toast.danger(success[0].msg);
         return;
       }
     }, failure => {
       console.log('failure', failure);
-      this.Toaster(failure[0].msg, 'success');
+      this.toast.danger(failure[0].msg);
       return;
     });
   }
@@ -213,12 +200,12 @@ export class SignUpComponent implements OnInit {
   checkCnfPassword() {
     this.doNotProceed = false;
     if ((this.password == '' && this.cnfpassword == '')) {
-      this.Toaster(`Enter valid password `, 'warning');
+      this.toast.warning(`Enter valid password `);
       this.doNotProceed = true;
       return;
     }
     if (this.password != this.cnfpassword) {
-      this.Toaster(`Password and confirm password doesn't match `, 'warning');
+      this.toast.warning(`Password and confirm password doesn't match `);
       this.doNotProceed = true;
       return;
     }

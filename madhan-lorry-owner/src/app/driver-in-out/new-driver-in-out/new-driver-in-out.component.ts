@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DriverInOutApiService } from '../services/api/driver-in-out-api.service';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ToastController } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
+import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Component({
   selector: 'app-new-driver-in-out',
@@ -37,7 +37,7 @@ export class NewDriverInOutComponent implements OnInit {
     private fb: FormBuilder,
     private aroute: ActivatedRoute,
     private ls: LocalStorageService,
-    private toaster: ToastController, private datePipe: DatePipe) { }
+    private toast: ToastService, private datePipe: DatePipe) { }
 
   ngOnInit() {
 
@@ -104,32 +104,7 @@ export class NewDriverInOutComponent implements OnInit {
     this.timeForm.updateValueAndValidity();
   }
 
-  async successToaster(message) {
-    console.log('inside-->');
-    let toast: any;
-    if (this.failure) {
-      toast = await this.toaster.create({
-        message: 'Fill all required fields.',
-        duration: 2000,
-        position: 'top',
-        animated: true,
-        color: "danger",
-        mode: "ios"
-      });
-    }
 
-    else {
-      toast = await this.toaster.create({
-        message: message,
-        duration: 2000,
-        position: 'top',
-        animated: true,
-        color: "success",
-        mode: "ios"
-      });
-    }
-    toast.present();
-  }
   submit() {
     if (this.timeForm.valid) {
       if (this.driverInOutId > -1) {
@@ -141,7 +116,7 @@ export class NewDriverInOutComponent implements OnInit {
     }
     else {
       this.failure = true;
-      this.successToaster('');
+      this.toast.danger('Fill all the fileds');
     }
   }
   editDetails(data) {
@@ -155,7 +130,7 @@ export class NewDriverInOutComponent implements OnInit {
       if (success[0].status == 2) {
         console.log('inside');
 
-        this.successToaster(success[0].msg);
+        this.toast.success(success[0].msg);
         this.route.navigate(['driver-in-out']);
       }
 
@@ -167,7 +142,7 @@ export class NewDriverInOutComponent implements OnInit {
       req.refrefCreatedBy = this.userId;
       console.log('success', success);
       if (success[0].status == 1) {
-        this.successToaster(success[0].msg);
+        this.toast.success(success[0].msg);
         this.route.navigate(['driver-in-out']);
       }
 

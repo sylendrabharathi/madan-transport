@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ManageDriverApiService } from '../services/api/manage-driver-api.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ToastController } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
 import { FileChooser, FileChooserOptions } from '@ionic-native/file-chooser/ngx';
 import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
 import { environment } from 'src/environments/environment';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
+import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Component({
   selector: 'app-manage-driver-create',
@@ -16,7 +16,6 @@ import { LocalStorageService } from 'src/app/services/local-storage/local-storag
   providers: [DatePipe]
 })
 export class ManageDriverCreateComponent implements OnInit {
-  // editDriver:any = [];
   date;
   currentYear;
   maxyear;
@@ -61,7 +60,7 @@ export class ManageDriverCreateComponent implements OnInit {
     private driverApi: ManageDriverApiService,
     private router: Router,
     private aRoute: ActivatedRoute,
-    private toaster: ToastController,
+    private toast: ToastService,
     private datePipe: DatePipe,
     private fileChooser: FileChooser,
     private ls: LocalStorageService,
@@ -137,12 +136,12 @@ export class ManageDriverCreateComponent implements OnInit {
       const req: any = this.newDriverForm.value;
       console.log('inside');
       this.fileUpload(req);
-      
+
     }
     else {
       console.log('else');
       // this.failure = true;
-      this.successToaster('Fill all required fields', 'danger');
+      this.toast.danger('Fill all required fields');
       this.newDriverForm.markAllAsTouched();
       this.newDriverForm.updateValueAndValidity();
       this.driverUserForm.markAllAsTouched();
@@ -159,6 +158,7 @@ export class ManageDriverCreateComponent implements OnInit {
     this.driverApi.editDriver(req, this.driverId).subscribe(success => {
       console.log('success', success);
       if (success[0].status == 1) {
+        this.toast.success(success[0].msg);
         this.edit(req, success[0].id);
       }
 
@@ -174,10 +174,11 @@ export class ManageDriverCreateComponent implements OnInit {
     this.driverApi.saveDriver(req).subscribe(success => {
       console.log('success', success);
       if (success[0].status == 1) {
+        this.toast.success(success[0].msg);
         this.saveUser(req, success[0].id);
       }
       else {
-        this.successToaster(success[0].msg, 'secondary');
+        this.toast.warning(success[0].msg);
         return;
       }
 
@@ -187,19 +188,7 @@ export class ManageDriverCreateComponent implements OnInit {
       })
   }
 
-  async successToaster(message, color) {
-    console.log('inside-->');
-    let toast = await this.toaster.create({
-      message: message,
-      duration: 2000,
-      position: 'top',
-      animated: true,
-      color: color,
-      mode: "ios"
-    });
 
-    toast.present();
-  }
 
   saveUser(req, newDriverId) {
     const userReq = this.setUserData(req, newDriverId);
@@ -209,16 +198,16 @@ export class ManageDriverCreateComponent implements OnInit {
     this.driverApi.addUser(userReq).subscribe(success => {
       console.log('user success', success);
       if (success[0].status == 1) {
-        this.successToaster(success[0].msg, 'success');
+        this.toast.success(success[0].msg);
         this.router.navigate(['manage-driver']);
       }
       else {
-        this.successToaster(success[0].msg, 'secondary');
+        this.toast.warning(success[0].msg);
         return;
       }
     }, failure => {
       console.log('user failure', failure);
-      this.successToaster(failure.error, 'secondary');
+      this.toast.warning(failure.error);
       return;
     });
   }
@@ -230,16 +219,16 @@ export class ManageDriverCreateComponent implements OnInit {
     this.driverApi.editUser(this.editUserId, userReq).subscribe(success => {
       console.log('user success', success);
       if (success[0].status == 2) {
-        this.successToaster(success[0].msg, 'success');
+        this.toast.success(success[0].msg);
         this.router.navigate(['manage-driver']);
       }
       else {
-        this.successToaster(success[0].msg, 'secondary');
+        this.toast.warning(success[0].msg);
         return;
       }
     }, failure => {
       console.log('user failure', failure);
-      this.successToaster(failure.error, 'secondary');
+      this.toast.danger(failure.error);
       return;
     });
   }
@@ -257,8 +246,8 @@ export class ManageDriverCreateComponent implements OnInit {
 
   chooseFile() {
     console.log('chooseFile');
-    if(!this.newDriverForm.get('licenceNo').value) {
-      this.successToaster('Please enter license no before uploading document', 'secondary');
+    if (!this.newDriverForm.get('licenceNo').value) {
+      this.toast.warning('Please enter license no before uploading document');
       return;
     }
     const options: FileChooserOptions = {
@@ -267,10 +256,10 @@ export class ManageDriverCreateComponent implements OnInit {
     this.fileChooser.open(options).then((resp) => {
       console.log(resp);
       this.licenseDocUrl = resp.toString();
-      
+
     }).catch((err) => {
       console.log(err);
-      
+
     })
   }
 
@@ -298,7 +287,7 @@ export class ManageDriverCreateComponent implements OnInit {
       }
     }).catch(err => {
       console.log(err);
-      
+
     })
 
   }

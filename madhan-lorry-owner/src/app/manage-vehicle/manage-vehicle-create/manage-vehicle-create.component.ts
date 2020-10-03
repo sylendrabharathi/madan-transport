@@ -5,6 +5,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
+import { FileChooser, FileChooserOptions } from '@ionic-native/file-chooser/ngx';
+import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
+import { environment } from 'src/environments/environment';
+import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Component({
   selector: 'app-manage-vehicle-create',
@@ -45,13 +49,22 @@ export class ManageVehicleCreateComponent implements OnInit {
   failure = false;
   userId;
   vehicleEditData: any = [];
+  fcDocumentUrl = '';
+  insurenceDocUrl = '';
+  rcDocUrl = '';
+  fcUpload = false;
+  insurenceUpload = false;
+  rcUpload = false;
+  isUploaded = false;
   constructor(private fb: FormBuilder,
     private vehicleApi: ManageVehicleApiService,
     private aRoute: ActivatedRoute,
     private router: Router,
-    private toaster: ToastController,
+    private toast: ToastService,
     private ls: LocalStorageService,
-    private datePipe: DatePipe) { }
+    private datePipe: DatePipe,
+    private fileChooser: FileChooser,
+    private fileTransfer: FileTransfer) { }
 
   ngOnInit() { }
   ionViewWillEnter() {
@@ -122,32 +135,15 @@ export class ManageVehicleCreateComponent implements OnInit {
     this.vehicleForm.get('address4').setValue(data.vehiLocationAddress4);
     this.vehicleForm.updateValueAndValidity();
   }
-  async successToaster(message, color) {
-    console.log('inside-->');
-    let toast = await this.toaster.create({
-      message: message,
-      duration: 2000,
-      position: 'top',
-      animated: true,
-      color: color,
-      mode: "ios"
-    });
 
-    toast.present();
-  }
   submit() {
     if (this.vehicleForm.valid) {
       this.vehicleForm.get('refCustId').setValue(this.transpoterId);
-      if (this.vehicleEditId > -1) {
-        this.editDetails(this.vehicleForm.value);
-      }
-      else {
-        this.saveNewDetails(this.vehicleForm.value);
-      }
+      this.fileUpload(this.vehicleForm.value);
     }
     else {
       // this.failure = true;
-      this.successToaster('Fill all the required fields', 'danger');
+      this.toast.danger('Fill all the required fields');
     }
   }
   editDetails(data) {
@@ -159,10 +155,13 @@ export class ManageVehicleCreateComponent implements OnInit {
     this.vehicleApi.editVehicle(req, this.vehicleEditId).subscribe((success: any) => {
       console.log('success', success, 'success.status', success[0].status);
       if (success[0].status == 2) {
-        this.successToaster(success[0].msg, 'success');
+        this.toast.success(success[0].msg);
         this.router.navigate(['manage-vehicle']);
       }
-    }, failure => { console.log('failure', failure); });
+    }, failure => {
+      console.log('failure', failure);
+      this.toast.danger(failure[0].msg)
+    });
   }
   saveNewDetails(data) {
     const req = data;
@@ -171,10 +170,106 @@ export class ManageVehicleCreateComponent implements OnInit {
     this.vehicleApi.saveVehicle(req).subscribe((success: any) => {
       console.log('success', success);
       if (success[0].status == 1) {
-        this.successToaster(success[0].msg, 'success');
+        this.toast.success(success[0].msg);
         this.router.navigate(['manage-vehicle']);
       }
 
     }, failure => { console.log('failure', failure); });
+  }
+
+  chooseFile(docType) {
+    console.log('chooseFile');
+    const options: FileChooserOptions = {
+      mime: '"application/pdf"'
+    }
+    if (docType = 'FC Doc') {
+      if (!this.vehicleForm.get('fcValidity').value) {
+        this.toast.warning('Please enter FC Validity before uploading document');
+        return;
+      }
+    }
+    else if (docType = 'Insurence Doc') {
+      if (!this.vehicleForm.get('insurenceValidty').value) {
+        this.toast.warning('Please enter Insurence Validity before uploading document');
+        return;
+      }
+    }
+
+    this.fileChooser.open(options).then((resp) => {
+      console.log(resp);
+      if (docType = 'FC Doc') {
+        this.fcDocumentUrl = resp.toString();
+        this.fcUpload = true;
+      }
+      else if (docType = 'Insurence Doc') {
+        this.insurenceDocUrl = resp.toString();
+        this.insurenceUpload = true;
+      }
+      else {
+        this.rcDocUrl = resp.toString();
+        this.rcUpload = true;
+      }
+
+    }).catch((err) => {
+      console.log(err);
+
+    });
+  }
+  fileUpload(req) {
+    const fileTransfer: FileTransferObject = this.fileTransfer.create();
+
+    if (this.fcUpload) {
+      const fcOptions: FileUploadOptions = {
+        fileKey: 'file',
+        params: {
+          filename: `${req.licenceNo}TransFC.pdf`
+        }
+      };
+      req.fCDocument = `F:/TransporterFCDocument/${req.vehicleNo}TransFC.pdf`;
+      fileTransfer.upload(this.fcDocumentUrl, `${environment.serverUrl}Common/PostdriverUploads/?file`, fcOptions).then((res) => {
+        console.log(res);
+      }).catch(err => {
+        console.log(err);
+      });
+    }
+    if (this.insurenceUpload) {
+      const insuranceOptions: FileUploadOptions = {
+        fileKey: 'file',
+        params: {
+          filename: `${req.licenceNo}TransIns.pdf`
+        }
+      };
+      req.fCDocument = `F:/TransporterInsurenceDocument/${req.vehicleNo}TransIns.pdf`;
+      fileTransfer.upload(this.fcDocumentUrl, `${environment.serverUrl}Common/PostdriverUploads/?file`, insuranceOptions).then((res) => {
+        console.log(res);
+      }).catch(err => {
+        console.log(err);
+      });
+    } if (this.rcUpload) {
+      const insuranceOptions: FileUploadOptions = {
+        fileKey: 'file',
+        params: {
+          filename: `${req.licenceNo}TransRC.pdf`
+        }
+      };
+      req.fCDocument = `F:/TransporterRCDocument/${req.vehicleNo}TransRC.pdf`;
+      fileTransfer.upload(this.fcDocumentUrl, `${environment.serverUrl}Common/PostdriverUploads/?file`, insuranceOptions).then((res) => {
+        console.log(res);
+      }).catch(err => {
+        console.log(err);
+      });
+    }
+
+    if (this.vehicleEditId > -1) {
+      this.editDetails(req);
+    }
+    else {
+      this.saveNewDetails(req);
+    }
+
+
+
+
+
   }
 }

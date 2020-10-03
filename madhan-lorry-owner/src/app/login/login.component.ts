@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { LoginApiService } from './service/api/login-api.service';
-import { ToastController } from '@ionic/angular';
 import { LocalStorageService } from '../services/local-storage/local-storage.service';
+import { ToastService } from '../services/toast/toast.service';
 
 
 @Component({
@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private loginApi: LoginApiService,
-    private toaster: ToastController,
+    private toast: ToastService,
     private ls: LocalStorageService
   ) {
     // this.local = new Storage();
@@ -50,39 +50,25 @@ export class LoginComponent implements OnInit {
         .subscribe((success: any) => {
           console.log('success', success);
           this.ls.setUserId(success[0].userId.toString())
-          
+
           // localStorage.setItem('newId', success[0].userId);
           this.ls.setCustomerId(success[0].customerId.toString())
-          
+
           this.router.navigate(['home']);
         },
           failure => {
             console.log('failure', failure);
-            this.failureToaster('Id or Password is incorrect');
+            this.toast.danger('Id or Password is incorrect');
           });
     }
     else {
       this.loginForm.markAllAsTouched();
       this.loginForm.updateValueAndValidity();
-      this.failureToaster('Kindly fill all the details');
+      this.toast.danger('Kindly fill all the details');
     }
   }
   singup() {
     this.router.navigate(['sign-up']);
   }
-  async failureToaster(toastMessage) {
-    console.log('inside-->');
-    let toast: any;
 
-    toast = await this.toaster.create({
-      message: toastMessage,
-      duration: 2000,
-      position: 'top',
-      animated: true,
-      color: "danger",
-      mode: "ios"
-    });
-
-    toast.present();
-  }
 }
