@@ -20,3 +20,13 @@
         font-weight: bolder !important;    
     }
 }
+
+.accpt {
+    margin-top: 75px !important;
+    color: white !important;
+}
+
+.delete-btn {
+    --background: var(--danger-color) !important;
+    color: white;
+}

@@ -12,11 +12,19 @@ export class PolPodApiService {
     return this.api.get('Polpod/GetPolpod');
   }
 
+  getPolPodById(id) {
+    return this.api.get('Polpod/GetPolpod/?polpodid=' + id);
+  }
+
   getRefPolPods() {
     return this.api.get('ReferenceList/GetRLByRName/?name=POL/POD');
   }
 
   savePolPod(req: any) {
     return this.api.post('PolPod', req);
+  }
+
+  deletePolPodById(id) {
+    return this.api.delete('PolPod/' + id);
   }
 }

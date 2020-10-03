@@ -46,6 +46,10 @@ export class ConsignerCreateComponent implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.getRequiredDetails();
+  }
+
+  getRequiredDetails() {
     this.getStates();
     this.getCountries();
     this.getCities();
@@ -115,26 +119,66 @@ export class ConsignerCreateComponent implements OnInit {
     req.mobileNo = req.mobileNo.toString();
     req.refCustId = parseInt(req.refCustId);
     req.refCreatedBy = parseInt(req.refCreatedBy);
-    delete req['consignerId'];
 
+    if(req.consignerId) {
+      this.update(req);
+      return;
+    }
+    this.save(req);
+
+  }
+
+  save(req) {
+    delete req['consignerId'];
     this.consignerApiService.saveConsigner(req).subscribe((resp) => {
       console.log(resp);
       this.router.navigate(['manage-consigner']);
     }, err => {
       console.log(err);
       
-    })
+    });
 
   }
 
-  getConsigner() {
-    this.consignerApiService.getConsigner(this.consignerId).subscribe((res) => {
-      console.log(res);
-      
+  update(req) {
+    this.consignerApiService.updateConsigner(req, req.consignerId).subscribe((resp) => {
+      console.log(resp);
+      this.router.navigate(['manage-consigner']);
     }, err => {
       console.log(err);
       
-    })
+    });
+
+  }
+
+
+  getConsigner() {
+    this.getRequiredDetails();
+    this.consignerApiService.getConsigner(this.consignerId, this.customerId).subscribe((res) => {
+      console.log(res);
+      if(res && res[0]) {
+        this.consignerForm.get('consignerId').setValue(res[0].consignerId);
+        this.consignerForm.get('name').setValue(res[0].name);
+        this.consignerForm.get('gstno').setValue(res[0].gstno);
+        this.consignerForm.get('pannumber').setValue(res[0].pannumber);
+        this.consignerForm.get('phoneNo').setValue(res[0].phoneNo);
+        this.consignerForm.get('mobileNo').setValue(res[0].mobileNo);
+        this.consignerForm.get('email').setValue(res[0].email);
+        this.consignerForm.get('website').setValue(res[0].website);
+        this.consignerForm.get('description').setValue(res[0].description);
+        this.consignerForm.get('refReferenceListCityId').setValue(res[0].refReferenceListCityId);
+        this.consignerForm.get('refReferenceListStateId').setValue(res[0].refReferenceListStateId);
+        this.consignerForm.get('refReferenceListCountryId').setValue(res[0].refReferenceListCountryId);
+        this.consignerForm.get('address1').setValue(res[0].address1);
+        this.consignerForm.get('address2').setValue(res[0].address2);
+        this.consignerForm.get('address3').setValue(res[0].address3);
+        this.consignerForm.get('address4').setValue(res[0].address4);
+
+      }
+    }, err => {
+      console.log(err);
+      
+    });
   }
 
 }

@@ -9,6 +9,9 @@ const routes: Routes = [
     path: '', component: PolPodListComponent
   },
   {
+    path: ':id/edit', component: PolPodCreateComponent
+  },
+  {
     path: 'new', component: PolPodCreateComponent
   }
 ];
