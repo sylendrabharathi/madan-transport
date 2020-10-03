@@ -34,6 +34,20 @@
       <div>
         <span class="field">Country</span> <span>: &nbsp;{{item.country}}</span>
       </div>
+
+      <div>
+        <ion-fab vertical="top" horizontal="end">
+            <ion-fab-button class="accpt" size="small" (click)="editPolPod(item)">
+                <ion-icon class="highlight" name="pencil-outline"></ion-icon>
+            </ion-fab-button>
+        </ion-fab>
+        <ion-fab vertical="bottom" horizontal="end">
+            <ion-fab-button class="delete-btn" size="small" (click)="deletePolPod(item)">
+                <ion-icon name="trash-outline"></ion-icon>
+            </ion-fab-button>
+        </ion-fab>
+    </div> 
+
     </ion-card-content>
   </ion-card>
 </ion-content>

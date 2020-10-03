@@ -11,12 +11,16 @@ export class ConsignerApiService {
   getConsigners(id) {
     return this.api.get(`Consigner/GetConsignerByCustometID/?custid=${id}`);
   }
-
-  getConsigner(id) {
-    return this.api.get(this.api.formUrl('Consigner', id));
+  
+  getConsigner(consignerId, customerId) {
+    return this.api.get(this.api.formUrl(`Consigner/GetConsignerByCustometID/?custid=${customerId}&ConsignerId=${consignerId}`));
   }
 
   saveConsigner(req) {
     return this.api.post(`Consigner`, req);
+  }
+
+  updateConsigner(req, id) {
+    return this.api.put(`Consigner/${id}`, req);
   }
 }

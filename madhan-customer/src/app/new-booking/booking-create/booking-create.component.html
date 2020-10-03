@@ -7,9 +7,214 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button>Submit</ion-button>
+      <ion-button (click)="submit()">Submit</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content>
+
+  <form [formGroup]="bookingForm" class="form">
+
+    <ion-item class="form-item">
+      <ion-label>Consigner</ion-label>
+      <ion-select placeholder="Select One" formControlName="refConsignerID">
+        <ion-select-option *ngFor="let item of consigners" [value]="item.consignerId">{{item.name}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Booking ID:</ion-label>
+      <ion-input type="text" formControlName="value"></ion-input>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Material</ion-label>
+      <ion-select placeholder="Select One" formControlName="refMaterialRefListId">
+        <ion-select-option *ngFor="let item of materials" [value]="item.referenceListId">{{item.referenceListIdName}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Total Qty:</ion-label>
+      <ion-input type="number" formControlName="totalQty"></ion-input>
+    </ion-item>
+
+
+    <ion-item class="form-item">
+      <ion-label>Vehicle Types</ion-label>
+      <ion-select placeholder="Select One" formControlName="refReferenceListVehicleTypeId">
+        <ion-select-option *ngFor="let item of vehicleTypes" [value]="item.referenceListId">{{item.referenceListIdName}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Pol</ion-label>
+      <ion-select placeholder="Select One" formControlName="refReferenceListPOLTypeId">
+        <ion-select-option *ngFor="let item of polPods" [value]="item.referenceListId">{{item.referenceListIdName}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Loading Location</ion-label>
+      <ion-select placeholder="Select One" formControlName="loadingLocation" (ionChange)="changeLocations($event, 'loadingLocation')">
+        <ion-select-option *ngFor="let item of locations" [value]="item.source">{{item.source}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Estimate loading Time</ion-label>
+      <ion-datetime formControlName="estimatedLoadingTime" display-timezone="utc"></ion-datetime>
+
+    </ion-item>
+
+
+    <ion-item class="form-item">
+      <ion-label>Loading City</ion-label>
+      <ion-select placeholder="Select One" formControlName="lRefReferenceListCityId">
+        <ion-select-option *ngFor="let item of cities" [value]="item.referenceListId">{{item.referenceListIdName}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Loading State</ion-label>
+      <ion-select placeholder="Select One" formControlName="lRefReferenceListStateId">
+        <ion-select-option *ngFor="let item of states" [value]="item.referenceListId">{{item.referenceListIdName}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Loading Country</ion-label>
+      <ion-select placeholder="Select One" formControlName="lRefReferenceListCountryId">
+        <ion-select-option *ngFor="let item of countries" [value]="item.referenceListId">{{item.referenceListIdName}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Loading Flat Building No:</ion-label>
+      <ion-textarea type="text" formControlName="lAddress1"></ion-textarea>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Loading Address Line 1:</ion-label>
+      <ion-textarea type="text" formControlName="lAddress2"></ion-textarea>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Loading Address Line 2:</ion-label>
+      <ion-textarea type="text" formControlName="lAddress3"></ion-textarea>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Loading Landmark:</ion-label>
+      <ion-textarea type="text" formControlName="lAddress4"></ion-textarea>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Pod</ion-label>
+      <ion-select placeholder="Select One" formControlName="refReferenceListPODTypeId">
+        <ion-select-option *ngFor="let item of polPods" [value]="item.referenceListId">{{item.referenceListIdName}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>UnLoading Location</ion-label>
+      <ion-select placeholder="Select One" formControlName="unLoadingLocation" (ionChange)="changeLocations($event, 'unLoadingLocation')">
+        <ion-select-option *ngFor="let item of locations" [value]="item.destination">{{item.destination}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    
+
+    
+    <ion-item class="form-item">
+      <ion-label>Estimate Unloading Time</ion-label>
+      <ion-datetime formControlName="estimatedUnloadingTime" display-timezone="utc"></ion-datetime>
+
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>UnLoading City</ion-label>
+      <ion-select placeholder="Select One" formControlName="uRefReferenceListCityId">
+        <ion-select-option *ngFor="let item of cities" [value]="item.referenceListId">{{item.referenceListIdName}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>UnLoading State</ion-label>
+      <ion-select placeholder="Select One" formControlName="uRefReferenceListStateId">
+        <ion-select-option *ngFor="let item of states" [value]="item.referenceListId">{{item.referenceListIdName}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>UnLoading Country</ion-label>
+      <ion-select placeholder="Select One" formControlName="uRefReferenceListCountryId">
+        <ion-select-option *ngFor="let item of countries" [value]="item.referenceListId">{{item.referenceListIdName}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>UnLoading Flat Building No:</ion-label>
+      <ion-textarea type="text" formControlName="uAddress1"></ion-textarea>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>UnLoading Address Line 1:</ion-label>
+      <ion-textarea type="text" formControlName="uAddress2"></ion-textarea>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>UnLoading Address Line 2:</ion-label>
+      <ion-textarea type="text" formControlName="uAddress3"></ion-textarea>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>UnLoading Landmark:</ion-label>
+      <ion-textarea type="text" formControlName="uAddress4"></ion-textarea>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Pol</ion-label>
+      <ion-select placeholder="Select One" formControlName="polId">
+        <ion-select-option *ngFor="let item of pols" [value]="item.polpodid">{{item.location}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Pod</ion-label>
+      <ion-select placeholder="Select One" formControlName="podId">
+        <ion-select-option *ngFor="let item of pols" [value]="item.polpodid">{{item.location}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Booking Date</ion-label>
+      <ion-datetime formControlName="bookingDate" display-timezone="utc"></ion-datetime>
+
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Rate Per Ton</ion-label>
+      <ion-select placeholder="Select One" formControlName="rateId">
+        <ion-select-option *ngFor="let item of rateDetails" [value]="item.rateId">{{item.amount}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+
+  </form>
+</ion-content>

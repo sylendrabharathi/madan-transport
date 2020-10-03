@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { ApiService } from 'src/app/service/api/api.service';
 import { LocalstorageService } from 'src/app/service/localstorage/localstorage.service';
@@ -27,15 +27,25 @@ export class PolPodCreateComponent implements OnInit {
     private toast: ToastService,
     private ls: LocalstorageService,
     private router: Router,
-    private toastCtrl: ToastController) { }
+    private toastCtrl: ToastController,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.customerId = this.ls.getCustomerId();
     this.userId = this.ls.getUserId();
     this.createPolPodForm();
+    this.activatedRoute.params.subscribe(res => {
+      console.log('res = ', res);
+      this.polPodId = res.id;
+      this.getPolPodById();
+    });
   }
 
   ionViewWillEnter() {
+    this.getRequiredDetails();
+  }
+
+  getRequiredDetails() {
     this.getStates();
     this.getCountries();
     this.getCities();
@@ -126,6 +136,33 @@ export class PolPodCreateComponent implements OnInit {
       this.polPods = resp || [];
     }, err => {
 
+    })
+  }
+
+  getPolPodById() {
+    this.getRequiredDetails();
+    this.polPodApi.getPolPodById(this.polPodId).subscribe((response: any[]) => {
+      console.log(response);
+      
+      
+      if(!(response && response[0])) {
+        return;
+      }
+      const res = response[0];
+      this.polPodForm.get('polPodId').setValue(res.polPodId);
+      this.polPodForm.get('refReferenceListCityId').setValue(res.refReferenceListCityId);
+      this.polPodForm.get('refReferenceListStateId').setValue(res.refReferenceListStateId);
+      this.polPodForm.get('refReferenceListCountryId').setValue(res.refReferenceListCountryId);
+      this.polPodForm.get('address1').setValue(res.address1);
+      this.polPodForm.get('address2').setValue(res.address2);
+      this.polPodForm.get('address3').setValue(res.address3);
+      this.polPodForm.get('address4').setValue(res.address4);
+      this.polPodForm.get('location').setValue(res.location);
+      this.polPodForm.get('refReferenceListPolpodtypeId').setValue(res.refReferenceListPolpodtypeId);
+      
+    }, err => {
+      console.log(err);
+      
     })
   }
 
