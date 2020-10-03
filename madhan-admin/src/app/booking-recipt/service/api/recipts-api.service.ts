@@ -12,16 +12,23 @@ export class ReciptsApiService {
     return this.api.get(`BookingReceipt/GetBookingReceiptDetails/?=BookingReceiptId=${paymentId}&bookingId=${bookingId}
     &VehicleBookingMappingId=${mappingId} `);
   }
-  getpaymentMode() {
-    return this.api.get('ReferenceList/GetRLByRName/?name=PaymentMode');
-  }
-  getPaymentPurpose() {
-    return this.api.get('ReferenceList/GetRLByRName/?name=PaymentPurpose');
-  }
-  addRecipt(newRecipt) {
-    return this.api.put('BookingReceipt/', newRecipt);
-  }
   getVehicleId() {
     return this.api.get('VehicleBookingMapping/GetVBMDetails');
+  }
+  getpaymentDetails(name) {
+    return this.api.get('ReferenceList/GetRLByRName/?name=' + name);
+  }
+
+  addRecipt(newRecipt) {
+    return this.api.post('BookingReceipt', newRecipt);
+  }
+  getRecipt(reciptId) {
+    return this.api.get(this.api.formUrl('BookingReceipt', reciptId));
+  }
+  editRecipt(reciptId, req) {
+    return this.api.put(this.api.formUrl('BookingReceipt', reciptId), req);
+  }
+  deleteRecipt(reciptId, req) {
+    return this.api.delete(this.api.formUrl('BookingReceipt', reciptId), req);
   }
 }

@@ -24,8 +24,22 @@ export class ReferenceApiService {
   getReferenceById(id) {
     return this.api.get('Reference/GetReference/?id=' + id);
   }
+
   getReferenceListById(id) {
     return this.api.get(this.api.formUrl('ReferenceList', id));
   }
+  editReference(referenceId, req) {
+    return this.api.put(this.api.formUrl('Reference', referenceId), req);
+  }
+  editReferenceList(referenceId, req) {
+    return this.api.put(this.api.formUrl('ReferenceList', referenceId), req);
+  }
+  deleteReferenceList(referenceId, req) {
+    console.log('-->', req, referenceId);
 
+    return this.api.delete(this.api.formUrl('ReferenceList', referenceId), req);
+  }
+  deleteReference(referenceId, req) {
+    return this.api.delete(this.api.formUrl('Reference', referenceId), req)
+  }
 }

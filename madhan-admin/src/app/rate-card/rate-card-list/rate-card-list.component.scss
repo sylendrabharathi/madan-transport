@@ -15,9 +15,6 @@
             .route {
                 font-size: 16px;
             }
-            ion-icon {
-                margin-right: 5px;
-            }
         }
     }
     
@@ -28,8 +25,7 @@
     .nobackground {
         --background: transparent;
         position: sticky;
-        box-shadow: 0 !important;
-        margin: 0 !important;
+        --padding: 0px !important;
     }
     
     ion-toggle {
@@ -43,23 +39,16 @@
         background: var(--bg-color);
     }
     
-    ion-item {
-        --background: white;
-        --inner-padding-end: 0px;
-        --padding-start: 0px;
-        margin: 0 2% 2% 2%;
-        box-shadow: .8px .8px .8px .8px lightgray;
-    }
-    
     ion-item-option {
         margin: 0 0% 2% 1%;
     }
     
-    ion-card {
-        width: 100%;
-        margin: 0px;
-    }
-    
     .slideicon {
         font-size: 23px;
+    }
+    
+    @media only screen and (min-width:450px) {
+        .accpt {
+            margin-top: 45px;
+        }
     }

@@ -12,51 +12,50 @@
     </ion-toolbar>
 </ion-header>
 <ion-content>
-    <ion-item class="nobackground">
+    <ion-item lines="none" class="nobackground">
         <ion-label style="text-align: right;">Customer Rate</ion-label>
         <ion-toggle [(ngModel)]="viewChanger" (ionChange)="ChangeView()"></ion-toggle>
         <ion-label>Transpoter Rate</ion-label>
     </ion-item>
-    <ion-list>
-        <!-- Sliding item with text options on both sides -->
-        <ion-item-sliding *ngFor="let item of rateList">
-            <ion-item>
-                <ion-card>
-                    <ion-card-content>
-                        <div>
-                            <ion-note>
-                                <ion-icon name="person-outline"></ion-icon> Rate For: {{item.rlRateForName}}
-                            </ion-note>
-                        </div>
-                        <div>
-                            <ion-note>
-                                <ion-icon name="calendar-outline"></ion-icon> Validity: {{item.validityDate | date:'MMM dd, yyyy'}}
-                            </ion-note>
-                        </div>
-                        <div>
-                            <ion-note class="highlight route">
-                                <ion-icon name="location"></ion-icon>
-                                {{item.source}}
-                                <ion-icon name="arrow-forward"></ion-icon> {{item.destination}}
-                            </ion-note>
-                        </div>
-                        <div>
-                            <ion-note>
-                                <ion-icon name="cash-outline"></ion-icon> Rate: {{item.amount}}
-                            </ion-note>
-                        </div>
-                    </ion-card-content>
-                    <!-- </ion-item-sliding> -->
-                </ion-card>
-            </ion-item>
-            <ion-item-options side="end">
-                <ion-item-option color="tertiary" (click)="editRate(item.rateId)">
-                    <ion-icon name="pencil-outline" class="slideicon"></ion-icon>
-                </ion-item-option>
-                <ion-item-option color="danger" (click)="share(item)">
-                    <ion-icon name="trash-outline" class="slideicon"></ion-icon>
-                </ion-item-option>
-            </ion-item-options>
-        </ion-item-sliding>
-    </ion-list>
+    <ion-card *ngFor="let item of rateList">
+        <ion-card-content>
+            <div>
+                <ion-note class="highlight route">
+                    <ion-icon name="location"></ion-icon>
+                    {{item.source}}
+                    <ion-icon name="arrow-forward"></ion-icon> {{item.destination}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="person-outline"></ion-icon> Rate For: {{item.rlRateForName}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="calendar-outline"></ion-icon> Validity: {{item.validityDate | date:'MMM dd, yyyy'}}
+                </ion-note>
+            </div>
+
+            <div>
+                <ion-note>
+                    <ion-icon name="cash-outline"></ion-icon> Rate: {{item.amount}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-fab vertical="top" horizontal="end">
+                    <ion-fab-button class="accpt" size="small" (click)="editRate(item.rateId)">
+                        <ion-icon class="highlight" name="pencil-outline"></ion-icon>
+                    </ion-fab-button>
+
+                </ion-fab>
+                <ion-fab vertical="bottom" horizontal="end">
+                    <ion-fab-button class="cancel" size="small" (click)="deleteRate(item.rateId)">
+                        <ion-icon name="trash-outline"></ion-icon>
+                    </ion-fab-button>
+                </ion-fab>
+            </div>
+        </ion-card-content>
+        <!-- </ion-item-sliding> -->
+    </ion-card>
 </ion-content>

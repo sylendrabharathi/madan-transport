@@ -6,7 +6,8 @@ import { LrListComponent } from './lr-list/lr-list.component';
 
 const routes: Routes = [
   { path: '', component: LrListComponent },
-  { path: 'new', component: LrDetailComponent }
+  { path: 'new', component: LrDetailComponent },
+  { path: 'edit/:bookingId', component: LrDetailComponent }
 ];
 
 @NgModule({

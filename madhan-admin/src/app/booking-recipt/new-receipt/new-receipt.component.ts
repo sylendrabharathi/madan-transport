@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ReciptsApiService } from '../service/api/recipts-api.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
-import { ReciptModel } from 'src/app/models/ReciptModel';
+
 
 @Component({
   selector: 'app-new-receipt',
@@ -15,39 +15,42 @@ export class NewReceiptComponent implements OnInit {
   vehicleBookings: any = [];
   paymentPurposes: any = [];
   paymentModes: any = [];
-  reciptJson: ReciptModel;
+  editReciptData: any = [];
   reciptForm = this.fb.group({
-    vehicleBookingId: ['', [Validators.required]],
-    paymentMode: ['', [Validators.required]],
-    paymentPurpose: ['', [Validators.required]],
-    paymentDate: ['', [Validators.required]],
-    ammount: ['', [Validators.required]],
+    refOrgId: [3],
+    // RefCreatedBy = 1;
+    refBookingId: ['', [Validators.required]],
+    refReferenceListModeId: ['', [Validators.required]],
+    refReferenceListPayPurposeId: ['', [Validators.required]],
+    recipetDate: ['', [Validators.required]],
+    amount: ['', [Validators.required]],
     description: ['']
   });
-
+  EditReciptId = -1;
+  isEdit = false;
   constructor(private router: Router,
     private reciptApi: ReciptsApiService,
     private fb: FormBuilder,
-    private toaster: ToastController) { }
+    private toaster: ToastController,
+    private acitveRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    //  this.reciptJson = new ReciptModel();
+  }
+  ionViewWillEnter() {
     this.getVehicelBookings();
     this.getPaymentPurposes();
     this.getPaymentModes();
-    this.reciptJson = new ReciptModel();
+    this.acitveRoute.params.subscribe(data => {
+      this.EditReciptId = data.reciptId;
+      if (this.EditReciptId > -1) {
+        this.isEdit = true;
+        this.getRecipt(this.EditReciptId);
+      }
+    });
   }
 
   getVehicelBookings() {
-    // for (let i = 0; i < 5; i++) {
-    //   const obj = {
-    //     vehicleBookingMappingId: i,
-    //     polBookingMappingId: i,
-    //     refBookingId: i,
-    //     vehicleId: i,
-    //     vehicleNo: `TN ${(i + 1) * 10} AA ${1111 * (i + 1)}`
-    //   };
-    //   this.vehicleBookings.push(obj);
-    // }
     this.reciptApi.getVehicleId().pipe().subscribe(
       success => {
         console.log('success', success);
@@ -55,25 +58,22 @@ export class NewReceiptComponent implements OnInit {
       },
       failure => {
         console.log('failure', failure);
-      }
-    );
+      });
   }
 
   getPaymentPurposes() {
-    this.reciptApi.getPaymentPurpose().pipe().subscribe(
+    this.reciptApi.getpaymentDetails('PaymentPurpose').pipe().subscribe(
       success => {
         console.log('success', success);
         this.paymentPurposes = success;
       },
       failure => {
         console.log('failure', failure);
-      }
-    );
-
+      });
   }
 
   getPaymentModes() {
-    this.reciptApi.getpaymentMode().pipe().subscribe(
+    this.reciptApi.getpaymentDetails('PaymentMode').pipe().subscribe(
       success => {
         console.log('success', success);
         this.paymentModes = success;
@@ -85,38 +85,95 @@ export class NewReceiptComponent implements OnInit {
 
   }
 
-  async submit() {
+  submit() {
     if (this.reciptForm.valid) {
       console.log('Rateform->', this.reciptForm.value);
-      this.formRateJson(this.reciptForm.value);
-      this.reciptApi.addRecipt(this.reciptJson).pipe().subscribe(success => {
-        console.log('success', success);
-      },
-        failure => {
-          console.log('failure', failure);
-        });
-      this.reciptForm.reset();
-      this.router.navigate(['booking-receipt']);
+      let req: any = this.reciptForm.value;
+      // this.formRateJson(this.reciptForm.value);
+      if (this.EditReciptId > -1) {
+        this.EditRecipt(req);
+        return;
+      }
+      this.saveRecipt(req);
     }
     else {
-      const toast = await this.toaster.create({
-        header: 'Error',
-        message: 'Enter all values',
-        position: 'top',
-        duration: 300,
-        mode: 'ios',
-        translucent: true
-      });
-      toast.present();
+      this.Toaster('Fill all details', 'danger');
+      this.reciptForm.markAllAsTouched();
+      this.reciptForm.updateValueAndValidity();
     }
   }
+
+  saveRecipt(req) {
+    req.refCreatedBy = 1;
+    this.reciptApi.addRecipt(req).pipe().subscribe(success => {
+      console.log('success', success);
+      if (success[0].status == 1) {
+        this.Toaster(success[0].msg, 'success');
+        this.reciptForm.reset();
+        this.router.navigate(['booking-receipt']);
+        return;
+      }
+      this.Toaster(success[0].msg, 'danger');
+    },
+      failure => {
+        console.log('failure', failure);
+      });
+  }
+
+  EditRecipt(req) {
+    req.isActive = this.editReciptData.isActive;
+    req.bookingReceiptId = Number(this.EditReciptId);
+    req.refModifiedBy = this.editReciptData.refModifiedBy;
+    console.log('innn');
+
+    this.reciptApi.editRecipt(this.EditReciptId, req).pipe().subscribe(success => {
+      console.log('success', success);
+      if (success[0].status == 2) {
+        this.Toaster(success[0].msg, 'success');
+        this.reciptForm.reset();
+        this.router.navigate(['booking-receipt']);
+        return;
+      }
+      this.Toaster(success[0].msg, 'danger');
+    },
+      failure => {
+        console.log('failure', failure);
+      });
+  }
+  getRecipt(editId) {
+    this.reciptApi.getRecipt(editId).subscribe(success => {
+      console.log('success', success);
+      this.editReciptData = success[0];
+      this.setEditData();
+    }, failure => {
+      console.log('failure', failure);
+
+    });
+  }
+
+  setEditData() {
+    this.reciptForm.get('refBookingId').setValue(this.editReciptData.refBookingId);
+    this.reciptForm.get('refReferenceListModeId').setValue(this.editReciptData.refReferenceListModeId);
+    this.reciptForm.get('refReferenceListPayPurposeId').setValue(this.editReciptData.refReferenceListPayPurposeId);
+    this.reciptForm.get('recipetDate').setValue(this.editReciptData.recipetDate);
+    this.reciptForm.get('amount').setValue(this.editReciptData.amount);
+    this.reciptForm.get('description').setValue(this.editReciptData.description);
+
+  }
+
+  async Toaster(message, color) {
+    console.log('inside-->');
+    let toast = await this.toaster.create({
+      message: message,
+      duration: 2000,
+      position: 'top',
+      animated: true,
+      color: color,
+      mode: "ios"
+    });
+    toast.present();
+  }
   formRateJson(data) {
-    this.reciptJson.Amount = data.ammount;
-    this.reciptJson.Description = data.description;
-    this.reciptJson.RefReferenceListModeId = data.paymentMode;
-    this.reciptJson.RefReferenceListPayPurposeId = data.paymentPurpose;
-    this.reciptJson.RecipetDate = data.paymentDate;
-    this.reciptJson.RefBookingId = data.vehicleBookingId;
 
   }
 }

@@ -13,30 +13,14 @@ export class LrListComponent implements OnInit {
   constructor(private router: Router, private lrService: LrApiService) { }
 
 
-  ngOnInit() {
-    // this.getDetails();
+  ngOnInit() { }
+
+  ionViewWillEnter() {
     this.getLrList();
-  }
-  getDetails() {
-    for (let i = 0; i < 15; i++) {
-      const lr = {
-        vnumber: 'Tn 00 XX 1234',
-        tname: 'Ragavan',
-        dname: 'Rajesh',
-        source: 'Chennai',
-        destination: 'Mumbai',
-        quantity: '1000',
-        bookingdate: new Date(),
-        totalpay: 20000,
-        balance: 10000
-      };
-      this.lrList.push(lr);
-    }
   }
 
   newLr() {
     this.router.navigate(['lr', 'new']);
-
   }
   getLrList() {
     this.lrService.getLrList().pipe().subscribe(success => {
@@ -47,10 +31,8 @@ export class LrListComponent implements OnInit {
         console.log('failure', failure);
       });
   }
-  calculateBalance(total, advance = 0) {
-    return total - advance;
+  edit(bookingId) {
+    this.router.navigate(['lr', 'edit', bookingId])
   }
-  calculateTotal(qty, ratePerTon = 1, lodingCharges = 100) {
-    return (qty * ratePerTon) + lodingCharges;
-  }
+
 }

@@ -11,54 +11,53 @@
 </ion-header>
 
 <ion-content>
-    <ion-list>
-        <ion-item-sliding *ngFor="let item of bookingReceipts">
-            <ion-item>
-                <ion-card *ngFor="let item of bookingReceipts">
-                    <ion-card-content class="booking-receipt-card-content">
-                        <div class="card-item">
-                            <ion-note class="highlight">
-                                <ion-icon name="pin-outline"></ion-icon>
-                                Booking Id: {{item.bookingId}}
-                            </ion-note>
-                        </div>
-                        <div class="card-item">
-                            <ion-note>
-                                <ion-icon name="card-outline"></ion-icon>
-                                Payment Mode: {{item.rlbppmName}}
-                            </ion-note>
-                        </div>
-                        <div class="card-item">
-                            <ion-note class="highlight">
-                                <ion-icon name="cash-outline"></ion-icon>
-                                Amount: {{item.brAmount}}
-                            </ion-note>
-                        </div>
-                        <div class="card-item">
-                            <ion-note>
-                                <ion-icon name="wallet-outline"></ion-icon>
-                                Payment Purpose: {{item.rlbpppName}}
-                            </ion-note>
+    <ion-card *ngFor="let item of bookingReceipts">
+        <ion-card-content class="booking-receipt-card-content">
+            <div class="card-item">
+                <ion-note class="highlight">
+                    <ion-icon name="pin-outline"></ion-icon>
+                    Booking Id: {{item.bookingId}}
+                </ion-note>
+            </div>
+            <div class="card-item">
+                <ion-note>
+                    <ion-icon name="card-outline"></ion-icon>
+                    Payment Mode: {{item.rlbppmName}}
+                </ion-note>
+            </div>
+            <div class="card-item">
+                <ion-note class="highlight">
+                    <ion-icon name="cash-outline"></ion-icon>
+                    Amount: {{item.brAmount}}
+                </ion-note>
+            </div>
+            <div class="card-item">
+                <ion-note>
+                    <ion-icon name="wallet-outline"></ion-icon>
+                    Payment Purpose: {{item.rlbpppName}}
+                </ion-note>
 
-                        </div>
-                        <div class="card-item">
-                            <ion-note class="highlight">
-                                <ion-icon name="calendar-outline"></ion-icon>
-                                Pay Date: {{item.brPaymentDate | date:'MMM dd, y'}}
-                            </ion-note>
-                        </div>
+            </div>
+            <div class="card-item">
+                <ion-note class="highlight">
+                    <ion-icon name="calendar-outline"></ion-icon>
+                    Pay Date: {{item.brPaymentDate | date:'MMM dd, y'}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-fab vertical="top" horizontal="end">
+                    <ion-fab-button class="accpt" size="small" (click)="editBookingRecipt(item.bookingReceiptId)">
+                        <ion-icon class="highlight" name="pencil-outline"></ion-icon>
+                    </ion-fab-button>
 
-                    </ion-card-content>
-                </ion-card>
-            </ion-item>
-            <ion-item-options side="end">
-                <ion-item-option color="tertiary" (click)="editRate(item.rateId)">
-                    <ion-icon name="pencil-outline" class="slideicon"></ion-icon>
-                </ion-item-option>
-                <ion-item-option color="danger" (click)="share(item)">
-                    <ion-icon name="trash-outline" class="slideicon"></ion-icon>
-                </ion-item-option>
-            </ion-item-options>
-        </ion-item-sliding>
-    </ion-list>
+                </ion-fab>
+                <ion-fab vertical="bottom" horizontal="end">
+                    <ion-fab-button class="cancel" size="small" (click)="deleteBookingRecipt(item.bookingReceiptId)">
+                        <ion-icon name="trash-outline"></ion-icon>
+                    </ion-fab-button>
+                </ion-fab>
+            </div>
+
+        </ion-card-content>
+    </ion-card>
 </ion-content>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 import { PaymentsApiService } from '../service/api/payments-api.service';
 
 @Component({
@@ -9,14 +10,13 @@ import { PaymentsApiService } from '../service/api/payments-api.service';
 })
 export class PaymentsListComponent implements OnInit {
   bookingPayments: any = [];
-  constructor(private router: Router, private paymentApi: PaymentsApiService) { }
+  constructor(private router: Router, private paymentApi: PaymentsApiService,
+    private toaster: ToastController) { }
 
-  ngOnInit() {
-    // this.getBookingPayments();
+  ngOnInit() { }
+  ionViewWillEnter() {
     this.getbookingPaymentList('', '', '');
-
   }
-
   getBookingPayments() {
     for (let i = 0; i < 10; i++) {
       const obj = {
@@ -34,7 +34,7 @@ export class PaymentsListComponent implements OnInit {
 
   }
   getbookingPaymentList(paymentId, bookingId, mappingId) {
-    this.paymentApi.getBookingPayments(paymentId, bookingId, mappingId).pipe().subscribe(success => {
+    this.paymentApi.getBookingPaymentsList(paymentId, bookingId, mappingId).pipe().subscribe(success => {
       console.log('success', success);
       this.bookingPayments = success;
     },
@@ -42,5 +42,42 @@ export class PaymentsListComponent implements OnInit {
         console.log('failure', failure);
       });
   }
+  editpayment(paymentId) {
+    this.router.navigate(['booking-payments', 'edit', paymentId]);
+  }
+  deletePayment(paymentId) {
+    let req: any = {};
+    req.RefModifiedBy = 1;
+    req.BookingPaymentsId = paymentId;
+    console.log(req);
 
+    this.paymentApi.deleteBookingPayment(paymentId, req).subscribe(
+      success => {
+        console.log('delete Data', success);
+        if (success[0].status == 3) {
+          this.Toaster(success[0].msg, 'success');
+          this.ionViewWillEnter();
+          return;
+        }
+        this.Toaster(success[0].msg, 'danger');
+      }, failure => {
+        console.log('ediutdatafail', failure);
+      }
+    );
+  }
+  async Toaster(message, color) {
+    console.log('inside-->');
+    let toast: any;
+
+    toast = await this.toaster.create({
+      message: message,
+      duration: 2000,
+      position: 'top',
+      animated: true,
+      color: color,
+      mode: "ios"
+    });
+
+    toast.present();
+  }
 }

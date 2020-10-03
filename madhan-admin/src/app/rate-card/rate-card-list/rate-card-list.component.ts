@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 
 import { RateApiService } from '../Service/api/rate-api.service';
 
@@ -13,24 +14,12 @@ export class RateCardListComponent implements OnInit {
   viewChanger: any;
 
   constructor(private router: Router,
-    private rateApi: RateApiService) { }
+    private rateApi: RateApiService,
+    private toaster: ToastController) { }
 
-  ngOnInit() {
-
+  ngOnInit() { }
+  ionViewWillEnter() {
     this.getRateList('CustomerRate');
-  }
-
-  getDetails() {
-    for (let i = 0; i < 15; i++) {
-      const rate = {
-        rateFor: 'Customer Rate',
-        source: 'Chennai',
-        destination: 'Mumbai',
-        rate: '20,000',
-        validity: new Date()
-      };
-      this.rateList.push(rate);
-    }
   }
 
   newRate() {
@@ -58,5 +47,38 @@ export class RateCardListComponent implements OnInit {
   editRate(id) {
     this.router.navigate(['rate-card', id, 'edit'])
   }
+  deleteRate(rateId) {
+    let req: any = {};
+    req.rateId = rateId;
+    req.RefModifiedBy = 1;
+    this.rateApi.deleteRate(rateId, req).subscribe(success => {
+      console.log('success', success);
+      if (success[0].status == 3) {
+        this.Toaster(success[0].msg, 'success');
+        this.ionViewWillEnter();
+        return;
+      }
+      this.Toaster(success[0].msg, 'success');
+    },
+      failure => {
+        this.Toaster(failure[0].msg, 'success');
+        console.log('failure', failure);
+      });
+  }
 
+  async Toaster(message, color) {
+    console.log('inside-->');
+    let toast: any;
+
+    toast = await this.toaster.create({
+      message: message,
+      duration: 2000,
+      position: 'top',
+      animated: true,
+      color: color,
+      mode: "ios"
+    });
+
+    toast.present();
+  }
 }

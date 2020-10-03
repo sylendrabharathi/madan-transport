@@ -75,3 +75,16 @@ ion-content {
 ion-card {
     --background: white;
 }
+
+.cancel {
+    --background: #eb445a;
+}
+
+.accpt {
+    --background: white;
+    border-style: solid;
+    border-radius: 50%;
+    border-width: 2px;
+    border-color: var(--primary-color);
+    margin-top: 80%;
+}

@@ -1,6 +1,7 @@
 <ion-header [translucent]="true">
     <ion-toolbar class="toolbar">
-        <ion-title>New Receipt</ion-title>
+        <ion-title *ngIf="!isEdit">New Payments</ion-title>
+        <ion-title *ngIf="isEdit">Edit Payments</ion-title>
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
@@ -17,7 +18,7 @@
             <form [formGroup]="paymentForm">
                 <ion-item class="form-item">
                     <ion-label position="floating">Vehicel Booking Mapping Id</ion-label>
-                    <ion-select placeholder="Select One" interface="popover" mode="ios" formControlName="vehicleBookingId" class="select">
+                    <ion-select placeholder="Select One" interface="popover" mode="ios" formControlName="refVehicleBookingMappingId" class="select">
                         <ion-select-option *ngFor="let item of vehicleBookings" [value]="item.vehicleBookingMappingId">
                             {{item.vehicleNo}}
                         </ion-select-option>
@@ -25,7 +26,7 @@
                 </ion-item>
                 <ion-item class="form-item">
                     <ion-label position="floating">Payment Mode</ion-label>
-                    <ion-select placeholder="Select One" interface="popover" mode="ios" formControlName="paymentMode" class="select">
+                    <ion-select placeholder="Select One" interface="popover" mode="ios" formControlName="refReferenceListModeId" class="select">
                         <ion-select-option *ngFor="let item of paymentModes" [value]="item.referenceListId">
                             {{item.referenceListIdName}}
                         </ion-select-option>
@@ -33,7 +34,7 @@
                 </ion-item>
                 <ion-item class="form-item">
                     <ion-label position="floating">Payment Purpose</ion-label>
-                    <ion-select placeholder="Select One" interface="popover" mode="ios" formControlName="paymentPurpose" class="select">
+                    <ion-select placeholder="Select One" interface="popover" mode="ios" formControlName="refReferenceListPayPurposeId" class="select">
                         <ion-select-option *ngFor="let item of paymentPurposes" [value]="item.referenceListId">
                             {{item.referenceListIdName}}
                         </ion-select-option>
@@ -45,7 +46,7 @@
                 </ion-item>
                 <ion-item class="form-item">
                     <ion-label position="floating">Amount</ion-label>
-                    <ion-input type="number" formControlName="ammount"></ion-input>
+                    <ion-input type="number" formControlName="amount"></ion-input>
                 </ion-item>
                 <ion-item class="form-item">
                     <ion-label position="floating">Description</ion-label>

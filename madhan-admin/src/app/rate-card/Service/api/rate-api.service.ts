@@ -10,23 +10,22 @@ export class RateApiService {
   getRateList(rateType) {
     return this.api.get('rate/GetRateByName/?name=' + rateType);
   }
-  getRateFor() {
-    return this.api.get('ReferenceList/GetRLByRName/?name=rate');
+  getFromRefernceList(name) {
+    return this.api.get('ReferenceList/GetRLByRName/?name=' + name);
   }
-  getLocations() {
-    return this.api.get('ReferenceList/GetRLByRName/?name=LodingPoints');
-  }
+
   addRate(newRateData) {
     return this.api.post('rate', newRateData);
   }
   getRateById(rateId) {
     return this.api.get(this.api.formUrl('rate', rateId));
   }
-  editRate(editedRate) {
-    return this.api.put('', editedRate);
+  editRate(rateId, req) {
+    return this.api.put(this.api.formUrl('rate', rateId), req);
   }
-  getDataAgainstId(id) {
-    return this.api.get(this.api.formUrl('ReferenceList', id));
+
+  deleteRate(rateId, req) {
+    return this.api.delete(this.api.formUrl('rate', rateId), req);
   }
 }
 

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ManageVehicleApiService } from '../services/api/manage-vehicle-api.service';
-import { ToastController } from '@ionic/angular';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
+import { ToastService } from 'src/app/services/toast/toast.service';
+import { AlertServiceService } from 'src/app/services/alert/alert-service.service';
 
 @Component({
   selector: 'app-manage-vehicle-list',
@@ -18,7 +19,8 @@ export class ManageVehicleListComponent implements OnInit {
   constructor(private router: Router,
     private vehicleApi: ManageVehicleApiService,
     private ls: LocalStorageService,
-    private toaster: ToastController) { }
+    private toast: ToastService,
+    private alert: AlertServiceService) { }
 
   ngOnInit() { }
   ionViewWillEnter() {
@@ -44,29 +46,21 @@ export class ManageVehicleListComponent implements OnInit {
     this.router.navigate(['manage-vehicle', 'edit', vehicleId]);
   }
   deleteVehicle(vehicleId) {
-    this.deleteJson.VehicleId = vehicleId;
-    this.deleteJson.RefModifiedBy = this.transpoterId;
-    this.vehicleApi.deleteVehicle(vehicleId, this.deleteJson).subscribe(success => {
-      console.log('success', success);
-      this.successToaster(success[0].msg);
-      this.ionViewWillEnter();
-    },
-      failure => {
-        console.log('failure', failure);
-      });
-  }
-  async successToaster(message) {
-    console.log('inside-->');
-    let toast = await this.toaster.create({
-      message: message,
-      duration: 2000,
-      position: 'top',
-      animated: true,
-      color: "success",
-      mode: "ios"
+    this.alert.alertPromt().then(data => {
+      if (Boolean(data)) {
+        this.deleteJson.VehicleId = vehicleId;
+        this.deleteJson.RefModifiedBy = this.transpoterId;
+        this.vehicleApi.deleteVehicle(vehicleId, this.deleteJson).subscribe(success => {
+          console.log('success', success);
+          this.toast.success(success[0].msg);
+          this.ionViewWillEnter();
+        },
+          failure => {
+            console.log('failure', failure);
+            this.toast.danger(failure[0].msg)
+          });
+      }
     });
-
-
-    toast.present();
   }
+
 }

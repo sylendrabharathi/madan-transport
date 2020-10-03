@@ -44,7 +44,7 @@
             <form [formGroup]="referenceListForm">
                 <ion-item>
                     <ion-label>Reference Id</ion-label>
-                    <ion-select formControlName="refReferenceId" interface="popover" mode="ios" multiple="false" placeholder="Select Id">
+                    <ion-select formControlName="refReferenceId" interface="popover" mode="ios" placeholder="Select Id">
                         <ion-select-option *ngFor="let id of referenceIds" [value]="id.referenceId">{{id.referenceId}}</ion-select-option>
                     </ion-select>
                 </ion-item>

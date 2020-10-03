@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DriverInOutApiService } from '../services/api/driver-in-out-api.service';
-import { ToastController } from '@ionic/angular';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
+import { ToastService } from 'src/app/services/toast/toast.service';
+import { AlertServiceService } from 'src/app/services/alert/alert-service.service';
 
 @Component({
   selector: 'app-driver-in-out',
@@ -17,7 +18,8 @@ export class DriverInOutComponent implements OnInit {
   constructor(private route: Router,
     private inOutApi: DriverInOutApiService,
     private ls: LocalStorageService,
-    private toaster: ToastController) { }
+    private toast: ToastService,
+    private alert: AlertServiceService) { }
 
   ngOnInit() { }
 
@@ -41,30 +43,21 @@ export class DriverInOutComponent implements OnInit {
     this.route.navigate(['driver-in-out', driverInOutId, 'edit']);
   }
   deleteDetails(driverInOutId) {
-    this.deleteJson.driverInOutId = driverInOutId;
-    this.deleteJson.refModifiedBy = this.tranpoterId;
-    this.inOutApi.deleteInOut(this.deleteJson, driverInOutId).subscribe(success => {
-      console.log('success', success);
-      // this.drivers = success;
-      this.successToaster(success[0].msg);
-      this.ionViewWillEnter();
-    },
-      failure => {
-        console.log('failure', failure);
-      });
-  }
-  async successToaster(message) {
-    console.log('inside-->');
-    let toast = await this.toaster.create({
-      message: message,
-      duration: 2000,
-      position: 'top',
-      animated: true,
-      color: "success",
-      mode: "ios"
+    this.alert.alertPromt().then(data => {
+      if (Boolean(data)) {
+        this.deleteJson.driverInOutId = driverInOutId;
+        this.deleteJson.refModifiedBy = this.tranpoterId;
+        this.inOutApi.deleteInOut(this.deleteJson, driverInOutId).subscribe(success => {
+          console.log('success', success);
+          // this.drivers = success;
+          this.toast.success(success[0].msg);
+          this.ionViewWillEnter();
+        },
+          failure => {
+            console.log('failure', failure);
+          });
+      }
     });
-
-
-    toast.present();
   }
+
 }

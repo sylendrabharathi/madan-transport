@@ -24,9 +24,7 @@
     @import "~@ionic/angular/css/text-alignment.css";
     @import "~@ionic/angular/css/text-transformation.css";
     @import "~@ionic/angular/css/flex-utils.css";
-
     @import "~leaflet/dist/leaflet.css";
-
      :root {
         // --primary-color: #d62912;
         --primary-color: #6e33a1;
@@ -89,7 +87,6 @@
         border-radius: 50%;
         border-width: 2px;
         border-color: var(--primary-color);
-        margin-top: 85px;
     }
     
     .my-custom-class {

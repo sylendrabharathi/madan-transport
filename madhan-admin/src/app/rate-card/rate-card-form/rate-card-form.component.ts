@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RateApiService } from '../Service/api/rate-api.service';
 import { FormBuilder, Validators } from '@angular/forms';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { RateCardModel } from 'src/app/models/RateCardModel';
 import { ToastController } from '@ionic/angular';
 
 @Component({
@@ -15,16 +13,18 @@ export class RateCardFormComponent implements OnInit {
 
   rateForList: any = [];
   locationsList: any = [];
-  ratejson: RateCardModel;
   sub: any;
-  rateId: number;
+  editRateId: number = -1;
+  isEdit = false;
   newRateForm = this.fb.group({
-    rateFor: ['', [Validators.required]],
-    source: ['', [Validators.required]],
-    destination: ['', [Validators.required]],
+    refOrgid: [3],
+    refRateForReferenceList: ['', [Validators.required]],
+    refSourceReferenceList: ['', [Validators.required]],
+    refDestinationReferenceList: ['', [Validators.required]],
     amount: ['', Validators.required],
-    validationDate: ['', [Validators.required]]
+    ValidityDate: ['', [Validators.required]]
   });
+  editRateData: any = {};
   constructor(
     private router: Router,
     private rateApi: RateApiService,
@@ -32,106 +32,112 @@ export class RateCardFormComponent implements OnInit {
     private toaster: ToastController,
     private aRouter: ActivatedRoute) { }
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  ionViewWillEnter() {
     this.getRateFor();
     this.getLocations();
-    this.sub = this.aRouter.params.subscribe(param => {
-      this.rateId = Number(param['id']);
-    });
-    if (this.rateId != null) {
-      this.rateApi.getRateById(this.rateId).subscribe((success: any) => {
-        console.log('success', success);
-        this.setDataForEdit(success[0]);
-
-      },
-        failure => { })
+    this.sub = this.aRouter.params.subscribe(
+      param => { this.editRateId = Number(param['id']); });
+    if (this.editRateId > -1) {
+      this.isEdit = true;
+      this.getRateAgainstId(this.editRateId);
     }
+  }
 
-    this.ratejson = new RateCardModel();
+  getRateAgainstId(id) {
+    this.rateApi.getRateById(id).subscribe(
+      (success: any) => {
+        this.editRateData = success[0];
+        this.setDataForEdit(success[0]);
+      },
+      failure => { });
   }
-  ngOnDestroy() {
-    this.sub.unsubscribe();
-  }
+
   setDataForEdit(data) {
-    this.newRateForm.get('rateFor').setValue(data.refRateForReferenceList);
-    this.newRateForm.get('source').setValue(data.refSourceReferenceList);
-    this.newRateForm.get('destination').setValue(data.refDestinationReferenceList);
+    this.newRateForm.get('refRateForReferenceList').setValue(data.refRateForReferenceList);
+    this.newRateForm.get('refSourceReferenceList').setValue(data.refSourceReferenceList);
+    this.newRateForm.get('refDestinationReferenceList').setValue(data.refDestinationReferenceList);
     this.newRateForm.get('amount').setValue(data.amount);
-    this.newRateForm.get('validationDate').setValue(data.validityDate);
+    this.newRateForm.get('ValidityDate').setValue(data.validityDate);
     this.newRateForm.updateValueAndValidity();
   }
-  getDataFromId(data) {
-    let result;
-    this.rateApi.getDataAgainstId(data).pipe().subscribe((success: any) => {
-      console.log('success', success);
-      result = success.name
-      // this.rateForList = success;
-    },
-      failure => {
-        console.log('failure', failure);
-      });
-    return result;
-  }
+
   getRateFor() {
-    this.rateApi.getRateFor().pipe().subscribe(success => {
-      // console.log('success', success);
-      this.rateForList = success;
-    },
-      failure => {
-        console.log('failure', failure);
-      });
+    this.rateApi.getFromRefernceList('rate').pipe().subscribe(
+      success => { this.rateForList = success; },
+      failure => { console.log('failure', failure); });
   }
   getLocations() {
-    this.rateApi.getLocations().pipe().subscribe(success => {
-      // console.log('success', success);
-      this.locationsList = success;
+    this.rateApi.getFromRefernceList('LodingPoints').pipe().subscribe(
+      success => { this.locationsList = success; },
+      failure => { console.log('failure', failure); });
+  }
+  submit() {
+    if (this.newRateForm.valid) {
+      let req = this.newRateForm.value;
+      console.log('Rateform->', this.newRateForm.value);
+      if (this.newRateForm.value.refSourceReferenceList === this.newRateForm.value.refDestinationReferenceList) {
+        this.Toaster('Source and Destination cannot be same', 'danger');
+        return;
+      }
+      if (this.editRateId > -1) {
+        this.editRate(req);
+        return;
+      }
+      this.saveRate(req);
+      return;
+    }
+    else {
+      this.Toaster('Fill all details', 'danger');
+    }
+  }
+
+  saveRate(req) {
+    req.refCreatedBy = 1;
+    this.rateApi.addRate(req).pipe().subscribe(success => {
+      console.log('success', success);
+      if (success[0].status == 1) {
+        this.Toaster(success[0].msg, 'success');
+        this.newRateForm.reset();
+        this.router.navigate(['rate-card']);
+      }
     },
       failure => {
+        this.Toaster(failure[0].msg, 'danger');
         console.log('failure', failure);
       });
   }
-  async submit() {
-    if (this.newRateForm.valid) {
-      console.log('Rateform->', this.newRateForm.value);
-      if (this.newRateForm.value.source === this.newRateForm.value.destination) {
-        const toast = await this.toaster.create({
-          header: 'Warning',
-          message: 'Source and Destination cannot be same',
-          position: 'top',
-          duration: 3000,
-          mode: 'ios',
-          translucent: true
-        });
-        toast.present();
-        return;
+  editRate(req) {
+    req.rateId = this.editRateData.rateId;
+    req.isActive = this.editRateData.isActive;
+    req.refModifiedBy = this.editRateData.refModifiedBy;
+    this.rateApi.editRate(this.editRateId, req).pipe().subscribe(success => {
+      console.log('success', success);
+      if (success[0].status == 2) {
+        this.Toaster(success[0].msg, 'success');
+        this.newRateForm.reset();
+        this.router.navigate(['rate-card']);
       }
-      this.formRateJson(this.newRateForm.value);
-      this.rateApi.addRate(this.ratejson).pipe().subscribe(success => {
-        console.log('success', success);
-      },
-        failure => {
-          console.log('failure', failure);
-        });
-      this.newRateForm.reset();
-      this.router.navigate(['rate-card']);
-    }
-    else {
-      const toast = await this.toaster.create({
-        header: 'Error',
-        message: 'Enter all values',
-        position: 'top',
-        duration: 300,
-        mode: 'ios',
-        translucent: true
+    },
+      failure => {
+        this.Toaster(failure[0].msg, 'danger');
+        console.log('failure', failure);
       });
-      toast.present();
-    }
   }
-  formRateJson(data) {
-    this.ratejson.RefRateForReferenceList = data.rateFor;
-    this.ratejson.RefSourceReferenceList = data.source;
-    this.ratejson.RefDestinationReferenceList = data.destination;
-    this.ratejson.Amount = data.amount;
-    this.ratejson.ValidityDate = data.validationDate;
+  async Toaster(message, color) {
+    console.log('inside-->');
+    let toast: any;
+
+    toast = await this.toaster.create({
+      message: message,
+      duration: 2000,
+      position: 'top',
+      animated: true,
+      color: color,
+      mode: "ios"
+    });
+
+    toast.present();
   }
 }
