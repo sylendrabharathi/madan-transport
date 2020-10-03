@@ -49,6 +49,10 @@ export class BookingCreateComponent implements OnInit {
     this.userId = this.ls.getUserId();
     this.createFG();
     this.getRequiredDetails();
+    this.activeRouter.params.subscribe(res => {
+      console.log(res);
+      
+    })
 
   }
 

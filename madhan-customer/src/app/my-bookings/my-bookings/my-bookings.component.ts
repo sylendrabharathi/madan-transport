@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MyBookinsApiService } from '../service/api/my-bookins-api.service';
 
 @Component({
@@ -8,9 +9,9 @@ import { MyBookinsApiService } from '../service/api/my-bookins-api.service';
 })
 export class MyBookingsComponent implements OnInit {
 
-  id :any = 0;
+  id: any = 0;
   myBookings = [];
-  constructor(private api: MyBookinsApiService) { }
+  constructor(private api: MyBookinsApiService, private router: Router) { }
 
   ngOnInit() {
     this.id = localStorage.getItem('customerId');
@@ -27,6 +28,17 @@ export class MyBookingsComponent implements OnInit {
     }, err => {
 
     })
+  }
+
+  edit(booking) {
+    console.log(booking);
+    this.router.navigate(['new-booking', booking.bookingId, 'edit']);
+    
+  }
+
+  delete(booking) {
+    console.log(booking);
+    
   }
 
 }
