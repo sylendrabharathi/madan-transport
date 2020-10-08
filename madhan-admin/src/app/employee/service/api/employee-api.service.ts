@@ -11,4 +11,7 @@ export class EmployeeApiService {
   getRoleId() {
     return this.api.get('role/GetRolebyName/?name=Customer')
   }
+  getEmployeeById() {
+    return this.api.get('employee/GetEmployeeDetails/?id=');
+  }
 }

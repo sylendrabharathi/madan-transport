@@ -8,6 +8,10 @@ import { LoginGuardGuard } from './guards/login-guard/login-guard.guard';
 
 const routes: Routes = [
   {
+    path: 'login', component: LoginComponent,
+    canActivate: [LoginGuardGuard]
+  },
+  {
     path: 'home',
     loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
     canActivateChild: [AuthGuardGuard]
@@ -27,10 +31,7 @@ const routes: Routes = [
     loadChildren: () => import('./driver-in-out/driver-in-out.module').then(m => m.DriverInOutModule),
     canActivateChild: [AuthGuardGuard]
   },
-  {
-    path: 'login', component: LoginComponent,
-    canActivate: [LoginGuardGuard]
-  },
+
   {
     path: 'sign-up', component: SignUpComponent,
     canActivate: [LoginGuardGuard]

@@ -5,6 +5,9 @@ import { SignUpApiService } from './service/api/sign-up-api.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { DatePipe } from '@angular/common';
 import { ToastService } from '../services/toast/toast.service';
+import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
+import { FileChooser, FileChooserOptions } from '@ionic-native/file-chooser/ngx';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-sign-up',
@@ -73,11 +76,17 @@ export class SignUpComponent implements OnInit {
   companyName = '';
   doNotProceed = false;
   lorryOwner: any = [];
+  gstDocUrl = '';
+  panDocUrl = '';
+  gstUpload = false;
+  panUpload = false;
   constructor(private signUpApi: SignUpApiService,
     private router: Router,
     private fb: FormBuilder,
     private toast: ToastService,
-    private datePipe: DatePipe) { }
+    private datePipe: DatePipe,
+    private fileChooser: FileChooser,
+    private fileTransfer: FileTransfer) { }
 
   ngOnInit() { }
   ionViewWillEnter() {
@@ -139,25 +148,7 @@ export class SignUpComponent implements OnInit {
   submit() {
     if (this.registrationForm.valid && !this.doNotProceed) {
       console.log('this.registrationForm.value', this.registrationForm.value);
-
-      this.signUpApi.registerDetails(this.registrationForm.value).subscribe(
-        success => {
-          console.log('success registered', success);
-          if (success[0].status == 1) {
-            this.toast.success(success[0].msg);
-            this.saveUser(success[0].id);
-
-          }
-          else {
-            this.toast.danger(success[0].msg);
-            return;
-          }
-        },
-        failure => {
-          console.log('failure re', failure);
-
-        }
-      );
+      this.fileUpload(this.registrationForm.value);
     }
     else {
       this.toast.danger('Fill all required Details');
@@ -165,7 +156,24 @@ export class SignUpComponent implements OnInit {
       this.registrationForm.updateValueAndValidity();
     }
   }
+  registerData(req) {
+    this.signUpApi.registerDetails(req).subscribe(
+      success => {
+        console.log('success registered', success);
+        if (success[0].status == 1) {
+          this.toast.success(success[0].msg);
+          this.saveUser(success[0].id);
+        }
+        else {
+          this.toast.danger(success[0].msg);
+          return;
+        }
+      },
+      failure => {
+        console.log('failure re', failure);
+      });
 
+  }
   saveUser(refCustId) {
     this.setUserData(refCustId);
     this.signUpApi.addUser(this.userForm.value).subscribe(success => {
@@ -210,4 +218,73 @@ export class SignUpComponent implements OnInit {
       return;
     }
   }
+  chooseFile(docType) {
+    console.log('chooseFile');
+    const options: FileChooserOptions = {
+      mime: '"application/pdf"'
+    }
+    if (docType = 'gstno') {
+      if (!this.registrationForm.get('gstno').value) {
+        this.toast.warning('Please enter gst Number before uploading document');
+        return;
+      }
+    }
+    else {
+      if (!this.registrationForm.get('Pannumber').value) {
+        this.toast.warning('Please enter pan Number before uploading document');
+        return;
+      }
+    }
+
+    this.fileChooser.open(options).then((resp) => {
+      console.log(resp);
+      if (docType = 'gstno') {
+        this.gstDocUrl = resp.toString();
+        this.gstUpload = true;
+      }
+      else {
+        this.panDocUrl = resp.toString();
+        this.panUpload = true;
+      }
+
+    }).catch((err) => {
+      console.log(err);
+
+    });
+  }
+  fileUpload(req) {
+    const fileTransfer: FileTransferObject = this.fileTransfer.create();
+
+    if (this.gstUpload) {
+      const gstOptions: FileUploadOptions = {
+        fileKey: 'file',
+        params: {
+          filename: `${req.gstno}TransGST.pdf`
+        }
+      };
+      req.gstDocUrl = `F:/TransporterGST/${req.gstno}TransGST.pdf`;
+      fileTransfer.upload(this.gstDocUrl, `${environment.serverUrl}Common/PostdriverUploads/?file`, gstOptions).then((res) => {
+        console.log(res);
+      }).catch(err => {
+        console.log(err);
+      });
+    }
+    if (this.panUpload) {
+      const panOptions: FileUploadOptions = {
+        fileKey: 'file',
+        params: {
+          filename: `${req.Pannumber}TransPAN.pdf`
+        }
+      };
+      req.panDocUrl = `F:/TransporterPAN/${req.Pannumber}TransPAN.pdf`;
+      fileTransfer.upload(this.panDocUrl, `${environment.serverUrl}Common/PostdriverUploads/?file`, panOptions).then((res) => {
+        console.log(res);
+      }).catch(err => {
+        console.log(err);
+      });
+    }
+    this.registerData(req);
+  }
+
+
 }
