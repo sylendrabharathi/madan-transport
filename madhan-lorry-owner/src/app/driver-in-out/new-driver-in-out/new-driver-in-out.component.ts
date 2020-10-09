@@ -5,6 +5,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { LoaderService } from 'src/app/services/Loader/loader.service';
 
 @Component({
   selector: 'app-new-driver-in-out',
@@ -37,12 +38,15 @@ export class NewDriverInOutComponent implements OnInit {
     private fb: FormBuilder,
     private aroute: ActivatedRoute,
     private ls: LocalStorageService,
-    private toast: ToastService, private datePipe: DatePipe) { }
+    private toast: ToastService,
+    private datePipe: DatePipe,
+    private loader: LoaderService) { }
 
   ngOnInit() {
 
   }
   ionViewWillEnter() {
+    this.loader.createLoader();
     this.userId = Number(this.ls.getUserId());
     this.transpoterId = Number(this.ls.getCustomerId());
     this.getVehicleDetails(this.transpoterId);
@@ -54,7 +58,7 @@ export class NewDriverInOutComponent implements OnInit {
     if (this.driverInOutId > 0) {
       this.loadInOutData(this.driverInOutId);
     }
-
+    this.loader.dismissLoader();
   }
   loadDates() {
     this.date = new Date('01' + '-' + '01' + '-' + new Date().getFullYear().toString());
@@ -120,6 +124,7 @@ export class NewDriverInOutComponent implements OnInit {
     }
   }
   editDetails(data) {
+    this.loader.createLoader();
     const req = data;
     req.driverInOutId = Number(this.driverInOutId);
     req.isActive = this.driverData.isActive;
@@ -129,24 +134,26 @@ export class NewDriverInOutComponent implements OnInit {
       console.log('success', success, 'success.status', success.status);
       if (success[0].status == 2) {
         console.log('inside');
-
+        this.loader.dismissLoader();
         this.toast.success(success[0].msg);
         this.route.navigate(['driver-in-out']);
       }
 
-    }, failure => { console.log('failure', failure); });
+    }, failure => { this.loader.dismissLoader(); console.log('failure', failure); });
   }
   saveNewDetails(data) {
+    this.loader.createLoader();
     this.inOutApi.saveInOut(data).subscribe((success: any) => {
       const req = data;
       req.refrefCreatedBy = this.userId;
       console.log('success', success);
       if (success[0].status == 1) {
+        this.loader.dismissLoader();
         this.toast.success(success[0].msg);
         this.route.navigate(['driver-in-out']);
       }
 
-    }, failure => { console.log('failure', failure); });
+    }, failure => { this.loader.dismissLoader(); console.log('failure', failure); });
   }
 
 }

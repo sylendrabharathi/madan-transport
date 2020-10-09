@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MyBookingsApiService } from '../services/api/my-bookings-api.service';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
+import { LoaderService } from 'src/app/services/Loader/loader.service';
 
 @Component({
   selector: 'app-my-bookings',
@@ -14,7 +15,8 @@ export class MyBookingsComponent implements OnInit {
   transpoterId: number;
   constructor(private bookingApi: MyBookingsApiService,
     private ls: LocalStorageService,
-    private router: Router) { }
+    private router: Router,
+    private loader: LoaderService) { }
 
   ngOnInit() { }
   ionViewWillEnter() {
@@ -22,11 +24,14 @@ export class MyBookingsComponent implements OnInit {
     this.getMyBookings(this.transpoterId, '');
   }
   getMyBookings(transpoterId, bookingId) {
+    this.loader.createLoader();
     this.bookingApi.getMyBookings(transpoterId, bookingId).subscribe(success => {
       console.log('success', success);
       this.myBookings = success;
+      this.loader.dismissLoader();
     },
       failure => {
+        this.loader.dismissLoader();
         console.log('failure', failure);
       });
   }

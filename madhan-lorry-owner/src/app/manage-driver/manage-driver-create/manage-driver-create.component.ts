@@ -8,6 +8,7 @@ import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-nati
 import { environment } from 'src/environments/environment';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { LoaderService } from 'src/app/services/Loader/loader.service';
 
 @Component({
   selector: 'app-manage-driver-create',
@@ -64,7 +65,8 @@ export class ManageDriverCreateComponent implements OnInit {
     private datePipe: DatePipe,
     private fileChooser: FileChooser,
     private ls: LocalStorageService,
-    private fileTransfer: FileTransfer) { }
+    private fileTransfer: FileTransfer,
+    private loader: LoaderService) { }
 
   ngOnInit() { }
   ionViewWillEnter() {
@@ -102,18 +104,23 @@ export class ManageDriverCreateComponent implements OnInit {
   }
 
   getDriver(driverId) {
+    this.loader.createLoader();
     this.driverApi.getDriver(driverId).subscribe((success: any) => {
       console.log('driver success', success);
       this.driverIns = JSON.parse(JSON.stringify(success.value));
       this.driverApi.getUser(this.editUserId).subscribe(success => {
         console.log('success', success);
         this.setUserDataforForm(success[0]);
+        // this.loader.dismissLoader();
       }, failure => {
+        this.loader.dismissLoader();
         console.log('driver user failure', failure);
       });
       this.setFormData(success.value);
+      this.loader.dismissLoader();
     },
       failure => {
+        this.loader.dismissLoader();
         console.log('driver failure', failure);
       })
   }
@@ -133,6 +140,7 @@ export class ManageDriverCreateComponent implements OnInit {
   }
   submit() {
     if (this.newDriverForm.valid && this.driverUserForm.valid) {
+      this.loader.createLoader();
       const req: any = this.newDriverForm.value;
       console.log('inside');
       this.fileUpload(req);
@@ -161,9 +169,10 @@ export class ManageDriverCreateComponent implements OnInit {
         this.toast.success(success[0].msg);
         this.edit(req, success[0].id);
       }
-
+      this.loader.dismissLoader();
     },
       failure => {
+        this.loader.dismissLoader();
         console.log('failure', failure);
       })
   }
@@ -181,9 +190,10 @@ export class ManageDriverCreateComponent implements OnInit {
         this.toast.warning(success[0].msg);
         return;
       }
-
+      this.loader.dismissLoader();
     },
       failure => {
+        this.loader.dismissLoader();
         console.log('failure', failure);
       })
   }

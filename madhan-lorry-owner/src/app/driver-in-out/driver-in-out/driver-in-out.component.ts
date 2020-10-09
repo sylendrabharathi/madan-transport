@@ -4,6 +4,7 @@ import { DriverInOutApiService } from '../services/api/driver-in-out-api.service
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { AlertServiceService } from 'src/app/services/alert/alert-service.service';
+import { LoaderService } from 'src/app/services/Loader/loader.service';
 
 @Component({
   selector: 'app-driver-in-out',
@@ -19,7 +20,8 @@ export class DriverInOutComponent implements OnInit {
     private inOutApi: DriverInOutApiService,
     private ls: LocalStorageService,
     private toast: ToastService,
-    private alert: AlertServiceService) { }
+    private alert: AlertServiceService,
+    private loader: LoaderService) { }
 
   ngOnInit() { }
 
@@ -31,11 +33,14 @@ export class DriverInOutComponent implements OnInit {
     this.getDriverInOut(this.tranpoterId);
   }
   getDriverInOut(transpoterId) {
+    this.loader.createLoader();
     this.inOutApi.getdriverInOut(transpoterId).subscribe(success => {
       console.log('success', success);
       this.drivers = success;
+      this.loader.dismissLoader();
     },
       failure => {
+        this.loader.dismissLoader();
         console.log('failure', failure);
       });
   }
@@ -43,6 +48,7 @@ export class DriverInOutComponent implements OnInit {
     this.route.navigate(['driver-in-out', driverInOutId, 'edit']);
   }
   deleteDetails(driverInOutId) {
+    this.loader.createLoader();
     this.alert.alertPromt().then(data => {
       if (Boolean(data)) {
         this.deleteJson.driverInOutId = driverInOutId;
@@ -52,8 +58,10 @@ export class DriverInOutComponent implements OnInit {
           // this.drivers = success;
           this.toast.success(success[0].msg);
           this.ionViewWillEnter();
+          this.loader.dismissLoader();
         },
           failure => {
+            this.loader.dismissLoader();
             console.log('failure', failure);
           });
       }

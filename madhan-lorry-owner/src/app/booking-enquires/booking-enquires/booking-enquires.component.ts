@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BookingEnquiresApiService } from '../services/api/booking-enquires-api.service';
 import { AlertController } from '@ionic/angular';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
+import { LoaderService } from 'src/app/services/Loader/loader.service';
 
 @Component({
   selector: 'app-booking-enquires',
@@ -18,22 +19,27 @@ export class BookingEnquiresComponent implements OnInit {
   transpoterId = 0;
   constructor(private benqApi: BookingEnquiresApiService,
     private ls: LocalStorageService,
-    public alertController: AlertController) { }
+    public alertController: AlertController,
+    private loader: LoaderService) { }
 
   ngOnInit() { }
   ionViewWillEnter() {
     this.transpoterId = Number(this.ls.getCustomerId());
+    console.log(this.transpoterId);
+
     this.getEnqData(this.transpoterId);
     this.responseJson.RefModifiedBy = this.transpoterId;
   }
   getEnqData(ownerId) {
+    this.loader.createLoader()
     this.benqApi.getAllBookingEnq(ownerId).subscribe(success => {
       console.log('success', success);
       this.bookingEnquires = success;
+      this.loader.dismissLoader();
     },
       failure => {
+        this.loader.dismissLoader();
         console.log('failure', failure);
-
       });
   }
 

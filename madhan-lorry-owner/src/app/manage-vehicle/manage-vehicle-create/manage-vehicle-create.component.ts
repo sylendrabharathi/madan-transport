@@ -9,6 +9,7 @@ import { FileChooser, FileChooserOptions } from '@ionic-native/file-chooser/ngx'
 import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
 import { environment } from 'src/environments/environment';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { LoaderService } from 'src/app/services/Loader/loader.service';
 
 @Component({
   selector: 'app-manage-vehicle-create',
@@ -64,7 +65,8 @@ export class ManageVehicleCreateComponent implements OnInit {
     private ls: LocalStorageService,
     private datePipe: DatePipe,
     private fileChooser: FileChooser,
-    private fileTransfer: FileTransfer) { }
+    private fileTransfer: FileTransfer,
+    private loader: LoaderService) { }
 
   ngOnInit() { }
   ionViewWillEnter() {
@@ -72,9 +74,11 @@ export class ManageVehicleCreateComponent implements OnInit {
     console.log('thissssss', this.transpoterId);
 
     this.userId = Number(this.ls.getUserId());
+    this.loader.createLoader();
     this.loadDates();
     this.loadIntialDetails();
     this.getParamData();
+    this.loader.dismissLoader();
     if (this.vehicleEditId > -1) {
       this.loadEditDetails(this.transpoterId, this.vehicleEditId);
     }
@@ -110,14 +114,16 @@ export class ManageVehicleCreateComponent implements OnInit {
     });
   }
   loadEditDetails(transpoterId, vehicleId) {
+    this.loader.createLoader();
     this.vehicleApi.getVehicles(transpoterId, vehicleId).subscribe(
       success => {
         console.log('success', success[0]);
         this.vehicleEditData = success[0];
         this.setDataToForm(success[0]);
+        this.loader.dismissLoader();
       },
       failure => {
-
+        this.loader.dismissLoader();
       });
   }
   setDataToForm(data) {
@@ -138,6 +144,7 @@ export class ManageVehicleCreateComponent implements OnInit {
 
   submit() {
     if (this.vehicleForm.valid) {
+      this.loader.createLoader();
       this.vehicleForm.get('refCustId').setValue(this.transpoterId);
       this.fileUpload(this.vehicleForm.value);
     }
@@ -155,10 +162,13 @@ export class ManageVehicleCreateComponent implements OnInit {
     this.vehicleApi.editVehicle(req, this.vehicleEditId).subscribe((success: any) => {
       console.log('success', success, 'success.status', success[0].status);
       if (success[0].status == 2) {
+        this.loader.dismissLoader();
         this.toast.success(success[0].msg);
         this.router.navigate(['manage-vehicle']);
       }
+      this.loader.dismissLoader();
     }, failure => {
+      this.loader.dismissLoader();
       console.log('failure', failure);
       this.toast.danger(failure[0].msg)
     });
@@ -170,11 +180,12 @@ export class ManageVehicleCreateComponent implements OnInit {
     this.vehicleApi.saveVehicle(req).subscribe((success: any) => {
       console.log('success', success);
       if (success[0].status == 1) {
+        this.loader.dismissLoader();
         this.toast.success(success[0].msg);
         this.router.navigate(['manage-vehicle']);
       }
-
-    }, failure => { console.log('failure', failure); });
+      this.loader.dismissLoader();
+    }, failure => { this.loader.dismissLoader(); console.log('failure', failure); });
   }
 
   chooseFile(docType) {

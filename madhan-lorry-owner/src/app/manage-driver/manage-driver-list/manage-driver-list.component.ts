@@ -4,6 +4,7 @@ import { ManageDriverApiService } from '../services/api/manage-driver-api.servic
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { AlertServiceService } from 'src/app/services/alert/alert-service.service';
+import { LoaderService } from 'src/app/services/Loader/loader.service';
 
 @Component({
   selector: 'app-manage-driver-list',
@@ -20,7 +21,8 @@ export class ManageDriverListComponent {
     private driverApi: ManageDriverApiService,
     private ls: LocalStorageService,
     private toast: ToastService,
-    private alert: AlertServiceService) { }
+    private alert: AlertServiceService,
+    private loader: LoaderService) { }
 
   ngOnInit() { }
 
@@ -32,14 +34,17 @@ export class ManageDriverListComponent {
 
   getDriverList(transpoterId) {
     console.log('inside');
-
+    this.loader.createLoader();
     this.driverApi.getDriverDetails(transpoterId).subscribe(success => {
       console.log('success', success);
       this.drivers = success;
+      this.loader.dismissLoader();
     },
       failure => {
+        this.loader.dismissLoader();
         console.log('failure', failure);
       });
+    this.loader.dismissLoader();
   }
   createDriver() {
     this.router.navigate(['manage-driver', 'create']);
@@ -48,6 +53,7 @@ export class ManageDriverListComponent {
     this.router.navigate(['manage-driver', 'edit', driver.driverId, driver.userId]);
   }
   deleteDriver(driverId) {
+    this.loader.createLoader();
     this.alert.alertPromt().then(data => {
       if (Boolean(data)) {
         this.driverDeleteJson.driverId = driverId;
@@ -56,9 +62,13 @@ export class ManageDriverListComponent {
           console.log('success', success);
           this.toast.success(success[0].msg);
           this.ionViewWillEnter();
-        }, failure => { });
+          this.loader.dismissLoader();
+        }, failure => {
+          this.loader.dismissLoader();
+        });
       }
     });
+    this.loader.dismissLoader();
   }
 
 }
