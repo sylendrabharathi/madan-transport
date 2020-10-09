@@ -5,7 +5,7 @@
             <ion-back-button></ion-back-button>
         </ion-buttons>
         <ion-buttons slot="end">
-            <ion-button (click)="submit()">Submit</ion-button>
+            <ion-button (click)="fileUpload()">Submit</ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
@@ -16,6 +16,10 @@
             <ion-label position="floating">GST:</ion-label>
             <ion-input type="text" formControlName="gstno" (ionBlur)="getDetailsFromGst()"></ion-input>
         </ion-item>
+        <ion-item>
+            <ion-label>GST Document</ion-label>
+            <ion-button (click)="chooseFile('gstno')">Choose GST</ion-button>
+        </ion-item>
         <ion-item class="form-item">
             <ion-label position="floating">Name:</ion-label>
             <ion-input type="text" formControlName="name" [readonly]="companyName!=''"></ion-input>
@@ -23,6 +27,10 @@
         <ion-item class="form-item">
             <ion-label position="floating">PAN:</ion-label>
             <ion-input type="text" formControlName="Pannumber" [readonly]="true"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>PAN Document</ion-label>
+            <ion-button (click)="chooseFile('Pannumber')">Choose PAN</ion-button>
         </ion-item>
         <ion-item class="form-item">
             <ion-label position="floating">Legal Name:</ion-label>
