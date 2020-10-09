@@ -4,6 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { LoaderService } from 'src/app/services/Loader/loader.service';
 
 @Component({
   selector: 'app-my-profile',
@@ -42,7 +43,8 @@ export class MyProfileComponent implements OnInit {
     private fb: FormBuilder,
     private toast: ToastService,
     private ls: LocalStorageService,
-    private router: Router) { }
+    private router: Router,
+    private loader: LoaderService) { }
   profileDatas: any = [];
   ngOnInit() { }
   ionViewWillEnter() {
@@ -51,13 +53,16 @@ export class MyProfileComponent implements OnInit {
   }
 
   getProfileData(userId) {
+    this.loader.createLoader();
     this.profileApi.getProfileData(userId).subscribe(
       success => {
         console.log('success', success);
         this.profileDatas = success[0];
         this.setProfileData();
+        this.loader.dismissLoader();
       },
       failure => {
+        this.loader.dismissLoader();
         console.log('failure', failure);
       }
     );
@@ -84,11 +89,12 @@ export class MyProfileComponent implements OnInit {
 
   submit() {
     if (this.profileForm.valid && !this.doNotProceed) {
-
+      this.loader.createLoader();
       console.log('this.profileForm.valid ', this.setUserData());
 
       this.profileApi.editProfile(this.setUserData(), this.userId).subscribe(
         success => {
+          this.loader.dismissLoader();
           console.log('success', success);
           if (success[0].status == 2) {
             this.toast.success(success[0].msg);
@@ -99,6 +105,7 @@ export class MyProfileComponent implements OnInit {
           }
         },
         failure => {
+          this.loader.dismissLoader();
           console.log('failure', failure);
 
         }
@@ -142,5 +149,11 @@ export class MyProfileComponent implements OnInit {
     this.userForm.get('refModifiedBy').setValue(this.userId);
     this.userForm.get('refCustId').setValue(this.profileDatas.refCustId);
     return this.userForm.value;
+  }
+
+  signOut() {
+    this.router.navigate(['login']);
+    this.ls.setCustomerId(null);
+    this.ls.setUserId(null);
   }
 }

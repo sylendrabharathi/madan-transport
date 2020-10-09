@@ -7,7 +7,11 @@
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
         <ion-buttons slot="end">
-            <ion-icon name="pencil-outline" style="font-size: 27px;" *ngIf="editForm" (click)="edit()"></ion-icon>
+            <ion-icon name="pencil-outline" style="font-size: 27px; padding-right: 15px;" *ngIf="editForm" (click)="edit()"></ion-icon>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-icon name="log-out-outline" style="font-size: 27px;" *ngIf="editForm" (click)="signOut()"></ion-icon>
+            <!-- <ion-icon name="pencil-outline" style="font-size: 27px;" *ngIf="editForm" (click)="edit()"></ion-icon> -->
         </ion-buttons>
     </ion-toolbar>
 </ion-header>

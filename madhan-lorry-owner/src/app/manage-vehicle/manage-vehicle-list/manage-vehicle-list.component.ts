@@ -4,6 +4,7 @@ import { ManageVehicleApiService } from '../services/api/manage-vehicle-api.serv
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { AlertServiceService } from 'src/app/services/alert/alert-service.service';
+import { LoaderService } from 'src/app/services/Loader/loader.service';
 
 @Component({
   selector: 'app-manage-vehicle-list',
@@ -20,7 +21,8 @@ export class ManageVehicleListComponent implements OnInit {
     private vehicleApi: ManageVehicleApiService,
     private ls: LocalStorageService,
     private toast: ToastService,
-    private alert: AlertServiceService) { }
+    private alert: AlertServiceService,
+    private loader: LoaderService) { }
 
   ngOnInit() { }
   ionViewWillEnter() {
@@ -31,13 +33,17 @@ export class ManageVehicleListComponent implements OnInit {
   }
 
   getVehicles(transpoterId, vehicleId) {
+    this.loader.createLoader();
     this.vehicleApi.getVehicles(transpoterId, vehicleId).subscribe(success => {
       console.log('vehiclesuccess', success);
       this.vehicles = success;
+      this.loader.dismissLoader();
     },
       failure => {
+        this.loader.dismissLoader();
         console.log('vehiclefailure', failure);
       });
+    this.loader.dismissLoader();
   }
   createVehicle() {
     this.router.navigate(['manage-vehicle', 'create']);
@@ -46,21 +52,25 @@ export class ManageVehicleListComponent implements OnInit {
     this.router.navigate(['manage-vehicle', 'edit', vehicleId]);
   }
   deleteVehicle(vehicleId) {
+    this.loader.createLoader();
     this.alert.alertPromt().then(data => {
       if (Boolean(data)) {
         this.deleteJson.VehicleId = vehicleId;
         this.deleteJson.RefModifiedBy = this.transpoterId;
         this.vehicleApi.deleteVehicle(vehicleId, this.deleteJson).subscribe(success => {
           console.log('success', success);
+          this.loader.dismissLoader();
           this.toast.success(success[0].msg);
           this.ionViewWillEnter();
         },
           failure => {
+            this.loader.dismissLoader();
             console.log('failure', failure);
             this.toast.danger(failure[0].msg)
           });
       }
     });
+    this.loader.dismissLoader();
   }
 
 }

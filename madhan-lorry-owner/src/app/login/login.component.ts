@@ -4,6 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { LoginApiService } from './service/api/login-api.service';
 import { LocalStorageService } from '../services/local-storage/local-storage.service';
 import { ToastService } from '../services/toast/toast.service';
+import { LoaderService } from '../services/Loader/loader.service';
 
 
 @Component({
@@ -26,7 +27,8 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private loginApi: LoginApiService,
     private toast: ToastService,
-    private ls: LocalStorageService
+    private ls: LocalStorageService,
+    private loader: LoaderService
   ) {
     // this.local = new Storage();
   }
@@ -34,6 +36,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() { }
   login() {
     if (this.loginForm.valid) {
+      this.loader.createLoader();
       const val: string = this.loginForm.get('userId').value;
       console.log('val', val, val.indexOf('@'));
 
@@ -53,10 +56,11 @@ export class LoginComponent implements OnInit {
 
           // localStorage.setItem('newId', success[0].userId);
           this.ls.setCustomerId(success[0].customerId.toString())
-
+          this.loader.dismissLoader();
           this.router.navigate(['home']);
         },
           failure => {
+            this.loader.dismissLoader();
             console.log('failure', failure);
             this.toast.danger('Id or Password is incorrect');
           });

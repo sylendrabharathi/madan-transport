@@ -8,6 +8,7 @@ import { ToastService } from '../services/toast/toast.service';
 import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
 import { FileChooser, FileChooserOptions } from '@ionic-native/file-chooser/ngx';
 import { environment } from 'src/environments/environment';
+import { LoaderService } from '../services/Loader/loader.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -86,7 +87,8 @@ export class SignUpComponent implements OnInit {
     private toast: ToastService,
     private datePipe: DatePipe,
     private fileChooser: FileChooser,
-    private fileTransfer: FileTransfer) { }
+    private fileTransfer: FileTransfer,
+    private loader: LoaderService) { }
 
   ngOnInit() { }
   ionViewWillEnter() {
@@ -94,6 +96,7 @@ export class SignUpComponent implements OnInit {
   }
 
   loadIntialDetails() {
+    this.loader.createLoader();
     this.signUpApi.getReferceListDatas('states').subscribe(success => {
       this.states = success;
       console.log(success);
@@ -108,9 +111,10 @@ export class SignUpComponent implements OnInit {
       this.lorryOwner = success[0];
       console.log('success', success);
     }, failure => { });
-
+    this.loader.dismissLoader();
   }
   getDetailsFromGst() {
+    this.loader.createLoader();
     this.gstNo = this.registrationForm.get('gstno').value.trim();
     if (this.gstNo != '')
       console.log('gst-->', this.gstNo);
@@ -121,6 +125,7 @@ export class SignUpComponent implements OnInit {
     }, failure => {
       console.log('failure', failure);
     });
+    this.loader.dismissLoader();
   }
   setDataFromGst(data) {
     console.log('dataaa', data);
@@ -147,6 +152,7 @@ export class SignUpComponent implements OnInit {
   }
   submit() {
     if (this.registrationForm.valid && !this.doNotProceed) {
+      this.loader.createLoader();
       console.log('this.registrationForm.value', this.registrationForm.value);
       this.fileUpload(this.registrationForm.value);
     }
@@ -159,6 +165,7 @@ export class SignUpComponent implements OnInit {
   registerData(req) {
     this.signUpApi.registerDetails(req).subscribe(
       success => {
+        this.loader.dismissLoader();
         console.log('success registered', success);
         if (success[0].status == 1) {
           this.toast.success(success[0].msg);
