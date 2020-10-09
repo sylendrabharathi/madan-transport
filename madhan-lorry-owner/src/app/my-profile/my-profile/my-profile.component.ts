@@ -143,4 +143,10 @@ export class MyProfileComponent implements OnInit {
     this.userForm.get('refCustId').setValue(this.profileDatas.refCustId);
     return this.userForm.value;
   }
+
+  signOut() {
+    this.router.navigate(['login']);
+    this.ls.setCustomerId(null);
+    this.ls.setUserId(null);
+  }
 }
