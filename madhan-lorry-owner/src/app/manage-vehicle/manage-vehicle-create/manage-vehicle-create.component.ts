@@ -74,11 +74,9 @@ export class ManageVehicleCreateComponent implements OnInit {
     console.log('thissssss', this.transpoterId);
 
     this.userId = Number(this.ls.getUserId());
-    this.loader.createLoader();
     this.loadDates();
     this.loadIntialDetails();
     this.getParamData();
-    this.loader.dismissLoader();
     if (this.vehicleEditId > -1) {
       this.loadEditDetails(this.transpoterId, this.vehicleEditId);
     }
@@ -117,10 +115,10 @@ export class ManageVehicleCreateComponent implements OnInit {
     this.loader.createLoader();
     this.vehicleApi.getVehicles(transpoterId, vehicleId).subscribe(
       success => {
+        this.loader.dismissLoader();
         console.log('success', success[0]);
         this.vehicleEditData = success[0];
         this.setDataToForm(success[0]);
-        this.loader.dismissLoader();
       },
       failure => {
         this.loader.dismissLoader();
@@ -143,14 +141,14 @@ export class ManageVehicleCreateComponent implements OnInit {
   }
 
   submit() {
-    if (this.vehicleForm.valid) {
+    if (this.vehicleForm.valid && this.fcUpload && this.insurenceUpload && this.rcUpload) {
       this.loader.createLoader();
       this.vehicleForm.get('refCustId').setValue(this.transpoterId);
       this.fileUpload(this.vehicleForm.value);
     }
     else {
       // this.failure = true;
-      this.toast.danger('Fill all the required fields');
+      this.toast.danger('Fill/Upload all the required fields');
     }
   }
   editDetails(data) {

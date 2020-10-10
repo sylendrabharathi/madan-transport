@@ -15,6 +15,7 @@ import {
 import { Platform } from '@ionic/angular';
 import { HomeApiService } from '../service/api/home-api.service';
 import { ActivatedRoute } from '@angular/router';
+import { LoaderService } from 'src/app/service/Loader/loader.service';
 
 
 @Component({
@@ -29,37 +30,28 @@ export class TruckDetailComponent implements OnInit {
   bookingId: number;
   location: string;
   map: GoogleMap;
-  constructor(private platform: Platform, private homeService: HomeApiService, private aRoute: ActivatedRoute) { }
+  constructor(private platform: Platform,
+    private homeService: HomeApiService,
+    private aRoute: ActivatedRoute,
+    private loader: LoaderService) { }
 
   async ngOnInit() {
-    // this.getVehicles();
+    await this.platform.ready();
+  }
+  ionViewWillEnter() {
     this.sub = this.aRoute.params.subscribe(param => {
       this.bookingId = Number(param['bookingId']);
       this.location = param['source'];
     });
     this.getNearByTrucks(this.location);
-    await this.platform.ready();
 
   }
-
   ionViewDidLoad() {
     this.loadMap();
   }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
-  }
-  getVehicles(data) {
-    for (let i = 0; i < 15; i++) {
-      const vehicle = {
-        ownerName: 'Das',
-        vehicleNo: 'TN 46 B 8885',
-        liveLocationTxt: '6th main road, sadasivam nagar, chennai',
-        mobileNo: '9632587410',
-        vehicleType: 'Truck'
-      };
-      this.vehicles.push(vehicle);
-    }
   }
 
   loadMap() {
@@ -137,15 +129,17 @@ export class TruckDetailComponent implements OnInit {
   }
 
   getNearByTrucks(source) {
-    console.log('->', this.bookingId, this.location);
-
+    this.loader.createLoader();
     this.homeService.getFindTruck(source).pipe().subscribe(
       success => {
         console.log('sucess', success);
-        // this.getVehicles(success);
         this.vehicles = success;
+        this.loader.dismissLoader();
       },
-      failure => { console.log('failure ', failure); }
+      failure => {
+        this.loader.dismissLoader();
+        console.log('failure ', failure);
+      }
     );
   }
 

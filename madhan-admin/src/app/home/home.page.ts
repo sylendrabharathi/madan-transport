@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoaderService } from '../service/Loader/loader.service';
 import { HomeApiService } from './service/api/home-api.service';
 
 
@@ -11,38 +12,27 @@ import { HomeApiService } from './service/api/home-api.service';
 export class HomePage implements OnInit {
 
   bookingDetails: any = [];
-  constructor(private router: Router, private homeService: HomeApiService) { }
+  constructor(private router: Router,
+    private homeService: HomeApiService,
+    private loader: LoaderService) { }
 
-  ngOnInit() {
-    // this.getDetails();
+  ngOnInit() { }
+  ionViewWillEnter() {
     this.getRequestedData();
-  }
-
-  getDetails() {
-    for (let i = 0; i < 15; i++) {
-      const booking = {
-        id: 'Booking ' + (i + 1),
-        company: 'Company - ' + (i + 1),
-        source: 'Chennai',
-        destination: 'Trichy',
-        material: 'Printers',
-        weight: '20 Ton',
-        vehicleType: 'Truck',
-        date: new Date()
-      };
-      this.bookingDetails.push(booking);
-    }
   }
 
   goToTruckDetail(bookingId, source) {
     this.router.navigate(['home', bookingId, source, 'truck-detail'])
   }
   getRequestedData() {
+    this.loader.createLoader();
     this.homeService.getICData().pipe().subscribe(success => {
       console.log('success', success);
       this.bookingDetails = success;
+      this.loader.dismissLoader();
     },
       failure => {
+        this.loader.dismissLoader();
         console.log('failure', failure);
       });
   }

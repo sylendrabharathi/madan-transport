@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LoaderService } from 'src/app/service/Loader/loader.service';
 import { VehicleDetailsapiService } from '../service/api/vehicle-detailsapi.service';
 
 @Component({
@@ -10,34 +11,24 @@ export class DetailsListComponent implements OnInit {
 
   vehiclesList: any = [];
 
-  constructor(private vehicleDetailsApi: VehicleDetailsapiService) { }
+  constructor(private vehicleDetailsApi: VehicleDetailsapiService,
+    private loader: LoaderService) { }
 
-  ngOnInit() {
-    // this.getDetailsList();
+  ngOnInit() { }
+
+  ionViewWillEnter() {
     this.getWillingTruck();
   }
 
-  getDetailsList() {
-    for (let i = 0; i < 15; i++) {
-      const detail = {
-        id: 'Book' + (i + 1),
-        customer: 'HP Printers',
-        transporterName: 'Suresh',
-        vehicleNo: 'TN 46 B 8888',
-        location: 'Chennai',
-        mobileNo: '9632587410',
-        vehicleType: 'container'
-      };
-      this.vehiclesList.push(detail);
-    }
-  }
-
   getWillingTruck() {
+    this.loader.createLoader();
     this.vehicleDetailsApi.getWillingVehicles().pipe().subscribe(success => {
       console.log('success', success);
       this.vehiclesList = success;
+      this.loader.dismissLoader();
     },
       failure => {
+        this.loader.dismissLoader();
         console.log('failure', failure);
       });
   }

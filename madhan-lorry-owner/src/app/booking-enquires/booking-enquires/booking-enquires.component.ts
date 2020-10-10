@@ -26,16 +26,15 @@ export class BookingEnquiresComponent implements OnInit {
   ionViewWillEnter() {
     this.transpoterId = Number(this.ls.getCustomerId());
     console.log(this.transpoterId);
-
     this.getEnqData(this.transpoterId);
     this.responseJson.RefModifiedBy = this.transpoterId;
   }
   getEnqData(ownerId) {
     this.loader.createLoader()
     this.benqApi.getAllBookingEnq(ownerId).subscribe(success => {
+      this.loader.dismissLoader();
       console.log('success', success);
       this.bookingEnquires = success;
-      this.loader.dismissLoader();
     },
       failure => {
         this.loader.dismissLoader();
@@ -81,21 +80,27 @@ export class BookingEnquiresComponent implements OnInit {
 
   }
   accepted(feedback) {
+    this.loader.createLoader();
     this.responseJson.FeedBack = 'Accepted ' + feedback;
     console.log('this.responseJson', this.responseJson);
 
     this.benqApi.submitResponse(this.responseJson).subscribe(success => {
+      this.loader.dismissLoader();
       console.log('success', success);
     }, failure => {
+      this.loader.dismissLoader();
       console.log('failure', failure);
     });
   }
   reject(enquireRosponseId) {
+    this.loader.createLoader();
     this.responseJson.VehicleBookingEnqResponseId = enquireRosponseId;
     this.responseJson.FeedBack = 'Rejected';
     this.benqApi.submitResponse(this.responseJson).subscribe(success => {
+      this.loader.dismissLoader();
       console.log('success', success);
     }, failure => {
+      this.loader.dismissLoader();
       console.log('failure', failure);
     });
 

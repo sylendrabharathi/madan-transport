@@ -96,7 +96,7 @@ export class SignUpComponent implements OnInit {
   }
 
   loadIntialDetails() {
-    this.loader.createLoader();
+
     this.signUpApi.getReferceListDatas('states').subscribe(success => {
       this.states = success;
       console.log(success);
@@ -111,7 +111,7 @@ export class SignUpComponent implements OnInit {
       this.lorryOwner = success[0];
       console.log('success', success);
     }, failure => { });
-    this.loader.dismissLoader();
+
   }
   getDetailsFromGst() {
     this.loader.createLoader();
@@ -119,13 +119,15 @@ export class SignUpComponent implements OnInit {
     if (this.gstNo != '')
       console.log('gst-->', this.gstNo);
     this.signUpApi.getGstDetails(this.gstNo).subscribe(success => {
+      this.loader.dismissLoader();
       console.log('success', success);
       this.gstDetails = success;
       this.setDataFromGst(this.gstDetails);
     }, failure => {
+      this.loader.dismissLoader();
       console.log('failure', failure);
     });
-    this.loader.dismissLoader();
+
   }
   setDataFromGst(data) {
     console.log('dataaa', data);
@@ -151,13 +153,13 @@ export class SignUpComponent implements OnInit {
     this.registrationForm.updateValueAndValidity();
   }
   submit() {
-    if (this.registrationForm.valid && !this.doNotProceed) {
+    if (this.registrationForm.valid && !this.doNotProceed && this.gstDocUrl != '' && this.panDocUrl != '') {
       this.loader.createLoader();
       console.log('this.registrationForm.value', this.registrationForm.value);
       this.fileUpload(this.registrationForm.value);
     }
     else {
-      this.toast.danger('Fill all required Details');
+      this.toast.danger('Fill/Upload all required Details');
       this.registrationForm.markAllAsTouched();
       this.registrationForm.updateValueAndValidity();
     }
@@ -165,10 +167,9 @@ export class SignUpComponent implements OnInit {
   registerData(req) {
     this.signUpApi.registerDetails(req).subscribe(
       success => {
-        this.loader.dismissLoader();
         console.log('success registered', success);
         if (success[0].status == 1) {
-          this.toast.success(success[0].msg);
+          // this.toast.success(success[0].msg);
           this.saveUser(success[0].id);
         }
         else {
@@ -177,6 +178,7 @@ export class SignUpComponent implements OnInit {
         }
       },
       failure => {
+        this.loader.dismissLoader();
         console.log('failure re', failure);
       });
 
@@ -185,6 +187,7 @@ export class SignUpComponent implements OnInit {
     this.setUserData(refCustId);
     this.signUpApi.addUser(this.userForm.value).subscribe(success => {
       console.log('success', success);
+      this.loader.dismissLoader();
       if (success[0].status == 1) {
         this.toast.success(success[0].msg);
         this.router.navigate(['']);
@@ -194,6 +197,7 @@ export class SignUpComponent implements OnInit {
         return;
       }
     }, failure => {
+      this.loader.dismissLoader();
       console.log('failure', failure);
       this.toast.danger(failure[0].msg);
       return;

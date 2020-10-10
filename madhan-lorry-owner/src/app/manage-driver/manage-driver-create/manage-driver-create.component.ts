@@ -22,12 +22,12 @@ export class ManageDriverCreateComponent implements OnInit {
   maxyear;
   newDriverForm = this.fb.group({
     driverName: ['', [Validators.required]],
-    mobileNo: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(12)]],
-    licenceNo: ['', [Validators.required]],
+    mobileNo: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+    licenceNo: ['', [Validators.required, , Validators.minLength(10), Validators.maxLength(16)]],
     licenceValidity: ['', [Validators.required]],
     refOrgId: [3],
     refCustId: [],
-    licenceDocument: ['c:'],
+    licenceDocument: ['',],
     refRoleId: ['']
   });
   licenseDocUrl = '';
@@ -139,7 +139,7 @@ export class ManageDriverCreateComponent implements OnInit {
     this.driverUserForm.get('password').setValue(data.password);
   }
   submit() {
-    if (this.newDriverForm.valid && this.driverUserForm.valid) {
+    if (this.newDriverForm.valid && this.driverUserForm.valid && this.licenseDocUrl != '') {
       this.loader.createLoader();
       const req: any = this.newDriverForm.value;
       console.log('inside');
@@ -149,7 +149,7 @@ export class ManageDriverCreateComponent implements OnInit {
     else {
       console.log('else');
       // this.failure = true;
-      this.toast.danger('Fill all required fields');
+      this.toast.danger('Fill/Upload all required fields');
       this.newDriverForm.markAllAsTouched();
       this.newDriverForm.updateValueAndValidity();
       this.driverUserForm.markAllAsTouched();
@@ -164,12 +164,12 @@ export class ManageDriverCreateComponent implements OnInit {
     req.RefModifiedBy = this.userId;
     console.log('-->', req);
     this.driverApi.editDriver(req, this.driverId).subscribe(success => {
+
       console.log('success', success);
       if (success[0].status == 1) {
-        this.toast.success(success[0].msg);
+        // this.toast.success(success[0].msg);
         this.edit(req, success[0].id);
       }
-      this.loader.dismissLoader();
     },
       failure => {
         this.loader.dismissLoader();
@@ -182,15 +182,15 @@ export class ManageDriverCreateComponent implements OnInit {
     console.log('==>', req);
     this.driverApi.saveDriver(req).subscribe(success => {
       console.log('success', success);
+      // this.loader.dismissLoader();
       if (success[0].status == 1) {
-        this.toast.success(success[0].msg);
+        // this.toast.success(success[0].msg);
         this.saveUser(req, success[0].id);
       }
       else {
         this.toast.warning(success[0].msg);
         return;
       }
-      this.loader.dismissLoader();
     },
       failure => {
         this.loader.dismissLoader();
@@ -206,6 +206,7 @@ export class ManageDriverCreateComponent implements OnInit {
     console.log('userReq', userReq);
 
     this.driverApi.addUser(userReq).subscribe(success => {
+      this.loader.dismissLoader();
       console.log('user success', success);
       if (success[0].status == 1) {
         this.toast.success(success[0].msg);
@@ -216,6 +217,7 @@ export class ManageDriverCreateComponent implements OnInit {
         return;
       }
     }, failure => {
+      this.loader.dismissLoader();
       console.log('user failure', failure);
       this.toast.warning(failure.error);
       return;
@@ -227,6 +229,7 @@ export class ManageDriverCreateComponent implements OnInit {
     userReq.isActive = true;
     userReq.userId = Number(this.editUserId);
     this.driverApi.editUser(this.editUserId, userReq).subscribe(success => {
+      this.loader.dismissLoader();
       console.log('user success', success);
       if (success[0].status == 2) {
         this.toast.success(success[0].msg);
@@ -237,6 +240,7 @@ export class ManageDriverCreateComponent implements OnInit {
         return;
       }
     }, failure => {
+      this.loader.dismissLoader();
       console.log('user failure', failure);
       this.toast.danger(failure.error);
       return;

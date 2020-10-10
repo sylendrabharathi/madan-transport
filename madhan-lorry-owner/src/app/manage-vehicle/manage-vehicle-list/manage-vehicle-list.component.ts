@@ -52,9 +52,9 @@ export class ManageVehicleListComponent implements OnInit {
     this.router.navigate(['manage-vehicle', 'edit', vehicleId]);
   }
   deleteVehicle(vehicleId) {
-    this.loader.createLoader();
     this.alert.alertPromt().then(data => {
       if (Boolean(data)) {
+        this.loader.createLoader();
         this.deleteJson.VehicleId = vehicleId;
         this.deleteJson.RefModifiedBy = this.transpoterId;
         this.vehicleApi.deleteVehicle(vehicleId, this.deleteJson).subscribe(success => {
