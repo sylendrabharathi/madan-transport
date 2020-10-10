@@ -30,9 +30,9 @@ export class BookingComponent implements OnInit {
   getBookingDetails(transpoterId, bookingId) {
     this.loader.createLoader();
     this.bookingApi.getMyBookings(transpoterId, bookingId).subscribe(success => {
+      this.loader.dismissLoader();
       console.log('success', success);
       this.bookingDetails = success[0];
-      this.loader.dismissLoader();
     },
       failure => {
         this.loader.dismissLoader();

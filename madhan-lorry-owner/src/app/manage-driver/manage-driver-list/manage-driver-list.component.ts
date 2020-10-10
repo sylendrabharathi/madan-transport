@@ -53,9 +53,9 @@ export class ManageDriverListComponent {
     this.router.navigate(['manage-driver', 'edit', driver.driverId, driver.userId]);
   }
   deleteDriver(driverId) {
-    this.loader.createLoader();
     this.alert.alertPromt().then(data => {
       if (Boolean(data)) {
+        this.loader.createLoader();
         this.driverDeleteJson.driverId = driverId;
         this.driverDeleteJson.refrefCreatedBy = this.userId;
         this.driverApi.deleteDriver(this.driverDeleteJson, driverId).subscribe(success => {

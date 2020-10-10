@@ -26,9 +26,9 @@ export class MyBookingsComponent implements OnInit {
   getMyBookings(transpoterId, bookingId) {
     this.loader.createLoader();
     this.bookingApi.getMyBookings(transpoterId, bookingId).subscribe(success => {
+      this.loader.dismissLoader();
       console.log('success', success);
       this.myBookings = success;
-      this.loader.dismissLoader();
     },
       failure => {
         this.loader.dismissLoader();

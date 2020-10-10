@@ -48,17 +48,16 @@ export class DriverInOutComponent implements OnInit {
     this.route.navigate(['driver-in-out', driverInOutId, 'edit']);
   }
   deleteDetails(driverInOutId) {
-    this.loader.createLoader();
     this.alert.alertPromt().then(data => {
       if (Boolean(data)) {
+        this.loader.createLoader();
         this.deleteJson.driverInOutId = driverInOutId;
         this.deleteJson.refModifiedBy = this.tranpoterId;
         this.inOutApi.deleteInOut(this.deleteJson, driverInOutId).subscribe(success => {
+          this.loader.dismissLoader();
           console.log('success', success);
-          // this.drivers = success;
           this.toast.success(success[0].msg);
           this.ionViewWillEnter();
-          this.loader.dismissLoader();
         },
           failure => {
             this.loader.dismissLoader();

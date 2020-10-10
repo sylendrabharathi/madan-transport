@@ -46,7 +46,6 @@ export class NewDriverInOutComponent implements OnInit {
 
   }
   ionViewWillEnter() {
-    this.loader.createLoader();
     this.userId = Number(this.ls.getUserId());
     this.transpoterId = Number(this.ls.getCustomerId());
     this.getVehicleDetails(this.transpoterId);
@@ -55,10 +54,10 @@ export class NewDriverInOutComponent implements OnInit {
     this.aroute.params.subscribe(data => {
       this.driverInOutId = data['driverInOutId'];
     });
-    if (this.driverInOutId > 0) {
+    if (this.driverInOutId > -1) {
       this.loadInOutData(this.driverInOutId);
     }
-    this.loader.dismissLoader();
+
   }
   loadDates() {
     this.date = new Date('01' + '-' + '01' + '-' + new Date().getFullYear().toString());
@@ -87,14 +86,17 @@ export class NewDriverInOutComponent implements OnInit {
       });
   }
   loadInOutData(id) {
+    this.loader.createLoader();
     this.inOutApi.getInOutDetail(id).subscribe(
       success => {
+        this.loader.dismissLoader();
         // console.log(id, 'success', success);
         // this.drivers = success;
         this.driverData = success[0];
         this.setDataToForm(success[0]);
       },
       failure => {
+        this.loader.dismissLoader();
         console.log('failure', failure);
       }
     );
@@ -131,10 +133,10 @@ export class NewDriverInOutComponent implements OnInit {
     req.refModifiedBy = this.userId;
     console.log('req-->', req);
     this.inOutApi.editInOut(req, this.driverInOutId).subscribe((success: any) => {
+      this.loader.dismissLoader();
       console.log('success', success, 'success.status', success.status);
       if (success[0].status == 2) {
         console.log('inside');
-        this.loader.dismissLoader();
         this.toast.success(success[0].msg);
         this.route.navigate(['driver-in-out']);
       }
@@ -143,12 +145,12 @@ export class NewDriverInOutComponent implements OnInit {
   }
   saveNewDetails(data) {
     this.loader.createLoader();
-    this.inOutApi.saveInOut(data).subscribe((success: any) => {
-      const req = data;
-      req.refrefCreatedBy = this.userId;
+    const req = data;
+    req.refrefCreatedBy = this.userId;
+    this.inOutApi.saveInOut(req).subscribe((success: any) => {
+      this.loader.dismissLoader();
       console.log('success', success);
       if (success[0].status == 1) {
-        this.loader.dismissLoader();
         this.toast.success(success[0].msg);
         this.route.navigate(['driver-in-out']);
       }

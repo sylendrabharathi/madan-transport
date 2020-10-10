@@ -152,8 +152,8 @@ export class MyProfileComponent implements OnInit {
   }
 
   signOut() {
-    this.ls.setCustomerId(null);
-    this.ls.setUserId(null);
+    // this.ls.setCustomerId(null);
+    // this.ls.setUserId(null);
     localStorage.clear();
     this.router.navigate(['login']);
   }
