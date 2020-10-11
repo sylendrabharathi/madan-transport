@@ -257,7 +257,7 @@ export class SignUpComponent implements OnInit {
 
     this.fileChooser.open(options).then((resp) => {
       console.log(resp);
-      if (docType = 'gstno') {
+      if (docType === 'gstno') {
         this.gstDocUrl = resp.toString();
         this.gstUpload = true;
       }

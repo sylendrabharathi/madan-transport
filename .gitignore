@@ -14,6 +14,7 @@ UserInterfaceState.xcuserstate
 $RECYCLE.BIN/
 
 *.log
+*.apk
 
 /madhan-admin/log.txt
 /madhan-adminnpm-debug.log*

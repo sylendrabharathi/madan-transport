@@ -269,7 +269,7 @@ export class BookingCreateComponent implements OnInit {
       }
       
     }
-  this.getRateDetails();
+    this.getRateDetails();
     
   }
 
