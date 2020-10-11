@@ -5,6 +5,7 @@ import { EmployeeRoutingModule } from './employee-routing.module';
 import { IonicModule } from '@ionic/angular';
 import { EmployeeFormComponent } from './employee-form/employee-form.component';
 import { EmployeeListComponent } from './employee-list/employee-list.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -15,7 +16,9 @@ import { EmployeeListComponent } from './employee-list/employee-list.component';
   imports: [
     CommonModule,
     IonicModule,
-    EmployeeRoutingModule
+    EmployeeRoutingModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class EmployeeModule { }

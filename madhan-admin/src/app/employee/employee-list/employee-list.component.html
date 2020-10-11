@@ -21,23 +21,28 @@
             </div>
             <div>
                 <ion-note>
-                    <ion-icon name="pin"></ion-icon> Gender: {{item.gender}}
+                    <ion-icon name="man-outline"></ion-icon> Gender: {{item.gender}}
                 </ion-note>
             </div>
             <div>
                 <ion-note class="highlight">
-                    <ion-icon name="call-outline"></ion-icon> Phone NO: {{item.phoneNumber}}
+                    <ion-icon name="call-outline"></ion-icon> Phone NO: {{item.mobileNo}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="today-outline"></ion-icon> DateOfBirth: {{item.dob | date:'MMM dd, y'}}
                 </ion-note>
             </div>
             <div>
                 <ion-fab vertical="top" horizontal="end">
-                    <ion-fab-button class="accpt" size="small" (click)="editEmployee(item.rateId)">
+                    <ion-fab-button class="accpt" size="small" (click)="editEmployee(item.employeeId)">
                         <ion-icon class="highlight" name="pencil-outline"></ion-icon>
                     </ion-fab-button>
 
                 </ion-fab>
                 <ion-fab vertical="bottom" horizontal="end">
-                    <ion-fab-button class="cancel" size="small" (click)="deleteEmployee(item.vehicleId)">
+                    <ion-fab-button class="cancel" size="small" (click)="deleteEmployee(item.employeeId)">
                         <ion-icon name="trash-outline"></ion-icon>
                     </ion-fab-button>
                 </ion-fab>

@@ -89,6 +89,15 @@ ion-card {
     margin-top: 80%;
 }
 
+.my-custom-class {
+    --background: var(--bg-color);
+}
+
+.alert-title.sc-ion-alert-md,
+.alert-input.sc-ion-alert-md {
+    color: black !important;
+}
+
 .spinner {
     --spinner-color: var(--primary-color);
 }

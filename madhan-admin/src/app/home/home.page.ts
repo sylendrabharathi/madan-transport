@@ -27,9 +27,9 @@ export class HomePage implements OnInit {
   getRequestedData() {
     this.loader.createLoader();
     this.homeService.getICData().pipe().subscribe(success => {
+      this.loader.dismissLoader();
       console.log('success', success);
       this.bookingDetails = success;
-      this.loader.dismissLoader();
     },
       failure => {
         this.loader.dismissLoader();

@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { RateApiService } from 'src/app/rate-card/Service/api/rate-api.service';
+import { AlertServiceService } from 'src/app/service/alert/alert-service.service';
+import { LoaderService } from 'src/app/service/Loader/loader.service';
+import { ToastService } from 'src/app/service/toast/toast.service';
 import { ReferenceApiService } from '../service/api/reference-api.service';
 
 @Component({
@@ -15,7 +18,9 @@ export class ReferenceListComponent implements OnInit {
   viewChanger: any;
   constructor(private router: Router,
     private referenceApi: ReferenceApiService,
-    private toaster: ToastController) { }
+    private toaster: ToastService,
+    private alert: AlertServiceService,
+    private loader: LoaderService) { }
 
   ngOnInit() { }
   ionViewWillEnter() {
@@ -35,21 +40,27 @@ export class ReferenceListComponent implements OnInit {
       this.getRefenceDeatils('');
   }
   getRefenceDeatils(rateType) {
+    this.loader.createLoader();
     this.referenceApi.getReferenceDetails(rateType).pipe().subscribe(success => {
+      this.loader.dismissLoader();
       console.log('success', success);
       this.referenceDetails = success;
     },
       failure => {
+        this.loader.dismissLoader();
         console.log('failure', failure);
       });
 
   }
   getRefenceListDeatils(rateType) {
+    this.loader.createLoader();
     this.referenceApi.getReferenceListDetails(rateType).pipe().subscribe(success => {
+      this.loader.dismissLoader();
       console.log('success', success);
       this.referenceListDetails = success;
     },
       failure => {
+        this.loader.dismissLoader();
         console.log('failure', failure);
       });
 
@@ -63,50 +74,53 @@ export class ReferenceListComponent implements OnInit {
     }
   }
   deleteReference(id) {
-    let req: any = {};
-    req.referenceId = id;
-    req.refModifiedBy = 1;
-    this.referenceApi.deleteReference(id, req).subscribe(success => {
-      // console.log('added success', success);
-      if (success[0].status == 3) {
-        this.Toaster(success[0].msg, 'success');
-        this.ionViewWillEnter();
-        return;
+    this.alert.alertPromt().then(data => {
+      if (Boolean(data)) {
+        this.loader.createLoader();
+        let req: any = {};
+        req.referenceId = id;
+        req.refModifiedBy = 1;
+        this.referenceApi.deleteReference(id, req).subscribe(success => {
+          this.loader.dismissLoader();
+          // console.log('added success', success);
+          if (success[0].status == 3) {
+            this.toaster.success(success[0].msg);
+            this.ionViewWillEnter();
+            return;
+          }
+          this.toaster.danger(success[0].msg);
+        },
+          failure => {
+            this.loader.dismissLoader();
+            this.toaster.danger(failure[0].msg);
+            console.log('failure', failure);
+          });
       }
-      this.Toaster(success[0].msg, 'danger');
-    },
-      failure => {
-        console.log('failure', failure);
-      });
+    });
   }
   deleteReferenceList(id) {
-    let req: any = {};
-    req.referenceListId = id;
-    req.refModifiedBy = 1;
-    this.referenceApi.deleteReferenceList(id, req).subscribe(success => {
-      // console.log('added success', success);
-      if (success[0].status == 3) {
-        this.Toaster(success[0].msg, 'success');
-        this.ionViewWillEnter();
-        return;
+    this.alert.alertPromt().then(data => {
+      if (Boolean(data)) {
+        this.loader.createLoader();
+        let req: any = {};
+        req.referenceListId = id;
+        req.refModifiedBy = 1;
+        this.referenceApi.deleteReferenceList(id, req).subscribe(success => {
+          this.loader.dismissLoader();
+          // console.log('added success', success);
+          if (success[0].status == 3) {
+            this.toaster.success(success[0].msg);
+            this.ionViewWillEnter();
+            return;
+          }
+          this.toaster.danger(success[0].msg);
+        },
+          failure => {
+            this.loader.dismissLoader();
+            this.toaster.danger(failure[0].msg);
+            console.log('failure', failure);
+          });
       }
-      this.Toaster(success[0].msg, 'danger');
-    },
-      failure => {
-        console.log('failure', failure);
-      });
-  }
-
-  async Toaster(message, color) {
-    console.log('inside-->');
-    let toast = await this.toaster.create({
-      message: message,
-      duration: 2000,
-      position: 'top',
-      animated: true,
-      color: color,
-      mode: "ios"
     });
-    toast.present();
   }
 }

@@ -19,6 +19,11 @@ import { ReferenceModule } from './reference/reference.module';
 import { BookingReciptPageModule } from './booking-recipt/booking-recipt.module';
 import { BookingPaymentsModule } from './booking-payments/booking-payments.module';
 
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { GoogleMaps } from '@ionic-native/google-maps/ngx';
+import { LocalStorageService } from './service/local-storage/local-storage.service';
+import { ApiService } from './service/api/api.service';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -41,7 +46,11 @@ import { BookingPaymentsModule } from './booking-payments/booking-payments.modul
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    Geolocation,
+    GoogleMaps,
+    ApiService,
+    LocalStorageService
   ],
   bootstrap: [AppComponent]
 })
