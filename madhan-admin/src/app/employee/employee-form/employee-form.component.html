@@ -1,6 +1,7 @@
 <ion-header [translucent]="true">
     <ion-toolbar class="toolbar">
-        <ion-title>Add Employee</ion-title>
+        <ion-title *ngIf="!isEdit">Add Employee</ion-title>
+        <ion-title *ngIf="isEdit">Edit Employee</ion-title>
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
@@ -12,104 +13,93 @@
 </ion-header>
 
 <ion-content>
-    <form class="form">
-        <!-- <ion-item class="form-item">
-            <ion-select placeholder="Select Customer / Vehicle Owner" interface="popover" mode="android" class="select">
-                <ion-select-option value="1">Suresh</ion-select-option>
-                <ion-select-option value="2">Sivaji</ion-select-option>
-            </ion-select>
-        </ion-item> -->
-        <!-- <ion-item class="form-item">
-            <ion-label>EmpId:</ion-label>
-            <ion-input type="number" placeholder="32421"></ion-input>
-        </ion-item> -->
-        <ion-item class="form-item">
-            <ion-label>First Name:</ion-label>
-            <ion-input type="text" placeholder="Jhon"></ion-input>
-        </ion-item>
-        <ion-item class="form-item">
-            <ion-label>Last Name:</ion-label>
-            <ion-input type="text" placeholder="Zander"></ion-input>
-        </ion-item>
-        <ion-item class="form-item">
-            <ion-label>Gender:</ion-label>
-            <ion-select placeholder="Select State" interface="popover" mode="android">
-                <ion-select-option value="1">Male</ion-select-option>
-                <ion-select-option value="2">Female</ion-select-option>
-            </ion-select>
-        </ion-item>
-        <ion-item class="form-item">
-            <ion-label postion="fixed">DOB:</ion-label>
-            <ion-datetime placeholder="select date" display-timezone="utc"></ion-datetime>
-        </ion-item>
-        <ion-item class="form-item">
-            <ion-label postion="fixed">DOJ:</ion-label>
-            <ion-datetime placeholder="select date" display-timezone="utc"></ion-datetime>
-        </ion-item>
-        <ion-item class="form-item">
-            <ion-label>Email:</ion-label>
-            <ion-input type="email" placeholder="xyz@nn.com"></ion-input>
-        </ion-item>
-        <ion-item class="form-item">
-            <ion-label>Mob No:</ion-label>
-            <ion-input type="tel" placeholder="999999999"></ion-input>
-        </ion-item>
-        <ion-item class="form-item">
-            <ion-label>EmpStatus:</ion-label>
-            <ion-input type="tel" placeholder="999999999"></ion-input>
-        </ion-item>
-        <ion-item class="form-item">
-            <ion-label>Notice Period:</ion-label>
-            <ion-input type="tel" placeholder="999999999"></ion-input>
-        </ion-item>
-        <ion-item class="form-item">
-            <ion-label>Nationality:</ion-label>
-            <ion-input type="tel" placeholder="999999999"></ion-input>
-        </ion-item>
-        <!-- <ion-item class="form-item">
-            <ion-label>Gender:</ion-label>
-            <ion-select placeholder="Select State" interface="popover" mode="android">
-                <ion-select-option value="1">Male</ion-select-option>
-                <ion-select-option value="2">Female</ion-select-option>
-            </ion-select>
-        </ion-item> -->
-        <ion-item class="form-item">
-            <ion-label>City:</ion-label>
-            <ion-select mode="ios" placeholder="Select State" interface="popover" mode="android">
-                <ion-select-option value="1">Male</ion-select-option>
-                <ion-select-option value="2">Female</ion-select-option>
-            </ion-select>
-        </ion-item>
-        <ion-item class="form-item">
-            <ion-label>state:</ion-label>
-            <ion-select mode="ios" placeholder="Select State" interface="popover" mode="android">
-                <ion-select-option value="1">Male</ion-select-option>
-                <ion-select-option value="2">Female</ion-select-option>
-            </ion-select>
-        </ion-item>
-        <ion-item class="form-item">
-            <ion-label>Country:</ion-label>
-            <ion-select mode="ios" placeholder="Select State" interface="popover" mode="android">
-                <ion-select-option value="1">Male</ion-select-option>
-                <ion-select-option value="2">Female</ion-select-option>
-            </ion-select>
-        </ion-item>
-        <ion-item class="form-item">
-            <ion-label>Flat/Building No.</ion-label>
-            <ion-textarea></ion-textarea>
-        </ion-item>
-        <ion-item class="form-item">
-            <ion-label>Address Line-1:</ion-label>
-            <ion-textarea></ion-textarea>
-        </ion-item>
-        <ion-item class="form-item">
-            <ion-label position="floating">Address Line-2:</ion-label>
-            <ion-textarea></ion-textarea>
-        </ion-item>
-        <ion-item class="form-item">
-            <ion-label position="floating">Landmark:</ion-label>
-            <ion-textarea></ion-textarea>
-        </ion-item>
+    <ion-card>
+        <ion-card-content class="eployee-card-content">
+            <form class="form" [formGroup]="employeeForm">
+                <ion-item class="form-item">
+                    <ion-label>EmpId:</ion-label>
+                    <ion-input type="text" formControlName="value" placeholder="32421"></ion-input>
+                </ion-item>
+                <ion-item class="form-item">
+                    <ion-label>First Name:</ion-label>
+                    <ion-input type="text" formControlName="firstName" placeholder="Jhon"></ion-input>
+                </ion-item>
+                <ion-item class="form-item">
+                    <ion-label>Last Name:</ion-label>
+                    <ion-input type="text" formControlName="lastName" placeholder="Zander"></ion-input>
+                </ion-item>
+                <ion-item class="form-item">
+                    <ion-label>Gender:</ion-label>
+                    <ion-select placeholder="Select Gender" formControlName="gender" interface="popover" mode="ios">
+                        <ion-select-option value='M'>Male</ion-select-option>
+                        <ion-select-option value='F'>Female</ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item class="form-item">
+                    <ion-label postion="fixed">DOB:</ion-label>
+                    <ion-datetime placeholder="select date of birth" formControlName="dob" display-timezone="utc"></ion-datetime>
+                </ion-item>
+                <ion-item class="form-item">
+                    <ion-label postion="fixed">DOJ:</ion-label>
+                    <ion-datetime placeholder="select date of join" formControlName="doj" display-timezone="utc"></ion-datetime>
+                </ion-item>
+                <ion-item class="form-item">
+                    <ion-label>Email:</ion-label>
+                    <ion-input type="email" formControlName="email" placeholder="xyz@gmail.com"></ion-input>
+                </ion-item>
+                <ion-item class="form-item">
+                    <ion-label>Mob No:</ion-label>
+                    <ion-input type="tel" formControlName="mobileNo" placeholder="999999999"></ion-input>
+                </ion-item>
+                <ion-item class="form-item">
+                    <ion-label>EmpStatus:</ion-label>
+                    <ion-input type="text" formControlName="empStatus" placeholder=""></ion-input>
+                </ion-item>
+                <ion-item class="form-item">
+                    <ion-label>Notice Period:</ion-label>
+                    <ion-input type="number" formControlName="noticePeriod" placeholder=""></ion-input>
+                </ion-item>
+                <ion-item class="form-item">
+                    <ion-label>Nationality:</ion-label>
+                    <ion-input type="text" formControlName="nationality" placeholder="Indian"></ion-input>
+                </ion-item>
+                <ion-item class="form-item">
+                    <ion-label>City:</ion-label>
+                    <ion-select mode="ios" formControlName="refReferenceListCityId" placeholder="Select State" interface="popover" mode="ios">
+                        <ion-select-option *ngFor="let item of intialLists?.cityList" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
 
-    </form>
+                    </ion-select>
+                </ion-item>
+                <ion-item class="form-item">
+                    <ion-label>state:</ion-label>
+                    <ion-select mode="ios" formControlName="refReferenceListStateId" placeholder="Select State" interface="popover" mode="ios">
+                        < <ion-select-option *ngFor="let item of intialLists?.stateList" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item class="form-item">
+                    <ion-label>Country:</ion-label>
+                    <ion-select mode="ios" formControlName="refReferenceListCountryId" placeholder="Select State" interface="popover" mode="ios">
+                        <ion-select-option *ngFor="let item of intialLists?.countryList" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item class="form-item">
+                    <ion-label>Flat/Building No.</ion-label>
+                    <ion-textarea formControlName="address1"></ion-textarea>
+                </ion-item>
+                <ion-item class="form-item">
+                    <ion-label>Address Line-1:</ion-label>
+                    <ion-textarea formControlName="address2"></ion-textarea>
+                </ion-item>
+                <ion-item class="form-item">
+                    <ion-label position="floating">Address Line-2:</ion-label>
+                    <ion-textarea formControlName="address3"></ion-textarea>
+                </ion-item>
+                <ion-item class="form-item">
+                    <ion-label position="floating">Landmark:</ion-label>
+                    <ion-textarea formControlName="address4"></ion-textarea>
+                </ion-item>
+
+            </form>
+        </ion-card-content>
+    </ion-card>
 </ion-content>

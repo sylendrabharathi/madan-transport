@@ -37,12 +37,11 @@
     right: 15px;
 }
 
-// .submit-btn {
-//     --background: white;
-//     --color: var(--primary-color);
-//     font-weight: bolder;
-//     height: 36px;
-//     width: 43px;
-//     // margin: auto;
-//     // margin-top: 15px;
-// }
+.eployee-card-content {
+    padding: 0px;
+    --background: white;
+    form ion-item {
+        margin-bottom: 15px;
+        --background: white;
+    }
+}

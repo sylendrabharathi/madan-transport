@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
 import {
   GoogleMaps,
   GoogleMap,
@@ -16,7 +16,8 @@ import { Platform } from '@ionic/angular';
 import { HomeApiService } from '../service/api/home-api.service';
 import { ActivatedRoute } from '@angular/router';
 import { LoaderService } from 'src/app/service/Loader/loader.service';
-
+import * as Leaflet from 'leaflet';
+declare var google;
 
 @Component({
   selector: 'app-truck-detail',
@@ -29,11 +30,16 @@ export class TruckDetailComponent implements OnInit {
   private sub: any;
   bookingId: number;
   location: string;
-  map: GoogleMap;
+
+  @ViewChild('tracking_map', { static: false }) mapElement: ElementRef;
+  tracking_map: GoogleMap;
+  map: any;
+  lMap: Leaflet.Map;
   constructor(private platform: Platform,
     private homeService: HomeApiService,
     private aRoute: ActivatedRoute,
-    private loader: LoaderService) { }
+    private loader: LoaderService,
+    private geoLocation: Geolocation) { }
 
   async ngOnInit() {
     await this.platform.ready();
@@ -46,84 +52,94 @@ export class TruckDetailComponent implements OnInit {
     this.getNearByTrucks(this.location);
 
   }
-  ionViewDidLoad() {
-    this.loadMap();
+  ionViewDidEnter() {
+    console.log('tracking');
+    this.platform.ready().then(() => this.loadMap());
+
   }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
 
+
   loadMap() {
 
-    // This code is necessary for browser
-    // Environment.setEnv({
-    //   'API_KEY_FOR_BROWSER_RELEASE': 'AIzaSyCqVtI71OxAt2FxYYn0XT5nx64ixOqH6Y4',
-    //   'API_KEY_FOR_BROWSER_DEBUG': 'AIzaSyCqVtI71OxAt2FxYYn0XT5nx64ixOqH6Y4'
-    // });
+    console.log(this.mapElement);
+    console.log(document.getElementById('tracking_map'));
+    this.geoLocation.getCurrentPosition().then((resp: Geoposition) => {
+      console.log(resp);
 
-    let POINTS = [
-      {
-        position: { lat: 41.79883, lng: 140.75675 },
-        iconData: "https://www.google.com/url?sa=i&url=http%3A%2F%2Fwww.iconarchive.com%2Fshow%2Ftransport-icons-by-icons-land%2Ftruck-icon.html&psig=AOvVaw0gXdcQFmIPYVLiN0_Ca7ks&ust=1589288135193000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKjQzaXuq-kCFQAAAAAdAAAAABAM"
-      },
-      {
-        position: { lat: 41.799240000000005, lng: 140.75875000000002 },
-        iconData: "https://www.google.com/url?sa=i&url=http%3A%2F%2Fwww.iconarchive.com%2Fshow%2Ftransport-icons-by-icons-land%2Ftruck-icon.html&psig=AOvVaw0gXdcQFmIPYVLiN0_Ca7ks&ust=1589288135193000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKjQzaXuq-kCFQAAAAAdAAAAABAM"
-      },
-      {
-        position: { lat: 41.797650000000004, lng: 140.75905 },
-        iconData: "https://www.google.com/url?sa=i&url=http%3A%2F%2Fwww.iconarchive.com%2Fshow%2Ftransport-icons-by-icons-land%2Ftruck-icon.html&psig=AOvVaw0gXdcQFmIPYVLiN0_Ca7ks&ust=1589288135193000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKjQzaXuq-kCFQAAAAAdAAAAABAM"
-      },
-      {
-        position: { lat: 41.79637, lng: 140.76018000000002 },
-        title: "4",
-        iconData: "https://www.google.com/url?sa=i&url=http%3A%2F%2Fwww.iconarchive.com%2Fshow%2Ftransport-icons-by-icons-land%2Ftruck-icon.html&psig=AOvVaw0gXdcQFmIPYVLiN0_Ca7ks&ust=1589288135193000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKjQzaXuq-kCFQAAAAAdAAAAABAM"
-      },
-      {
-        position: { lat: 41.79567, lng: 140.75845 },
-        title: "5",
-        iconData: "https://www.google.com/url?sa=i&url=http%3A%2F%2Fwww.iconarchive.com%2Fshow%2Ftransport-icons-by-icons-land%2Ftruck-icon.html&psig=AOvVaw0gXdcQFmIPYVLiN0_Ca7ks&ust=1589288135193000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKjQzaXuq-kCFQAAAAAdAAAAABAM"
-      }
-    ];
+      let mapOptions: GoogleMapOptions = {
+        camera: {
+          target: {
+            lat: resp.coords.latitude,
+            lng: resp.coords.longitude
+          },
+          zoom: 18,
+          tilt: 30
+        }
+      };
 
-    let bounds: ILatLng[] = POINTS.map((data: any, idx: number) => {
-      console.log(data);
-      return data.position;
-    });
+      this.map = Leaflet.map('tracking_map').setView([resp.coords.latitude, resp.coords.longitude], 16);
+      Leaflet.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(this.map);
 
-    let mapOptions: GoogleMapOptions = {
-      camera: {
-        target: bounds,
-        zoom: 18,
-        tilt: 30
-      }
-    };
+      const myIcon = Leaflet.icon({
+        iconUrl: '/assets/images/map_marker_icon.png',
+        iconSize: [38, 38],
+      });
 
-    this.map = GoogleMaps.create('map_canvas', mapOptions);
+      Leaflet.marker([resp.coords.latitude, resp.coords.longitude], { icon: myIcon }).addTo(this.map)
+      // this.tracking_map = GoogleMaps.create('tracking_map', mapOptions);
 
-    console.log(this.map);
-
-    this.map.one(GoogleMapsEvent.MAP_READY).then(() => {
-
-      console.log('map loaded');
-
-      // let marker: Marker = this.map.addMarkerSync({
-      //   title: 'Ionic',
+      // let marker: Marker = this.tracking_map.addMarkerSync({
+      //   title: 'My Location',
       //   icon: 'red',
       //   animation: 'DROP',
       //   position: {
-      //     lat: 43.0741904,
-      //     lng: -89.3809802
+      //     lat: resp.coords.latitude,
+      //     lng: resp.coords.longitude
       //   }
       // });
       // marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
+      //   alert('clicked');
       // });
+
+      // let latLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
+
+      // let mapOptions = {
+      //   center: latLng,
+      //   zoom: 15,
+      //   mapTypeId: google.maps.MapTypeId.ROADMAP
+      // };
+
+      // this.map = new google.maps.Map(document.getElementById('tracking_map'), mapOptions);
 
 
     }).catch(err => {
       console.log(err);
 
+    })
+
+  }
+
+  addMarker(lat, lng) {
+
+    let marker = new google.maps.Marker({
+      map: this.map,
+      animation: google.maps.Animation.DROP,
+      position: { lat, lng }
+    });
+
+    let content = "<p>This is your current position !</p>";
+    let infoWindow = new google.maps.InfoWindow({
+      content: content
+    });
+
+    google.maps.event.addListener(marker, 'click', () => {
+      infoWindow.open(this.map, marker);
     });
 
   }
@@ -132,9 +148,9 @@ export class TruckDetailComponent implements OnInit {
     this.loader.createLoader();
     this.homeService.getFindTruck(source).pipe().subscribe(
       success => {
+        this.loader.dismissLoader();
         console.log('sucess', success);
         this.vehicles = success;
-        this.loader.dismissLoader();
       },
       failure => {
         this.loader.dismissLoader();

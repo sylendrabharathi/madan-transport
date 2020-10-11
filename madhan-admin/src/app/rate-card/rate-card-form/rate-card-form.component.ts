@@ -3,6 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { RateApiService } from '../Service/api/rate-api.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
+import { ToastService } from 'src/app/service/toast/toast.service';
+import { LoaderService } from 'src/app/service/Loader/loader.service';
 
 @Component({
   selector: 'app-rate-card-form',
@@ -29,8 +31,9 @@ export class RateCardFormComponent implements OnInit {
     private router: Router,
     private rateApi: RateApiService,
     private fb: FormBuilder,
-    private toaster: ToastController,
-    private aRouter: ActivatedRoute) { }
+    private toaster: ToastService,
+    private aRouter: ActivatedRoute,
+    private loader: LoaderService) { }
 
   ngOnInit() { }
 
@@ -46,12 +49,17 @@ export class RateCardFormComponent implements OnInit {
   }
 
   getRateAgainstId(id) {
+    this.loader.createLoader();
     this.rateApi.getRateById(id).subscribe(
       (success: any) => {
+        this.loader.dismissLoader();
         this.editRateData = success[0];
         this.setDataForEdit(success[0]);
       },
-      failure => { });
+      failure => {
+        this.loader.dismissLoader();
+        this.toaster.danger(failure[0].msg);
+      });
   }
 
   setDataForEdit(data) {
@@ -78,7 +86,7 @@ export class RateCardFormComponent implements OnInit {
       let req = this.newRateForm.value;
       console.log('Rateform->', this.newRateForm.value);
       if (this.newRateForm.value.refSourceReferenceList === this.newRateForm.value.refDestinationReferenceList) {
-        this.Toaster('Source and Destination cannot be same', 'danger');
+        this.toaster.danger('Source and Destination cannot be same');
         return;
       }
       if (this.editRateId > -1) {
@@ -89,55 +97,47 @@ export class RateCardFormComponent implements OnInit {
       return;
     }
     else {
-      this.Toaster('Fill all details', 'danger');
+      this.toaster.danger('Fill all details');
     }
   }
 
   saveRate(req) {
+    this.loader.createLoader();
     req.refCreatedBy = 1;
     this.rateApi.addRate(req).pipe().subscribe(success => {
+      this.loader.dismissLoader();
       console.log('success', success);
       if (success[0].status == 1) {
-        this.Toaster(success[0].msg, 'success');
+        this.toaster.success(success[0].msg);
         this.newRateForm.reset();
         this.router.navigate(['rate-card']);
       }
     },
       failure => {
-        this.Toaster(failure[0].msg, 'danger');
+        this.loader.dismissLoader();
+        this.toaster.danger(failure[0].msg);
         console.log('failure', failure);
       });
   }
   editRate(req) {
+    this.loader.createLoader();
     req.rateId = this.editRateData.rateId;
     req.isActive = this.editRateData.isActive;
     req.refModifiedBy = this.editRateData.refModifiedBy;
     this.rateApi.editRate(this.editRateId, req).pipe().subscribe(success => {
+      this.loader.dismissLoader();
       console.log('success', success);
       if (success[0].status == 2) {
-        this.Toaster(success[0].msg, 'success');
+        this.toaster.success(success[0].msg);
         this.newRateForm.reset();
         this.router.navigate(['rate-card']);
       }
     },
       failure => {
-        this.Toaster(failure[0].msg, 'danger');
+        this.loader.dismissLoader();
+        this.toaster.danger(failure[0].msg);
         console.log('failure', failure);
       });
   }
-  async Toaster(message, color) {
-    console.log('inside-->');
-    let toast: any;
 
-    toast = await this.toaster.create({
-      message: message,
-      duration: 2000,
-      position: 'top',
-      animated: true,
-      color: color,
-      mode: "ios"
-    });
-
-    toast.present();
-  }
 }
