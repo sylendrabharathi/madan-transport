@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ManageDriverCreateComponent } from './manage-driver-create/manage-driver-create.component';
 import { ManageDriverListComponent } from './manage-driver-list/manage-driver-list.component';
 import { ManageDriverApiService } from './services/api/manage-driver-api.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { ManageDriverApiService } from './services/api/manage-driver-api.service
     IonicModule,
     FormsModule,
     ReactiveFormsModule,
-    ManageDriverRoutingModule
+    ManageDriverRoutingModule,
+    TranslateModule
   ],
   providers: [ManageDriverApiService]
 })

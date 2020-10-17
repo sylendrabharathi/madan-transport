@@ -23,9 +23,13 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { GoogleMaps } from '@ionic-native/google-maps/ngx';
 import { LocalStorageService } from './service/local-storage/local-storage.service';
 import { ApiService } from './service/api/api.service';
+import { LoginComponent } from './login/login.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent,
+    // SignUpComponent,
+    LoginComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
@@ -41,7 +45,8 @@ import { ApiService } from './service/api/api.service';
     ReferenceModule,
     BookingReciptPageModule,
     HttpClientModule,
-    BookingPaymentsModule
+    BookingPaymentsModule,
+    ReactiveFormsModule
   ],
   providers: [
     StatusBar,
@@ -51,6 +56,7 @@ import { ApiService } from './service/api/api.service';
     GoogleMaps,
     ApiService,
     LocalStorageService
+
   ],
   bootstrap: [AppComponent]
 })

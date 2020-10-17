@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DriverInOutApiService } from './services/api/driver-in-out-api.service';
 import { NewDriverInOutComponent } from './new-driver-in-out/new-driver-in-out.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { NewDriverInOutComponent } from './new-driver-in-out/new-driver-in-out.c
     FormsModule,
     ReactiveFormsModule,
     DriverInOutRoutingModule,
+    TranslateModule
   ],
   providers: [
     DriverInOutApiService

@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MyBookingsComponent } from './my-bookings/my-bookings.component';
 import { MyBookingsApiService } from './services/api/my-bookings-api.service';
 import { BookingComponent } from './booking/booking.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { BookingComponent } from './booking/booking.component';
     IonicModule,
     FormsModule,
     ReactiveFormsModule,
-    MyBookingsRoutingModule
+    MyBookingsRoutingModule,
+    TranslateModule
   ],
   providers: [
     MyBookingsApiService

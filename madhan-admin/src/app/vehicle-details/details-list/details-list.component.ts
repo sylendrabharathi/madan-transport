@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertServiceService } from 'src/app/service/alert/alert-service.service';
 import { LoaderService } from 'src/app/service/Loader/loader.service';
 import { VehicleDetailsapiService } from '../service/api/vehicle-detailsapi.service';
 
@@ -12,7 +13,8 @@ export class DetailsListComponent implements OnInit {
   vehiclesList: any = [];
 
   constructor(private vehicleDetailsApi: VehicleDetailsapiService,
-    private loader: LoaderService) { }
+    private loader: LoaderService,
+    private alert: AlertServiceService) { }
 
   ngOnInit() { }
 
@@ -31,5 +33,11 @@ export class DetailsListComponent implements OnInit {
         this.loader.dismissLoader();
         console.log('failure', failure);
       });
+  }
+  confirm() {
+    this.alert.alertPromt(`Send confirmation ? `).then(data => {
+      if (Boolean(data)) {
+      }
+    });
   }
 }

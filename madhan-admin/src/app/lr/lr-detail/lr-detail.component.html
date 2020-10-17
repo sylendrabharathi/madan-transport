@@ -16,40 +16,37 @@
 </ion-header>
 
 <ion-content>
-    <form class="form">
+    <form class="form" [formGroup]="lrForm">
         <ion-item class="form-item">
             <ion-label postion="fixed">Booking Id</ion-label>
-            <ion-select placeholder="Select Booking No" formControlName="" interface="popover" mode="ios">
+            <ion-select placeholder="Select Booking No" formControlName="bookingId" interface="popover" mode="ios">
                 <ion-select-option *ngFor="let booking of bookingIds" [value]="booking">{{booking}}</ion-select-option>
             </ion-select>
         </ion-item>
         <ion-item class="form-item">
             <ion-label postion="fixed">LR NO</ion-label>
-            <ion-input type="text" formControlName="" placeholder="96/2345"></ion-input>
+            <ion-input type="text" formControlName="lrNo" placeholder="96/2345"></ion-input>
         </ion-item>
         <ion-item class="form-item">
             <ion-label>Quantity</ion-label>
-            <ion-input type="number" formControlName="" placeholder="30"></ion-input>
+            <ion-input type="number" formControlName="totalQty" placeholder="30"></ion-input>
         </ion-item>
 
         <ion-item class="form-item">
             <ion-label>Material</ion-label>
-            <ion-input type="text" formControlName="" placeholder="Printer"></ion-input>
+            <ion-input type="text" formControlName="rlmaterialId" placeholder="Printer"></ion-input>
         </ion-item>
 
-        <ion-item class="form-item">
-            <ion-label postion="fixed">Booking Date</ion-label>
-            <ion-datetime placeholder="select date" formControlName="" display-timezone="utc"></ion-datetime>
-        </ion-item>
+
 
         <ion-item class="form-item">
-            <ion-label>Consignor</ion-label>
-            <ion-input type="text" formControlName="" placeholder="HP"></ion-input>
+            <ion-label>Consigner</ion-label>
+            <ion-input type="text" formControlName="cpolbmCustomerName" placeholder="HP"></ion-input>
         </ion-item>
 
         <ion-item class="form-item">
             <ion-label>Consignee</ion-label>
-            <ion-input type="text" formControlName="" placeholder="LBR Traders"></ion-input>
+            <ion-input type="text" formControlName="consignerName" placeholder="LBR Traders"></ion-input>
         </ion-item>
 
         <ion-item class="form-item">
@@ -74,46 +71,46 @@
 
         <ion-item class="form-item">
             <ion-label>Vehicle No</ion-label>
-            <ion-input type="text" formControlName="" placeholder="TN 46 B 8885"></ion-input>
+            <ion-input type="text" formControlName="vvberVehicleNo" placeholder="TN 46 B 8885"></ion-input>
         </ion-item>
         <ion-item class="form-item">
             <ion-label>Transpoter Name</ion-label>
-            <ion-input type="text" formControlName="" placeholder="Mahe"></ion-input>
+            <ion-input type="text" formControlName="transporterName" placeholder="Mahe"></ion-input>
         </ion-item>
 
         <ion-item class="form-item">
             <ion-label>Transpoter Mob</ion-label>
-            <ion-input type="text" formControlName="" placeholder="9632587410"></ion-input>
+            <ion-input type="text" formControlName="transporterMob" placeholder="9632587410"></ion-input>
         </ion-item>
 
         <ion-item class="form-item">
             <ion-label>Driver Name</ion-label>
-            <ion-input type="text" formControlName="" placeholder="Mahe"></ion-input>
+            <ion-input type="text" formControlName="driverName" placeholder="Mahe"></ion-input>
         </ion-item>
 
         <ion-item class="form-item">
             <ion-label>Mobile Mob</ion-label>
-            <ion-input type="text" formControlName="" placeholder="9632587410"></ion-input>
+            <ion-input type="text" formControlName="mobileNo" placeholder="9632587410"></ion-input>
         </ion-item>
 
         <ion-item class="form-item">
             <ion-label>Licence Number</ion-label>
-            <ion-input type="text" formControlName="" placeholder="9632587410"></ion-input>
+            <ion-input type="text" formControlName="licenceNo" placeholder="9632587410"></ion-input>
         </ion-item>
 
         <ion-item class="form-item">
             <ion-label>Rate</ion-label>
-            <ion-input type="number" formControlName="" placeholder="100"></ion-input>
+            <ion-input type="number" formControlName="vbmRateAmount" placeholder="100"></ion-input>
         </ion-item>
 
         <ion-item class="form-item">
             <ion-label>Loading Charges</ion-label>
-            <ion-input type="number" formControlName="" placeholder="50"></ion-input>
+            <ion-input type="number" formControlName="bpDescription" placeholder="50"></ion-input>
         </ion-item>
 
         <ion-item class="form-item">
             <ion-label>Fright</ion-label>
-            <ion-input type="text" formControlName="" placeholder=""></ion-input>
+            <ion-input type="text" formControlName="fright" placeholder=""></ion-input>
         </ion-item>
 
         <ion-item class="form-item">
@@ -123,7 +120,7 @@
 
         <ion-item class="form-item">
             <ion-label>Advance</ion-label>
-            <ion-input type="number" formControlName="" placeholder=""></ion-input>
+            <ion-input type="number" formControlName="rlbppmName" placeholder=""></ion-input>
         </ion-item>
 
         <ion-item class="form-item">

@@ -21,8 +21,8 @@ export class HomePage implements OnInit {
     this.getRequestedData();
   }
 
-  goToTruckDetail(bookingId, source) {
-    this.router.navigate(['home', bookingId, source, 'truck-detail'])
+  goToTruckDetail(bookingId, source, polId) {
+    this.router.navigate(['home', bookingId, polId, source, 'truck-detail'])
   }
   getRequestedData() {
     this.loader.createLoader();

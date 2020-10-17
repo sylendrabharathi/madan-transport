@@ -87,6 +87,7 @@ export class BookingEnquiresComponent implements OnInit {
     this.benqApi.submitResponse(this.responseJson).subscribe(success => {
       this.loader.dismissLoader();
       console.log('success', success);
+      this.ionViewWillEnter();
     }, failure => {
       this.loader.dismissLoader();
       console.log('failure', failure);
@@ -99,6 +100,7 @@ export class BookingEnquiresComponent implements OnInit {
     this.benqApi.submitResponse(this.responseJson).subscribe(success => {
       this.loader.dismissLoader();
       console.log('success', success);
+      this.ionViewWillEnter();
     }, failure => {
       this.loader.dismissLoader();
       console.log('failure', failure);

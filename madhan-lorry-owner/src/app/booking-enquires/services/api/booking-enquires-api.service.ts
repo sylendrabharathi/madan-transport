@@ -12,6 +12,6 @@ export class BookingEnquiresApiService {
     return this.api.get('VehicleBookingEnqResponse/GetBookingEnqDetails/?name=VES&transporterId=' + ownerId);
   }
   submitResponse(responseJson) {
-    return this.api.post('VehicleBookingEnqResponse/PutBookingEnqFeedback/?id=' + responseJson.VehicleBookingEnqResponseId, responseJson);
+    return this.api.put('VehicleBookingEnqResponse/PutBookingEnqFeedback/?id=' + responseJson.VehicleBookingEnqResponseId, responseJson);
   }
 }

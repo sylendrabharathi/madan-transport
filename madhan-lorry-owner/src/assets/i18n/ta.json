@@ -1,0 +1,153 @@
+{
+    "Home": {
+        "Home": "முகப்பு",
+        "Rate": "விகிதம்"
+    },
+    "login": {
+        "login": "உள்நுழைய",
+        "Email / Phone Number": "மின்னஞ்சல் / தொலைபேசி எண்",
+        "Password": "கடவுச்சொல்"
+    },
+    "signup": {
+        "signup": "பதிவுபெறுதல்",
+        "GST Document": "ஜிஎஸ்டி ஆவணம்",
+        "Name": "பெயர்",
+        "PAN": "பான் எண்",
+        "PAN Document": "பான் ஆவணம்t",
+        "Legal Name": "சட்ட பெயர்",
+        "Address": "முகவரி",
+        "Nature Of Business": "வணிகத்தன்மை",
+        "Entitiy Type": "நிறுவன வகை",
+        "Registration Type": "பதிவு வகை",
+        "DeptCode And Type": "துறை குறியீடு மற்றும் வகை",
+        "Registration Date": "பதிவு தேதி",
+        "Telephone": "தொலைபேசி",
+        "Mobile": "கைபேசி",
+        "Email": "மின்னஞ்சல்",
+        "Website": "இணையதளம்",
+        "Description": "விளக்கம்",
+        "City": "நகரம்",
+        "State": "மாநிலம்",
+        "Country": "நாடு",
+        "Flat/Building No": "பிளாட் / கட்டிடம் எண்",
+        "Address Line1": "முகவரி வரி 1",
+        "Address Line2": "முகவரி வரி 2",
+        "Land Mark": "நில குறி"
+    },
+    "Booking Enquires": {
+        "Booking Enquires": "முன்பதிவு விசாரித்தல்",
+        "Booking ID": "முன்பதிவு ஐடி",
+        "Material": "பொருள்",
+        "Total Qty": "மொத்த அளவு",
+        "Vehicle Type": "வாகன வகை",
+        "Loading Date": "ஏற்றுகிற தேதி"
+    },
+    "My Bookings": {
+        "My Bookings": "எனது முன்பதிவு",
+        "Booking Id": "முன்பதிவு ஐடி",
+        "Material": "பொருள்",
+        "TotalQty": "மொத்த அளவு",
+        "vehicle NO": "வாகன எண்",
+        "Driver Name": "இயக்கி பெயர்"
+    },
+    "Booking": {
+        "Booking": "பதிவு",
+        "Booking Id": "முன்பதிவு ஐடி",
+        "Material": "பொருள்",
+        "TotalQty": "மொத்த அளவு",
+        "vehicleType": "வாகன வகை",
+        "vehicle NO": "வாகன எண்",
+        "Driver Name": "இயக்கி பெயர்",
+        "Driver Mobile": "இயக்கிமொபைல்",
+        "LoadingDateTime": "ஏற்றுகிற நேரம்",
+        "PaymentDate": "கட்டணம் தேதி",
+        "Amount": "தொகை",
+        "Payment Purpose": "கட்டண நோக்கம்",
+        "Fright": "வாடகை"
+    },
+    "Manage Vehicles": {
+        "Manage Vehicles": "வாகனங்களை நிர்வகிக்கவும்",
+        "Vehicle NO": "வாகன எண்",
+        "Vehicle Type": "வாகன வகை",
+        "Location": "இடம்",
+        "FC Validity": "FC செல்லுபடியாகும் தேதி",
+        "Insurance Validity": "காப்பீட்டு செல்லுபடியாகும் தேதி"
+    },
+    "Create Vehicle": {
+        "Create Vehicle": "வாகனம் உருவாக்கவும்",
+        "Edit Vehicle": "வாகனம் திருத்தும்",
+        "Vehicle Type": "வாகன வகை",
+        "Vehicle NO": "வாகன எண்",
+        "FC Validity": "FC செல்லுபடியாகும் தேதி",
+        "FC Document": "FC ஆவணம்",
+        "Insurence Validity": "காப்பீட்டு செல்லுபடியாகும் தேதி",
+        "Insurence Document": "காப்பீட்டு ஆவணம்",
+        "RC Document": "ஆர்.சி ஆவணம்",
+        "Description": "விளக்கம்",
+        "City": "நகரம்",
+        "State": "மாநிலம்",
+        "Country": "நாடு",
+        "Flat/Bulding No": "பிளாட் / கட்டிடம் எண்",
+        "Address Line 1": "முகவரி வரி 1",
+        "Address Line 2": "முகவரி வரி 2",
+        "Land Mark": "நில குறி"
+    },
+    "Manage Drivers": {
+        "Manage Drivers": "இயக்கிகளை நிர்வகிக்கவும்",
+        "Driver Name": "இயக்கி பெயர்",
+        "Mobile Number": "கைபேசி எண்",
+        "License NO ": "உரிம எண்",
+        "License Validity": "உரிமத்தின் காலாவதி தேதி"
+    },
+    "Create Driver": {
+        "Create Drivers": "இயக்கிகளை உருவாக்குங்கள்",
+        "Edit Drivers": "இயக்கிகளை திருத்தும்",
+        "Driver Name": "இயக்கி பெயர்",
+        "Mobile No": "அலைபேசி எண்",
+        "Licence No": "உரிம எண்",
+        "Licence Validity": "உரிமம் செல்லுபடியாகும் தேதி",
+        "Licence Document": "உரிம ஆவணம்",
+        "Email Id": "மின்னஞ்சல் முகவரி",
+        "Password": "கடவுச்சொல்",
+        "Confirm Password": "கடவுச்சொல்லை உறுதிப்படுத்தவும்"
+    },
+    "Driver-In-Out": {
+        "Driver-In-Out": "டிரைவர்-இன்-அவுட்",
+        "Driver Name": "இயக்கி பெயர்",
+        "Mobile Number": "கைபேசி எண்",
+        "In Time ": "நுழைந்த நேரம்",
+        "Out Time": "வெளியேறும் நேரம்"
+    },
+    "New Driver-In-Out": {
+        "New Driver-In-Out": "புதிய டிரைவர்-இன்-அவுட்",
+        "Edit Driver-In-Out": "டிரைவர்-இன்-அவுட் திருத்தும்",
+        "Driver Name": "இயக்கி பெயர் ",
+        "Vehicle Number": "வாகன எண்",
+        "In Time": "நுழைந்த நேரம்",
+        "Out Time": "வெளியேறும் நேரம்"
+    },
+    "My Profile": {
+        "My Profile": "என் சுயவிவரம்",
+        "Name": "பெயர்",
+        "Mobile No": "அலைபேசி எண்",
+        "Email": "மின்னஞ்சல்",
+        "Password": "கடவுச்சொல்",
+        "Old Password": "தற்போதைய கடவுச்சொல்",
+        "New Password ": "புதிய கடவுச்சொல்",
+        "Confirm Password ": "புதிய கடவு சொல்லை உறுதி செய்",
+        "Cancel": "ரத்துசெய்",
+        "Submit": "சமர்ப்பிக்கவும்"
+    },
+    "menuTitles": {
+        "menuTitle": "மெனு தலைப்புகள்",
+        "Home": "முகப்பு",
+        "Booking Enquires": "முன்பதிவு விசாரித்தல்",
+        "My Bookings": "எனது முன்பதிவு",
+        "Manage Vehicle": "வாகனத்தை நிர்வகிக்கவும்",
+        "Manage Driver": "இயக்கிகளை நிர்வகிக்கவும்",
+        "Driver In Out": "டிரைவர்-இன்-அவுட்",
+        "Track": "டிராக்",
+        "Settings": "அமைப்புகள்",
+        "My Profile": "என் சுயவிவரம்"
+    }
+}

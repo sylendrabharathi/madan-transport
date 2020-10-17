@@ -1,10 +1,10 @@
 <ion-header [translucent]="true">
     <ion-toolbar class="toolbar">
         <ion-title *ngIf="!driverId">
-            Create Driver
+            {{'Create Driver.Create Drivers'|translate}}
         </ion-title>
         <ion-title *ngIf="driverId > -1">
-            Edit Driver
+            {{'Create Driver.Edit Drivers'|translate}}
         </ion-title>
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
@@ -21,37 +21,37 @@
         <ion-card-content>
             <form [formGroup]="newDriverForm">
                 <ion-item>
-                    <ion-label>Driver Name :</ion-label>
+                    <ion-label>{{'Create Driver.Driver Name'|translate}} :</ion-label>
                     <ion-input formControlName="driverName" type="text" placeholder="DriverName"></ion-input>
                 </ion-item>
                 <ion-item>
-                    <ion-label>Mobile No :</ion-label>
+                    <ion-label>{{'Create Driver.Mobile No'|translate}} :</ion-label>
                     <ion-input formControlName="mobileNo" type="tel" placeholder="Mobile Number"></ion-input>
                 </ion-item>
                 <ion-item>
-                    <ion-label>Licence No :</ion-label>
+                    <ion-label>{{'Create Driver.Licence No'|translate}} :</ion-label>
                     <ion-input formControlName="licenceNo" type="text" placeholder="Licence Number"></ion-input>
                 </ion-item>
                 <ion-item>
-                    <ion-label>Licence Validity :</ion-label>
+                    <ion-label>{{'Create Driver.Licence Validity'|translate}} :</ion-label>
                     <ion-datetime formControlName="licenceValidity" display-format="YYYY-MM-DD" [min]="currentYear" [max]="maxyear"></ion-datetime>
                 </ion-item>
                 <ion-item>
-                    <ion-label>Licence Document :</ion-label>
+                    <ion-label>{{'Create Driver.Licence Document'|translate}} :</ion-label>
                     <ion-button (click)="chooseFile()">Choose Licence</ion-button>
                 </ion-item>
             </form>
             <form [formGroup]="driverUserForm">
                 <ion-item>
-                    <ion-label>Email Id</ion-label>
+                    <ion-label>{{'Create Driver.Email Id'|translate}}</ion-label>
                     <ion-input formControlName="mailId" type="mail" placeholder="XXX@gmail.com"></ion-input>
                 </ion-item>
                 <ion-item>
-                    <ion-label>Password :</ion-label>
+                    <ion-label>{{'Create Driver.Password'|translate}} :</ion-label>
                     <ion-input formControlName="password" type="password" placeholder="New Password"></ion-input>
                 </ion-item>
                 <ion-item>
-                    <ion-label>Confirm Password :</ion-label>
+                    <ion-label>{{'Create Driver.Confirm Password'|translate}} :</ion-label>
                     <ion-input formControlName="cnfPassword" type="password" placeholder="Confirm Password"></ion-input>
                 </ion-item>
             </form>

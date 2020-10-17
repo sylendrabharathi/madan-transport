@@ -27,10 +27,10 @@ export class ManageVehicleCreateComponent implements OnInit {
     refReferenceListVehicleTypeid: ['', [Validators.required]],
     vehicleNo: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(10)]],
     fcValidity: ['', [Validators.required]],
-    fCDocument: ['C:/'],
+    fCDocument: ['', [Validators.required]],
     insurenceValidty: ['', [Validators.required]],
-    insurenceDocument: ['C:/'],
-    rCDocument: ['C:/'],
+    insurenceDocument: ['', [Validators.required]],
+    rCDocument: ['C:/', [Validators.required]],
     description: ['',],
     refReferenceListCityId: ['', [Validators.required]],
     refReferenceListStateId: ['', [Validators.required]],
@@ -94,7 +94,7 @@ export class ManageVehicleCreateComponent implements OnInit {
       console.log(success);
       this.vehicleType = success;
     }, failure => { });
-    this.vehicleApi.getByReferenceList('states').subscribe(success => {
+    this.vehicleApi.getByReferenceList('state').subscribe(success => {
       this.states = success;
       console.log(success);
     }, failure => { });
@@ -133,6 +133,9 @@ export class ManageVehicleCreateComponent implements OnInit {
     this.vehicleForm.get('refReferenceListCityId').setValue(data.vehiLocationCityId);
     this.vehicleForm.get('refReferenceListStateId').setValue(data.vehiLocationStateId);
     this.vehicleForm.get('refReferenceListCountryId').setValue(data.vehiLocationCountryId);
+    this.vehicleForm.get('fCDocument').setValue(data.fcdocument);
+    this.vehicleForm.get('insurenceDocument').setValue(data.insurenceDocument);
+    // this.vehicleForm.get('refReferenceListCountryId')
     this.vehicleForm.get('address1').setValue(data.vehiLocationAddress1);
     this.vehicleForm.get('address2').setValue(data.vehiLocationAddress2);
     this.vehicleForm.get('address3').setValue(data.vehiLocationAddress3);
@@ -141,14 +144,19 @@ export class ManageVehicleCreateComponent implements OnInit {
   }
 
   submit() {
-    if (this.vehicleForm.valid && this.fcUpload && this.insurenceUpload && this.rcUpload) {
+    if (this.vehicleForm.valid) {
       this.loader.createLoader();
       this.vehicleForm.get('refCustId').setValue(this.transpoterId);
       this.fileUpload(this.vehicleForm.value);
     }
     else {
       // this.failure = true;
+      console.log(this.vehicleForm);
+
       this.toast.danger('Fill/Upload all the required fields');
+      this.vehicleForm.markAllAsTouched();
+      this.vehicleForm.markAsDirty();
+      this.vehicleForm.updateValueAndValidity();
     }
   }
   editDetails(data) {

@@ -6,6 +6,7 @@ import { MyProfileComponent } from './my-profile/my-profile.component';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MyProfileApiService } from './services/api/my-profile-api.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { MyProfileApiService } from './services/api/my-profile-api.service';
     IonicModule,
     FormsModule,
     ReactiveFormsModule,
-    MyProfileRoutingModule
+    MyProfileRoutingModule,
+    TranslateModule
   ],
   providers: [
     MyProfileApiService

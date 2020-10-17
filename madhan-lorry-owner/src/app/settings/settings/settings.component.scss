@@ -1,4 +1,45 @@
+@import './../../../global.scss';
 .languageTitle {
     color: black;
     text-align: center;
+}
+
+.lang {
+    font-weight: 600 !important;
+    color: var(--primary-color);
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+}
+
+.cardsettings {
+    width: 100%;
+    height: 100px;
+    margin: 0px;
+    border-radius: 10px;
+    // background-color: burlywood;
+}
+
+.eng {
+    font-weight: 100 !important;
+    color: black;
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+}
+
+.downcolor {
+    font-weight: 100 !important;
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+    color: white;
+}
+
+.selected {
+    background-color: #0d1e36;
+}
+
+.notSelected {
+    background-color: white;
 }

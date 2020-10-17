@@ -44,7 +44,7 @@ export class PaymentsListComponent implements OnInit {
     this.router.navigate(['booking-payments', 'edit', paymentId]);
   }
   deletePayment(paymentId) {
-    this.alert.alertPromt().then(data => {
+    this.alert.alertPromt(`Are you sure you want to delete? `).then(data => {
       if (Boolean(data)) {
         let req: any = {};
         req.RefModifiedBy = 1;

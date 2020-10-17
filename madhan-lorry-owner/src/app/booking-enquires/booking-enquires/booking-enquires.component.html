@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
     <ion-toolbar class="toolbar">
         <ion-title>
-            Booking Enquires
+            {{'Booking Enquires.Booking Enquires' | translate}}
         </ion-title>
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
@@ -15,7 +15,7 @@
         <ion-card-content>
             <div>
                 <ion-note>
-                    <ion-icon name="pin"></ion-icon>&nbsp;Booking ID: {{item.bookingId}}
+                    <ion-icon name="pin"></ion-icon>&nbsp;{{'Booking Enquires.Booking ID' | translate}}: {{item.bookingId}}
                 </ion-note>
             </div>
             <div>
@@ -27,23 +27,23 @@
 
             <div>
                 <ion-note>
-                    <ion-icon name="library"></ion-icon>&nbsp;Material: {{item.material}}
+                    <ion-icon name="library"></ion-icon>&nbsp;{{'Booking Enquires.Material' | translate}}: {{item.material}}
                 </ion-note>
             </div>
             <div>
                 <ion-note>
-                    <ion-icon name="server"></ion-icon>&nbsp;Total Qty: {{item.totalQty}}
+                    <ion-icon name="server"></ion-icon>&nbsp;{{'Booking Enquires.Total Qty' | translate}}: {{item.totalQty}}
                 </ion-note>
             </div>
             <div>
                 <ion-note>
-                    <ion-icon name="bus"></ion-icon>&nbsp;Vehicle Type: {{item.vehicleType}}
+                    <ion-icon name="bus"></ion-icon>&nbsp;{{'Booking Enquires.Vehicle Type' | translate}}: {{item.vehicleType}}
                 </ion-note>
             </div>
 
             <div>
                 <ion-note>
-                    <ion-icon name="today-outline"></ion-icon>&nbsp;Loading Date: {{item.estimatedLoadingTime | date:'MMM dd, yyyy'}}
+                    <ion-icon name="today-outline"></ion-icon>&nbsp;{{'Booking Enquires.Loading Date' | translate}}: {{item.estimatedLoadingTime | date:'MMM dd, yyyy'}}
                 </ion-note>
             </div>
             <div>

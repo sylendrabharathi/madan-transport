@@ -1,0 +1,153 @@
+{
+    "Home": {
+        "Home": "Home",
+        "Rate": "Rate"
+    },
+    "login": {
+        "login": "login",
+        "Email / Phone Number": "Email / Phone Number",
+        "Password": "Password"
+    },
+    "signup": {
+        "signup": "signup",
+        "GST Document": "GST Document",
+        "Name": "Name",
+        "PAN": "PAN",
+        "PAN Document": "PAN Document",
+        "Legal Name": "Legal Name",
+        "Address": "Address",
+        "Nature Of Business": "Nature Of Business",
+        "Entitiy Type": "Entitiy Type",
+        "Registration Type": "Registration Type",
+        "DeptCode And Type": "DeptCode And Type",
+        "Registration Date": "Registration Date",
+        "Telephone": "Telephone",
+        "Mobile": "Mobile",
+        "Email": "Email",
+        "Website": "Website",
+        "Description": "Description",
+        "City": "City",
+        "State": "State",
+        "Country": "Country",
+        "Flat/Building No": "Flat/Building No",
+        "Address Line1": "Address Line1",
+        "Address Line2": "Address Line2",
+        "Land Mark": "Land Mark"
+    },
+    "Booking Enquires": {
+        "Booking Enquires": "Booking Enquires",
+        "Booking ID": "Booking ID",
+        "Material": "Material",
+        "Total Qty": "Total Qty",
+        "Vehicle Type": "Vehicle Type",
+        "Loading Date": "Loading Date"
+    },
+    "My Bookings": {
+        "My Bookings": "My Bookings",
+        "Booking Id": "Booking Id",
+        "Material": "Material",
+        "TotalQty": "TotalQty",
+        "vehicle NO": "vehicle NO",
+        "Driver Name": "Driver Name"
+    },
+    "Booking": {
+        "Booking": "Booking",
+        "Booking Id": "Booking Id",
+        "Material": "Material",
+        "TotalQty": "TotalQty",
+        "vehicleType": "vehicleType",
+        "vehicle NO": "vehicle NO",
+        "Driver Name": "Driver Name",
+        "Driver Mobile": "Driver Mobile",
+        "LoadingDateTime": "LoadingDateTime",
+        "PaymentDate": "PaymentDate",
+        "Amount": "Amount",
+        "Payment Purpose": "Payment Purpose",
+        "Fright": "Fright"
+    },
+    "Manage Vehicles": {
+        "Manage Vehicles": "Manage Vehicles",
+        "Vehicle NO": "Vehicle NO",
+        "Vehicle Type": "Vehicle Type",
+        "Location": "Location",
+        "FC Validity": "FC Validity",
+        "Insurance Validity": "Insurance Validity"
+    },
+    "Create Vehicle": {
+        "Create Vehicle": "Create Vehicle",
+		"Edit Vehicle":"Edit Vehicle",
+        "Vehicle Type": "Vehicle Type",
+        "Vehicle NO": "Vehicle NO",
+        "FC Validity": "FC Validity",
+        "FC Document": "FC Document",
+        "Insurence Validity": "Insurence Validity",
+        "Insurence Document": "Insurence Document",
+        "RC Document": "RC Document",
+        "Description": "Description",
+        "City": "City",
+        "State": "State",
+        "Country": "Country",
+        "Flat/Bulding No": "Flat/Bulding No",
+        "Address Line 1": "Address Line 1",
+        "Address Line 2": "Address Line 2",
+        "Land Mark": "Land Mark"
+    },
+    "Manage Drivers": {
+        "Manage Drivers": "Manage Drivers",
+        "Driver Name": "Driver Name",
+        "Mobile Number": "Mobile Number",
+        "License NO ": "License NO ",
+        "License Validity": "License Validity"
+    },
+    "Create Driver": {
+        "Create Drivers": "Create Drivers",
+		"Edit Drivers":"Edit Driver",
+        "Driver Name": "Driver Name",
+        "Mobile No": "Mobile No",
+        "Licence No": "Licence No",
+        "Licence Validity": "Licence Validity",
+        "Licence Document": "Licence Document",
+        "Email Id": "Email Id",
+        "Password": "Password",
+        "Confirm Password": "Confirm Password"
+    },
+    "Driver-In-Out": {
+        "Driver-In-Out": "Driver-In-Out",
+        "Driver Name": "Driver Name",
+        "Mobile Number": "Mobile Number",
+        "In Time ": "In Time ",
+        "Out Time": "Out Time"
+    },
+    "New Driver-In-Out": {
+        "New Driver-In-Out": "New Driver-In-Out",
+		"Edit Driver-In-Out":"Edit Driver-In-Out",
+        "Driver Name": "Driver Name ",
+        "Vehicle Number": "Vehicle Number",
+        "In Time": "In Time",
+        "Out Time": "Out Time"
+    },
+    "My Profile": {
+        "My Profile": "My Profile",
+        "Name": "Name",
+        "Mobile No": "Mobile No ",
+        "Email": "Email",
+        "Password": "Password",
+        "Old Password": "Old Password",
+        "New Password ": "New Password ",
+        "Confirm Password ": "Confirm Password ",
+        "Cancel": "Cancel",
+        "Submit": "Submit"
+    },
+    "menuTitles": {
+        "menuTitle": "menuTitles",
+        "Home": "Home",
+        "Booking Enquires": "Booking Enquires",
+        "My Bookings": "My Bookings",
+        "Manage Vehicle": "Manage Vehicle",
+        "Manage Driver": "Manage Driver",
+        "Driver In Out": "Driver In Out",
+        "Track": "Track",
+        "Settings": "Settings",
+        "My Profile": "My Profile"
+    }
+}

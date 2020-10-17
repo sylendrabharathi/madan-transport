@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
     <ion-toolbar class="toolbar">
         <ion-title>
-            Manage Vehicles
+            {{'Manage Vehicles.Manage Vehicles' | translate}}
         </ion-title>
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
@@ -20,35 +20,35 @@
             <div>
                 <ion-note>
                     <ion-icon name="language-outline"></ion-icon>
-                    <span>&nbsp;Vehicle NO : &nbsp;</span>
+                    <span>&nbsp;{{'Manage Vehicles.Vehicle NO' | translate}} : &nbsp;</span>
                     <span>{{vehicle.vvberVehicleNo}}</span>
                 </ion-note>
             </div>
             <div>
                 <ion-note>
                     <ion-icon name="bus-outline"></ion-icon>
-                    <span>&nbsp;Vehicle Type : &nbsp;</span>
+                    <span>&nbsp;{{'Manage Vehicles.Vehicle Type' | translate}} : &nbsp;</span>
                     <span>{{vehicle.rlvtName}}</span>
                 </ion-note>
             </div>
             <div>
                 <ion-note>
                     <ion-icon name="location-outline"></ion-icon>
-                    <span>&nbsp;Location: &nbsp;</span>
+                    <span>&nbsp;{{'Manage Vehicles.Location' | translate}}: &nbsp;</span>
                     <span>{{vehicle.vehiLocationStateName}}</span>
                 </ion-note>
             </div>
             <div>
                 <ion-note>
                     <ion-icon name="calendar-outline"></ion-icon>
-                    <span>&nbsp;FC Validity: &nbsp;</span>
+                    <span>&nbsp;{{'Manage Vehicles.FC Validity' | translate}}: &nbsp;</span>
                     <span>{{vehicle.fcvalidity | date:'MMM dd, yyyy'}}</span>
                 </ion-note>
             </div>
             <div>
                 <ion-note>
                     <ion-icon name="calendar-outline"></ion-icon>
-                    <span>&nbsp;Insurance Validity: &nbsp;</span>
+                    <span>&nbsp;{{'Manage Vehicles.Insurance Validity' | translate}}: &nbsp;</span>
                     <span>{{vehicle.insurenceValidty | date:'MMM dd, yyyy'}}</span>
                 </ion-note>
             </div>

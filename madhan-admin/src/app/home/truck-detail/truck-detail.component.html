@@ -21,6 +21,11 @@
                 </div>
                 <div>
                     <ion-note>
+                        <ion-icon name="bus"></ion-icon> Vehicle Type: {{item.vehicleType}}
+                    </ion-note>
+                </div>
+                <div>
+                    <ion-note>
                         <ion-icon name="reader"></ion-icon> Vehicle No: {{item.vehicleNo}}
                     </ion-note>
                 </div>
@@ -29,11 +34,7 @@
                         <ion-icon name="location"></ion-icon> Live Location: {{item.address4}}
                     </ion-note>
                 </div>
-                <div>
-                    <ion-note>
-                        <ion-icon name="bus"></ion-icon> Vehicle Type: {{item.vehicleType}}
-                    </ion-note>
-                </div>
+
                 <div>
                     <ion-note>
                         <ion-icon name="call"></ion-icon> Mobile No: {{item.mobile}}
@@ -41,7 +42,7 @@
                 </div>
                 <span>
                             <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-                                <ion-fab-button style="--background: var(--primary-color) !important; ">
+                                <ion-fab-button style="--background: var(--primary-color) !important; " (click)="sendMsg(item.vehicleId)">
                                 <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
                           </ion-fab-button>
                             </ion-fab>
@@ -49,9 +50,9 @@
             </ion-card-content>
         </ion-card>
     </div>
-
-    <div id="tracking_map" class="map-div">
-
+    <div class="map-div">
+        <div id="tracking_map">
+        </div>
     </div>
 
 

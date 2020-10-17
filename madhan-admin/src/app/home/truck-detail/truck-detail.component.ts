@@ -17,6 +17,7 @@ import { HomeApiService } from '../service/api/home-api.service';
 import { ActivatedRoute } from '@angular/router';
 import { LoaderService } from 'src/app/service/Loader/loader.service';
 import * as Leaflet from 'leaflet';
+import { AlertServiceService } from 'src/app/service/alert/alert-service.service';
 declare var google;
 
 @Component({
@@ -30,6 +31,7 @@ export class TruckDetailComponent implements OnInit {
   private sub: any;
   bookingId: number;
   location: string;
+  polId;
 
   @ViewChild('tracking_map', { static: false }) mapElement: ElementRef;
   tracking_map: GoogleMap;
@@ -39,7 +41,9 @@ export class TruckDetailComponent implements OnInit {
     private homeService: HomeApiService,
     private aRoute: ActivatedRoute,
     private loader: LoaderService,
-    private geoLocation: Geolocation) { }
+    private geoLocation: Geolocation,
+    private alert: AlertServiceService) { }
+
 
   async ngOnInit() {
     await this.platform.ready();
@@ -48,6 +52,7 @@ export class TruckDetailComponent implements OnInit {
     this.sub = this.aRoute.params.subscribe(param => {
       this.bookingId = Number(param['bookingId']);
       this.location = param['source'];
+      this.polId = Number(param['polId'])
     });
     this.getNearByTrucks(this.location);
 
@@ -157,6 +162,25 @@ export class TruckDetailComponent implements OnInit {
         console.log('failure ', failure);
       }
     );
+  }
+
+  sendMsg(vehicleId) {
+    this.alert.alertPromt(`Send Enquiry ? `).then(data => {
+      if (Boolean(data)) {
+        const req = {
+          "RefOrgId": 3,
+          "RefPOLBookingMappingId": this.polId,
+          "RefVehicleId": vehicleId,
+          "RefCreatedBy": 1
+        }
+        this.homeService.sendMsgToVehicle(req).subscribe(success => {
+          console.log('done', success);
+
+        }, failure => {
+          console.log('fail', failure);
+        });
+      }
+    });
   }
 
 }

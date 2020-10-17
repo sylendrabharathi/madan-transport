@@ -12,12 +12,12 @@
         <ion-card-content>
             <form class="login-form" [formGroup]="loginForm">
                 <ion-item class="form-item">
-                    <ion-label position="float">Email / Phone Number : </ion-label>
+                    <ion-label position="float">{{'login.Email / Phone Number' | translate}} : </ion-label>
                     <ion-input type="text" formControlName="userId" placeholder=""></ion-input>
                 </ion-item>
 
                 <ion-item class="form-item">
-                    <ion-label position="float">Password : </ion-label>
+                    <ion-label position="float">{{'login.Password' | translate}} : </ion-label>
                     <ion-input type="password" formControlName="password" placeholder="********"></ion-input>
                 </ion-item>
 

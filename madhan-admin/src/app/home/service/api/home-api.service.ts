@@ -14,4 +14,7 @@ export class HomeApiService {
   getFindTruck(source) {
     return this.api.get('BookingFlowReports/getAdminFindTruck/?Location=' + source);
   }
+  sendMsgToVehicle(req) {
+    return this.api.post('VehicleBookingEnqResponse', req);
+  }
 }

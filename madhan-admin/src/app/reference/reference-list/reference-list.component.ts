@@ -74,7 +74,7 @@ export class ReferenceListComponent implements OnInit {
     }
   }
   deleteReference(id) {
-    this.alert.alertPromt().then(data => {
+    this.alert.alertPromt(`Are you sure you want to delete? `).then(data => {
       if (Boolean(data)) {
         this.loader.createLoader();
         let req: any = {};
@@ -99,7 +99,7 @@ export class ReferenceListComponent implements OnInit {
     });
   }
   deleteReferenceList(id) {
-    this.alert.alertPromt().then(data => {
+    this.alert.alertPromt(`Are you sure you want to delete? `).then(data => {
       if (Boolean(data)) {
         this.loader.createLoader();
         let req: any = {};

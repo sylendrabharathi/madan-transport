@@ -33,6 +33,7 @@ export class NewDriverInOutComponent implements OnInit {
   maxyear;
   date;
   transpoterId;
+  isEdit = false;
   constructor(private route: Router,
     private inOutApi: DriverInOutApiService,
     private fb: FormBuilder,
@@ -55,6 +56,7 @@ export class NewDriverInOutComponent implements OnInit {
       this.driverInOutId = data['driverInOutId'];
     });
     if (this.driverInOutId > -1) {
+      this.isEdit = true;
       this.loadInOutData(this.driverInOutId);
     }
 

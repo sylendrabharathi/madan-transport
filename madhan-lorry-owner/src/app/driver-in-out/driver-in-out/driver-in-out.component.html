@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
     <ion-toolbar class="toolbar">
         <ion-title>
-            Driver-In-Out
+            {{'Driver-In-Out.Driver-In-Out'|translate}}
         </ion-title>
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
@@ -21,28 +21,28 @@
             <div>
                 <ion-note>
                     <ion-icon name="person-outline"></ion-icon>
-                    <span>&nbsp;Driver Name : &nbsp;</span>
+                    <span>&nbsp;{{'Driver-In-Out.Driver Name'|translate}} : &nbsp;</span>
                     <span>{{driver.driverName}}</span>
                 </ion-note>
             </div>
             <div>
                 <ion-note>
                     <ion-icon name="call-outline"></ion-icon>
-                    <span>&nbsp;Mobile Number : &nbsp;</span>
+                    <span>&nbsp;{{'Driver-In-Out.Mobile Number'|translate}} : &nbsp;</span>
                     <span>{{driver.mobileNo}}</span>
                 </ion-note>
             </div>
             <div>
                 <ion-note>
                     <ion-icon name="time-outline"></ion-icon>
-                    <span>&nbsp;In Time  : &nbsp;</span>
+                    <span>&nbsp;{{'Driver-In-Out.In Time'|translate}}  : &nbsp;</span>
                     <span>{{driver.inTime  | date:'MMM dd, yyyy HH:mm'}}</span>
                 </ion-note>
             </div>
             <div>
                 <ion-note>
                     <ion-icon name="time-outline"></ion-icon>
-                    <span>&nbsp;Out Time : &nbsp;</span>
+                    <span>&nbsp;{{'Driver-In-Out.Out Time'|translate}} : &nbsp;</span>
                     <span>{{driver.outTime  | date:'MMM dd, yyyy HH:mm'}}</span>
                 </ion-note>
             </div>

@@ -1,7 +1,10 @@
 <ion-header [translucent]="true">
     <ion-toolbar class="toolbar">
-        <ion-title>
-            New Driver-In-Out
+        <ion-title *ngIf="!isEdit">
+            {{'New Driver-In-Out.New Driver-In-Out'|translate}}
+        </ion-title>
+        <ion-title *ngIf="isEdit">
+            {{'New Driver-In-Out.Edit Driver-In-Out'|translate}}
         </ion-title>
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
@@ -17,24 +20,24 @@
         <ion-card-content>
             <form [formGroup]="timeForm">
                 <ion-item>
-                    <ion-label>Driver Name :</ion-label>
+                    <ion-label>{{'New Driver-In-Out.Driver Name'|translate}} :</ion-label>
                     <ion-select formControlName="refDriverId" placeholder="Select Driver" mode="ios" interface="popover">
                         <ion-select-option *ngFor="let driver of drivers" [value]="driver.driverId">{{driver.driverName}}</ion-select-option>
 
                     </ion-select>
                 </ion-item>
                 <ion-item>
-                    <ion-label>Vehicle Number :</ion-label>
+                    <ion-label>{{'New Driver-In-Out.Vehicle Number'|translate}} :</ion-label>
                     <ion-select formControlName="refVehicleId" placeholder="Select Vehicle" mode="ios" interface="popover">
                         <ion-select-option *ngFor="let vehicle of vehicles" [value]="vehicle.vehicleId">{{vehicle.vvberVehicleNo}}</ion-select-option>
                     </ion-select>
                 </ion-item>
                 <ion-item>
-                    <ion-label>In Time :</ion-label>
+                    <ion-label>{{'New Driver-In-Out.In Time'|translate}} :</ion-label>
                     <ion-datetime formControlName="inTime" placeholder="YYYY-MM-DD HH:mm" display-format="YYYY-MM-DD HH:mm" [min]="currentYear" [max]="maxyear"> </ion-datetime>
                 </ion-item>
                 <ion-item>
-                    <ion-label>Out Time :</ion-label>
+                    <ion-label>{{'New Driver-In-Out.Out Time'|translate}} :</ion-label>
                     <ion-datetime formControlName="outTime" placeholder="YYYY-MM-DD HH:mm" display-format="YYYY-MM-DD HH:mm" [min]="currentYear" [max]="maxyear"></ion-datetime>
                 </ion-item>
             </form>

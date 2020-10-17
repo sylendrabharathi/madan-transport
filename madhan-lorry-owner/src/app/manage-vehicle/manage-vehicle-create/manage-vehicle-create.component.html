@@ -1,10 +1,10 @@
 <ion-header [translucent]="true">
     <ion-toolbar class="toolbar">
         <ion-title *ngIf="!vehicleEditId">
-            Create Vehicle
+            {{'Create Vehicle.Create Vehicle'|translate}}
         </ion-title>
         <ion-title *ngIf="vehicleEditId > -1">
-            Edit Vehicle
+            {{'Create Vehicle.Edit Vehicle'|translate}}
         </ion-title>
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
@@ -19,71 +19,71 @@
         <ion-card-content>
             <form [formGroup]="vehicleForm">
                 <ion-item>
-                    <ion-label>&nbsp;Vehicle Type :</ion-label>
+                    <ion-label>&nbsp;{{'Create Vehicle.Vehicle Type'|translate}} :</ion-label>
                     <ion-select mode="ios" formControlName="refReferenceListVehicleTypeid" interface="action-sheet" placeholder="Select Vehicle Type">
                         <ion-select-option *ngFor="let item of vehicleType" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
                     </ion-select>
                 </ion-item>
                 <ion-item>
-                    <ion-label>&nbsp;Vehicle NO :</ion-label>
+                    <ion-label>&nbsp;{{'Create Vehicle.Vehicle NO'|translate}} :</ion-label>
                     <ion-input type="text" formControlName="vehicleNo" placeholder="Enter Vehicle Number"></ion-input>
                 </ion-item>
                 <ion-item>
-                    <ion-label>FC Validity :</ion-label>
+                    <ion-label>{{'Create Vehicle.FC Validity'|translate}} :</ion-label>
                     <ion-datetime placeholder="Select Date" formControlName="fcValidity" display-format="YYYY-MM-DD" [min]="currentYear" [max]="maxyear"></ion-datetime>
                 </ion-item>
                 <ion-item>
-                    <ion-label>FC Document</ion-label>
+                    <ion-label>{{'Create Vehicle.FC Document'|translate}} :</ion-label>
                     <ion-button (click)="chooseFile('FC Doc')">Choose FC</ion-button>
                 </ion-item>
                 <ion-item>
-                    <ion-label>Insurence Validity :</ion-label>
+                    <ion-label>{{'Create Vehicle.Insurence Validity'|translate}} :</ion-label>
                     <ion-datetime placeholder="Select Date" formControlName="insurenceValidty" display-format="YYYY-MM-DD" [min]="currentYear" [max]="maxyear"></ion-datetime>
                 </ion-item>
                 <ion-item>
-                    <ion-label>Insurence Document</ion-label>
+                    <ion-label>{{'Create Vehicle.Insurence Document'|translate}} :</ion-label>
                     <ion-button (click)="chooseFile('Insurence Doc')">Choose Insurence</ion-button>
                 </ion-item>
                 <ion-item>
-                    <ion-label>RC Document</ion-label>
+                    <ion-label>{{'Create Vehicle.RC Document'|translate}} :</ion-label>
                     <ion-button (click)="chooseFile('RC Doc')">Choose RC</ion-button>
                 </ion-item>
                 <ion-item>
-                    <ion-label>Description :</ion-label>
+                    <ion-label>{{'Create Vehicle.Description'|translate}} :</ion-label>
                     <ion-textarea style="text-align: right;" formControlName="description" placeholder=" description"></ion-textarea>
                 </ion-item>
                 <ion-item>
-                    <ion-label>City</ion-label>
+                    <ion-label>{{'Create Vehicle.City'|translate}} :</ion-label>
                     <ion-select mode="ios" formControlName="refReferenceListCityId" interface="popover" placeholder="Select City">
                         <ion-select-option *ngFor="let item of citys" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
                     </ion-select>
                 </ion-item>
                 <ion-item>
-                    <ion-label>State</ion-label>
+                    <ion-label>{{'Create Vehicle.State'|translate}} :</ion-label>
                     <ion-select mode="ios" formControlName="refReferenceListStateId" interface="popover" placeholder="Select State">
                         <ion-select-option *ngFor="let item of states" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
                     </ion-select>
                 </ion-item>
                 <ion-item>
-                    <ion-label>Country</ion-label>
+                    <ion-label>{{'Create Vehicle.Country'|translate}} :</ion-label>
                     <ion-select mode="ios" formControlName="refReferenceListCountryId" interface="popover" placeholder="Select Country">
                         <ion-select-option *ngFor="let item of countrys" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
                     </ion-select>
                 </ion-item>
                 <ion-item>
-                    <ion-label>&nbsp;Flat/Bulding No :</ion-label>
+                    <ion-label>&nbsp;{{'Create Vehicle.Flat/Bulding No'|translate}} :</ion-label>
                     <ion-input type="text" formControlName="address1" placeholder="Enter house number"></ion-input>
                 </ion-item>
                 <ion-item>
-                    <ion-label>&nbsp;Address Line 1:</ion-label>
+                    <ion-label>&nbsp;{{'Create Vehicle.Address Line 1'|translate}} :</ion-label>
                     <ion-input type="text" formControlName="address2" placeholder="Street/Locality"></ion-input>
                 </ion-item>
                 <ion-item>
-                    <ion-label>&nbsp;Address Line 2 :</ion-label>
+                    <ion-label>&nbsp;{{'Create Vehicle.Address Line 2'|translate}} :</ion-label>
                     <ion-input type="text" formControlName="address3" placeholder=""></ion-input>
                 </ion-item>
                 <ion-item>
-                    <ion-label>&nbsp;Land Mark :</ion-label>
+                    <ion-label>&nbsp;{{'Create Vehicle.Land Mark'|translate}} :</ion-label>
                     <ion-input type="text" formControlName="address4" placeholder="Landmark"></ion-input>
                 </ion-item>
             </form>

@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BookingEnquiresComponent } from './booking-enquires/booking-enquires.component';
 import { BookingEnquiresApiService } from './services/api/booking-enquires-api.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -17,11 +18,12 @@ import { BookingEnquiresApiService } from './services/api/booking-enquires-api.s
     IonicModule,
     FormsModule,
     ReactiveFormsModule,
-    BookingEnquiresRoutingModule
+    BookingEnquiresRoutingModule,
+    TranslateModule
   ],
   providers: [
     BookingEnquiresApiService
   ]
-  
+
 })
 export class BookingEnquiresModule { }

@@ -9,7 +9,7 @@ const routes: Routes = [
     component: HomePage,
   },
   {
-    path: ':bookingId/:source/truck-detail',
+    path: ':bookingId/:polId/:source/truck-detail',
     component: TruckDetailComponent
   }
 ];

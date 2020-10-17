@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
     <ion-toolbar class="toolbar">
         <ion-title>
-            Home
+            {{'Home.Home' | translate}}
         </ion-title>
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
@@ -29,7 +29,7 @@
             <div>
                 <ion-note>
                     <ion-icon name="cash-outline"></ion-icon>
-                    <span class="field">&nbsp;&nbsp; Rate : </span> <span> {{item.amount}}</span>
+                    <span class="field">&nbsp;&nbsp;  {{'Home.Rate' | translate}} : </span> <span> {{item.amount}}</span>
                 </ion-note>
             </div>
         </ion-card-content>

@@ -38,9 +38,9 @@ export class AppComponent implements OnInit {
 
   formMenuList() {
     // Removing Location and Reports
-    const menuIcons = ['home', 'bus', 'document-text-outline', 'file-tray-stacked', 'book-outline', 'card-outline', 'man', 'people', 'podium'];
-    const menuTitles = ['Home', 'Vehicle Willing Details', 'LR', 'Rate Card', 'Booking Receipts', 'Booking Payments', 'Reference', 'Employee', 'ORG'];
-    const menuLinks = ['home', 'vehicle-details', 'lr', 'rate-card', 'booking-receipt', 'booking-payments', 'reference', 'employee', 'org'];
+    const menuIcons = ['home', 'bus', 'document-text-outline', 'file-tray-stacked', 'book-outline', 'card-outline', 'man', 'people', 'podium', 'person-outline'];
+    const menuTitles = ['Home', 'Vehicle Willing Details', 'LR', 'Rate Card', 'Booking Receipts', 'Booking Payments', 'Reference', 'Employee', 'ORG', 'My Profile'];
+    const menuLinks = ['home', 'vehicle-details', 'lr', 'rate-card', 'booking-receipt', 'booking-payments', 'reference', 'employee', 'org', 'my-profile'];
 
     for (let i = 0; i < menuTitles.length; i++) {
       const menuListItem = {
