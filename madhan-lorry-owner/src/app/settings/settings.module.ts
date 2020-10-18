@@ -6,6 +6,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SettingsApiService } from './services/api/settings-api.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -14,10 +15,11 @@ import { SettingsApiService } from './services/api/settings-api.service';
   ],
   imports: [
     CommonModule,
-    IonicModule, 
+    IonicModule,
     FormsModule,
     ReactiveFormsModule,
-    SettingsRoutingModule
+    SettingsRoutingModule,
+    TranslateModule
   ],
   providers: [
     SettingsApiService

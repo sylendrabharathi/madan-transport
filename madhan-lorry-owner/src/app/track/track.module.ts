@@ -6,6 +6,7 @@ import { TrackingComponent } from './tracking/tracking.component';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TrackApiService } from './services/api/track-api.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { TrackApiService } from './services/api/track-api.service';
     IonicModule,
     FormsModule,
     ReactiveFormsModule,
-    TrackRoutingModule
+    TrackRoutingModule,
+    TranslateModule
   ],
   providers: [
     TrackApiService

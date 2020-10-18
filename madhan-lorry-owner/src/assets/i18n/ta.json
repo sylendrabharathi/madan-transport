@@ -7,10 +7,13 @@
     "login": {
         "login": "உள்நுழைய",
         "Email / Phone Number": "மின்னஞ்சல் / தொலைபேசி எண்",
-        "Password": "கடவுச்சொல்"
+        "Password": "கடவுச்சொல்",
+        "Sign Up": "பதிவுபெறுக",
+        "Login": "புகுபதிகை"
     },
-    "signup": {
-        "signup": "பதிவுபெறுதல்",
+    "Resgistration": {
+        "Resgistration": "பதிவுபெறுதல்",
+        "GST": "ஜிஎஸ்டி",
         "GST Document": "ஜிஎஸ்டி ஆவணம்",
         "Name": "பெயர்",
         "PAN": "பான் எண்",
@@ -33,7 +36,9 @@
         "Flat/Building No": "பிளாட் / கட்டிடம் எண்",
         "Address Line1": "முகவரி வரி 1",
         "Address Line2": "முகவரி வரி 2",
-        "Land Mark": "நில குறி"
+        "Land Mark": "நில குறி",
+        "Password": "கடவுச்சொல்",
+        "Confirm Password": "புதிய கடவு சொல்லை உறுதி செய்"
     },
     "Booking Enquires": {
         "Booking Enquires": "முன்பதிவு விசாரித்தல்",
@@ -134,8 +139,8 @@
         "Email": "மின்னஞ்சல்",
         "Password": "கடவுச்சொல்",
         "Old Password": "தற்போதைய கடவுச்சொல்",
-        "New Password ": "புதிய கடவுச்சொல்",
-        "Confirm Password ": "புதிய கடவு சொல்லை உறுதி செய்",
+        "New Password": "புதிய கடவுச்சொல்",
+        "Confirm Password": "புதிய கடவு சொல்லை உறுதி செய்",
         "Cancel": "ரத்துசெய்",
         "Submit": "சமர்ப்பிக்கவும்"
     },
@@ -150,5 +155,12 @@
         "Track": "டிராக்",
         "Settings": "அமைப்புகள்",
         "My Profile": "என் சுயவிவரம்"
+    },
+    "Tracking": {
+        "tracking": "டிராக்"
+    },
+    "Settings": {
+        "Settings": "அமைப்புகள்"
     }
+
 }

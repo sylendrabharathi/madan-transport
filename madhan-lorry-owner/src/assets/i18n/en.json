@@ -6,10 +6,13 @@
     "login": {
         "login": "login",
         "Email / Phone Number": "Email / Phone Number",
-        "Password": "Password"
+        "Password": "Password",
+		"Sign Up":"Sign Up",
+		"Login":"Login"
     },
-    "signup": {
-        "signup": "signup",
+    "Resgistration": {
+        "Resgistration": "Resgistration",
+		"GST":"GST",
         "GST Document": "GST Document",
         "Name": "Name",
         "PAN": "PAN",
@@ -32,7 +35,9 @@
         "Flat/Building No": "Flat/Building No",
         "Address Line1": "Address Line1",
         "Address Line2": "Address Line2",
-        "Land Mark": "Land Mark"
+        "Land Mark": "Land Mark",
+		"Password": "Password",
+		"Confirm Password": "Confirm Password"
     },
     "Booking Enquires": {
         "Booking Enquires": "Booking Enquires",
@@ -91,7 +96,7 @@
         "Address Line 1": "Address Line 1",
         "Address Line 2": "Address Line 2",
         "Land Mark": "Land Mark"
-    },
+	},
     "Manage Drivers": {
         "Manage Drivers": "Manage Drivers",
         "Driver Name": "Driver Name",
@@ -133,8 +138,8 @@
         "Email": "Email",
         "Password": "Password",
         "Old Password": "Old Password",
-        "New Password ": "New Password ",
-        "Confirm Password ": "Confirm Password ",
+        "New Password": "New Password ",
+        "Confirm Password": "Confirm Password ",
         "Cancel": "Cancel",
         "Submit": "Submit"
     },
@@ -149,5 +154,11 @@
         "Track": "Track",
         "Settings": "Settings",
         "My Profile": "My Profile"
+    } ,
+	"Tracking": {
+        "tracking": "Tracking"
+    },
+    "Settings": {
+        "Settings": "Settings"
     }
 }

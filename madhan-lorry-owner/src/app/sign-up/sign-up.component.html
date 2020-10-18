@@ -1,129 +1,132 @@
 <ion-header [translucent]="true">
     <ion-toolbar class="toolbar">
-        <ion-title>Resgistration</ion-title>
+        <ion-title>{{'Resgistration.Resgistration' | translate}}</ion-title>
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
-        <ion-buttons slot="end">
-            <ion-button (click)="submit()">Submit</ion-button>
+        <ion-buttons slot="end" class="submit">
+            <ion-icon (click)="submit()" class="sendbtn" name="send-sharp"></ion-icon>
         </ion-buttons>
+        <!-- <ion-buttons slot="end">
+            <ion-button (click)="submit()">{{'Resgistration.Submit' | translate}}Submit</ion-button>
+        </ion-buttons> -->
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
     <form class="signup-form" [formGroup]="registrationForm">
         <ion-item class="form-item">
-            <ion-label position="floating">GST:</ion-label>
+            <ion-label position="floating">{{'Resgistration.GST' | translate}}GST:</ion-label>
             <ion-input type="text" formControlName="gstno" (ionBlur)="getDetailsFromGst()"></ion-input>
         </ion-item>
-        <ion-item>
-            <ion-label>GST Document</ion-label>
-            <ion-button (click)="chooseFile('gstno')">Choose GST</ion-button>
+        <ion-item class="form-item">
+            <ion-label position="floating">{{'Resgistration.GST Document' | translate}}</ion-label>
+            <ion-button class="uploadbtn" (click)="chooseFile('gstno')">Choose GST</ion-button>
         </ion-item>
         <ion-item class="form-item">
-            <ion-label position="floating">Name:</ion-label>
+            <ion-label position="floating">{{'Resgistration.Name' | translate}}:</ion-label>
             <ion-input type="text" formControlName="name" [readonly]="companyName!=''"></ion-input>
         </ion-item>
         <ion-item class="form-item">
-            <ion-label position="floating">PAN:</ion-label>
+            <ion-label position="floating">{{'Resgistration.PAN' | translate}}:</ion-label>
             <ion-input type="text" formControlName="Pannumber" [readonly]="true"></ion-input>
         </ion-item>
-        <ion-item>
-            <ion-label>PAN Document</ion-label>
-            <ion-button (click)="chooseFile('Pannumber')">Choose PAN</ion-button>
+        <ion-item class="form-item">
+            <ion-label position="floating">{{'Resgistration.PAN Document' | translate}}</ion-label>
+            <ion-button class="uploadbtn" (click)="chooseFile('Pannumber')">Choose PAN</ion-button>
         </ion-item>
         <ion-item class="form-item">
-            <ion-label position="floating">Legal Name:</ion-label>
+            <ion-label position="floating">{{'Resgistration.Legal Name' | translate}}:</ion-label>
             <ion-input type="text" formControlName="legalName" [readonly]="true"></ion-input>
         </ion-item>
         <ion-item class="form-item">
-            <ion-label position="floating">Address:</ion-label>
+            <ion-label position="floating">{{'Resgistration.Address' | translate}}:</ion-label>
             <ion-textarea type="text" formControlName="address" [readonly]="true"></ion-textarea>
         </ion-item>
         <ion-item class="form-item">
-            <ion-label position="floating">Nature Of Business:</ion-label>
+            <ion-label position="floating">{{'Resgistration.Nature Of Business' | translate}}:</ion-label>
             <ion-textarea type="text" formControlName="natureOfBusiness" [readonly]="true"></ion-textarea>
         </ion-item>
         <ion-item class="form-item">
-            <ion-label position="floating">Entitiy Type:</ion-label>
+            <ion-label position="floating">{{'Resgistration.Entitiy Type' | translate}}:</ion-label>
             <ion-input type="text" formControlName="entityType" [readonly]="true"></ion-input>
         </ion-item>
         <ion-item class="form-item">
-            <ion-label position="floating">Registration Type:</ion-label>
+            <ion-label position="floating">{{'Resgistration.Registration Type' | translate}}:</ion-label>
             <ion-input type="text" formControlName="registrationType" [readonly]="true"></ion-input>
         </ion-item>
         <ion-item class="form-item">
-            <ion-label position="floating">DeptCode And Type:</ion-label>
+            <ion-label position="floating">{{'Resgistration.DeptCode And Type' | translate}}:</ion-label>
             <ion-input type="text" formControlName="deptCodeAndType" [readonly]="true"></ion-input>
         </ion-item>
         <ion-item class="form-item">
-            <ion-label position="floating">Registration Date:</ion-label>
+            <ion-label position="floating">{{'Resgistration.Registration Date' | translate}}:</ion-label>
             <ion-input type="text" formControlName="registrationDate" [readonly]="true"></ion-input>
         </ion-item>
         <ion-item class="form-item">
-            <ion-label position="floating">Telephone:</ion-label>
+            <ion-label position="floating">{{'Resgistration.Telephone' | translate}}:</ion-label>
             <ion-input type="text" formControlName="telePhone" placeholder="044-12345678"></ion-input>
         </ion-item>
         <ion-item class="form-item">
-            <ion-label position="floating">Mobile:</ion-label>
+            <ion-label position="floating">{{'Resgistration.Mobile' | translate}}:</ion-label>
             <ion-input type="text" formControlName="mobile" placeholder="9884156285"></ion-input>
         </ion-item>
         <ion-item class="form-item">
-            <ion-label position="floating">Email:</ion-label>
+            <ion-label position="floating">{{'Resgistration.Email' | translate}}:</ion-label>
             <ion-input type="text" formControlName="email" placeholder="xyz@gmail.com"></ion-input>
         </ion-item>
         <ion-item class="form-item">
-            <ion-label position="floating">Website:</ion-label>
+            <ion-label position="floating">{{'Resgistration.Website' | translate}}:</ion-label>
             <ion-input type="text" formControlName="website" placeholder="www.abcd.com"></ion-input>
         </ion-item>
         <ion-item class="form-item">
-            <ion-label position="floating">Description:</ion-label>
+            <ion-label position="floating">{{'Resgistration.Description' | translate}}:</ion-label>
             <ion-input type="text" formControlName="description"></ion-input>
         </ion-item>
         <ion-item class="form-item">
-            <ion-label position="floating">City:</ion-label>
+            <ion-label position="floating">{{'Resgistration.City' | translate}}:</ion-label>
             <ion-select mode="ios" formControlName="refReferenceListCityId" interface="popover" placeholder="Select City">
                 <ion-select-option *ngFor="let item of citys" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
             </ion-select>
         </ion-item>
         <ion-item class="form-item">
-            <ion-label position="floating">State:</ion-label>
+            <ion-label position="floating">{{'Resgistration.State' | translate}}:</ion-label>
             <ion-select mode="ios" formControlName="refReferenceListStateId" interface="popover" placeholder="Select State">
                 <ion-select-option *ngFor="let item of states" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
             </ion-select>
 
         </ion-item>
         <ion-item class="form-item">
-            <ion-label position="floating">Country:</ion-label>
+            <ion-label position="floating">{{'Resgistration.Country' | translate}}:</ion-label>
             <ion-select mode="ios" formControlName="refReferenceListCountryId" interface="popover" placeholder="Select Country">
                 <ion-select-option *ngFor="let item of countrys" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
             </ion-select>
         </ion-item>
         <ion-item class="form-item">
-            <ion-label position="floating">Flat/Building No:</ion-label>
+            <ion-label position="floating">{{'Resgistration.Flat/Building No' | translate}}:</ion-label>
             <ion-input type="text" formControlName="address1" placeholder="Door Number"></ion-input>
         </ion-item>
         <ion-item class="form-item">
-            <ion-label position="floating">Address Line1:</ion-label>
+            <ion-label position="floating">{{'Resgistration.Address Line1' | translate}}:</ion-label>
             <ion-input type="text" formControlName="address2" placeholder="Street/locality"></ion-input>
         </ion-item>
         <ion-item class="form-item">
-            <ion-label position="floating">Address Line2:</ion-label>
+            <ion-label position="floating">{{'Resgistration.Address Line2' | translate}}:</ion-label>
             <ion-input type="text" formControlName="address3"></ion-input>
         </ion-item>
         <ion-item class="form-item">
-            <ion-label position="floating">Land Mark:</ion-label>
+            <ion-label position="floating">{{'Resgistration.Land Mark' | translate}}:</ion-label>
             <ion-input type="text" formControlName="address4" placeholder="ABC school"></ion-input>
         </ion-item>
     </form>
     <div class="signup">
 
         <ion-item class="form-item">
-            <label position="floating">Password: </label>
+            <label position="floating">{{'Resgistration.Password' | translate}}: </label>
             <ion-input type="password" [(ngModel)]="password" placeholder="********"></ion-input>
         </ion-item>
         <ion-item class="form-item">
-            <label position="floating">Confirm Password: </label>
+            <label position="floating">{{'Resgistration.Confirm Password' | translate}}: </label>
             <ion-input type="password" [(ngModel)]="cnfpassword" placeholder="********" (ionBlur)="checkCnfPassword()"></ion-input>
         </ion-item>
     </div>
