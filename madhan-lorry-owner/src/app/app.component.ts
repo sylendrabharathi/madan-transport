@@ -4,6 +4,7 @@ import { Platform, MenuController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { LanguageService } from './services/language/language.service';
+import { LocalStorageService } from './services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,8 @@ export class AppComponent implements OnInit {
     private statusBar: StatusBar,
     private menuCtrl: MenuController,
     private languageService: LanguageService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private lsService: LocalStorageService
   ) {
     this.initializeApp();
   }
@@ -38,37 +40,58 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.formMenuList();
-    console.log('tesgt');
+    this.languageService.getlanguageSubject().subscribe((res) => {
+      if (res) {
+        this.formMenuList();
+      }
+    })
 
   }
 
 
   formMenuList() {
-    var home = this.translate.get('menuTitles.Home').subscribe(data => {
-      console.log('data', data);
+    if (this.lsService.getMyLanguage()) {
+      this.translate.use(this.lsService.getMyLanguage());
+      setTimeout(() => {
+        console.log(this.translate.instant('menuTitles.Home'));
+        var Enquires = this.translate.get('menuTitles.Booking Enquires');
+        const menuIcons = ['home', 'bookmarks-outline', 'book-outline', 'bus-outline', 'man-outline', 'people-outline',
+          'map-outline', 'settings-outline', 'person-outline'];
+        const menuTitles = [this.translate.instant('menuTitles.Home'),
+        this.translate.instant('menuTitles.Booking Enquires'),
+        this.translate.instant('menuTitles.My Bookings'),
+        this.translate.instant('menuTitles.Manage Vehicle'),
+        this.translate.instant('menuTitles.Manage Driver'),
+        this.translate.instant('menuTitles.Driver In Out'),
+        this.translate.instant('menuTitles.Track'),
+        this.translate.instant('menuTitles.Settings'),
+        this.translate.instant('menuTitles.My Profile')];
+        const menuLinks = ['home', 'booking-enquires', 'my-bookings', 'manage-vehicle', 'manage-driver', 'driver-in-out',
+          'track', 'settings', 'my-profile'];
+        const menus = [];
+        for (let i = 0; i < menuTitles.length; i++) {
+          const menuListItem = {
+            icon: menuIcons[i],
+            title: menuTitles[i],
+            url: menuLinks[i]
+          };
+          menus.push(menuListItem);
+        }
+        this.menus = menus;
 
-    })
-    console.log('home', home);
+      }, 200)
 
-    var Enquires = this.translate.get('menuTitles.Booking Enquires');
-    const menuIcons = ['home', 'bookmarks-outline', 'book-outline', 'bus-outline', 'man-outline', 'people-outline',
-      'map-outline', 'settings-outline', 'person-outline'];
-    const menuTitles = [home, Enquires, 'My Bookings', 'Manage Vehicle', 'Manage Driver', 'Driver In Out',
-      'Track', 'Settings', 'My Profile'];
-    const menuLinks = ['home', 'booking-enquires', 'my-bookings', 'manage-vehicle', 'manage-driver', 'driver-in-out',
-      'track', 'settings', 'my-profile'];
-    for (let i = 0; i < menuTitles.length; i++) {
-      const menuListItem = {
-        icon: menuIcons[i],
-        title: menuTitles[i],
-        url: menuLinks[i]
-      };
-      this.menus.push(menuListItem);
     }
+
+
   }
 
   closeMenu() {
     this.menuCtrl.close();
+  }
+
+  getLocalTxt() {
+
   }
 
 }

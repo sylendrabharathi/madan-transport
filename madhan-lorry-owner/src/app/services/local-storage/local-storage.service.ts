@@ -8,6 +8,7 @@ export class LocalStorageService {
   private userId = 'userId';
   private customerId = 'customerId';
   private userIns = 'userIns';
+  private myLanguage = 'my_language';
 
   constructor() { }
 
@@ -33,6 +34,14 @@ export class LocalStorageService {
 
   getUserIns() {
     return localStorage.getItem(this.userIns);
+  }
+
+  setmyLanguage(val) {
+    localStorage.setItem(this.myLanguage, val);
+  }
+
+  getMyLanguage() {
+    return localStorage.getItem(this.myLanguage);
   }
 
 }

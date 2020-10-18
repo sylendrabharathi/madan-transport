@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { LocalStorageService } from '../local-storage/local-storage.service';
 
 const LNG_KEY = 'SELECTED_LANGUAGE'
 
@@ -9,8 +11,10 @@ const LNG_KEY = 'SELECTED_LANGUAGE'
   providedIn: 'root'
 })
 export class LanguageService {
-  selected = ''
+  selected = '';
+  langaugeSubject = new BehaviorSubject<any>(1);
   constructor(private translate: TranslateService,
+    private lsService: LocalStorageService,
     private storage: Storage) { }
 
   setInitialLanguage() {
@@ -35,5 +39,15 @@ export class LanguageService {
     this.translate.use(lang);
     this.selected = lang;
     this.storage.set(LNG_KEY, lang);
+    this.lsService.setmyLanguage(lang);
+    this.setLanguageSubject(true);
+  }
+
+  setLanguageSubject(str) {
+    this.langaugeSubject.next(str);
+  }
+
+  getlanguageSubject(): Observable<any> {
+    return this.langaugeSubject.asObservable();
   }
 }
