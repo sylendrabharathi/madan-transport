@@ -10,9 +10,10 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class LrDetailComponent implements OnInit {
   lrForm = this.fb.group({
-    bookingId: [[Validators.required]],
+    bookingId: [],
     lrNo: [[Validators.required]],
     totalQty: [[Validators.required]],
+    material: [[Validators.required]],
     rlmaterialId: [[Validators.required]],
     cpolbmCustomerName: ['', [Validators.required]],
     consignerName: ['', [Validators.required]],
@@ -49,10 +50,12 @@ export class LrDetailComponent implements OnInit {
     rlbppmId: [[Validators.required]],
     rlbppmName: ['', [Validators.required]],
     driverId: [[Validators.required]],
+    fright: ['']
   });
   editBookingId: number = -1;
   bookingIds: any = [];
   isEdit = false;
+  editLrData: any = {};
   constructor(private router: Router,
     private aRoute: ActivatedRoute,
     private lrApi: LrApiService,
@@ -72,6 +75,8 @@ export class LrDetailComponent implements OnInit {
   getLrData(lrId) {
     this.lrApi.getLrDetails(lrId).subscribe(success => {
       console.log('success', success);
+      this.editLrData = success;
+      this.loadLrdata(this.editLrData);
     }, failure => {
       console.log('failure', failure);
     });
@@ -85,6 +90,22 @@ export class LrDetailComponent implements OnInit {
   submit() {
     this.router.navigate(['lr'])
   }
+  loadLrdata(data) {
+    console.log('data', data);
 
+    this.lrForm.get('bookingId').setValue(data.bookingDtls[0].bookingId);
+    this.lrForm.get('lrNo').setValue(data.bookingDtls[0].lrNo);
+    this.lrForm.get('totalQty').setValue(data.bookingDtls[0].totalQty);
+    this.lrForm.get('material').setValue(data.bookingDtls[0].material);
+    // this.lrForm.get('').setValue(data.bookingDtls.);
+    // this.lrForm.get('').setValue(data.);
+    // this.lrForm.get('').setValue(data.);
+    // this.lrForm.get('').setValue(data.);
+    // this.lrForm.get('').setValue(data.);
+    // this.lrForm.get('').setValue(data.);
+    // this.lrForm.get('').setValue(data.);
+    // this.lrForm.get('').setValue(data.);
+    this.lrForm.updateValueAndValidity();
+  }
 
 }

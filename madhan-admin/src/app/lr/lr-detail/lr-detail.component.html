@@ -19,29 +19,26 @@
     <form class="form" [formGroup]="lrForm">
         <ion-item class="form-item">
             <ion-label postion="fixed">Booking Id</ion-label>
-            <ion-select placeholder="Select Booking No" formControlName="bookingId" interface="popover" mode="ios">
+            <ion-select placeholder="Select Booking No" formControlName="bookingId" interface="popover" mode="ios" disabled="true">
                 <ion-select-option *ngFor="let booking of bookingIds" [value]="booking">{{booking}}</ion-select-option>
             </ion-select>
         </ion-item>
         <ion-item class="form-item">
             <ion-label postion="fixed">LR NO</ion-label>
-            <ion-input type="text" formControlName="lrNo" placeholder="96/2345"></ion-input>
+            <ion-input type="text" formControlName="lrNo" placeholder="96/2345" [readonly]="true"></ion-input>
         </ion-item>
         <ion-item class="form-item">
             <ion-label>Quantity</ion-label>
-            <ion-input type="number" formControlName="totalQty" placeholder="30"></ion-input>
+            <ion-input type="number" formControlName="totalQty" placeholder="30" [readonly]="true"></ion-input>
         </ion-item>
 
         <ion-item class="form-item">
             <ion-label>Material</ion-label>
-            <ion-input type="text" formControlName="rlmaterialId" placeholder="Printer"></ion-input>
+            <ion-input type="text" formControlName="material" placeholder="Printer" [readonly]="true"></ion-input>
         </ion-item>
-
-
-
         <ion-item class="form-item">
             <ion-label>Consigner</ion-label>
-            <ion-input type="text" formControlName="cpolbmCustomerName" placeholder="HP"></ion-input>
+            <ion-input type="text" formControlName="cpolbmCustomerName" placeholder="HP" [readonly]="true"></ion-input>
         </ion-item>
 
         <ion-item class="form-item">
@@ -51,21 +48,21 @@
 
         <ion-item class="form-item">
             <ion-label>Source</ion-label>
-            <ion-input type="text" formControlName="" placeholder="Chennai"></ion-input>
+            <ion-input type="text" placeholder="Chennai"></ion-input>
         </ion-item>
 
         <ion-item class="form-item">
             <ion-label>Destination</ion-label>
-            <ion-input type="text" formControlName="" placeholder="Mumbai"></ion-input>
+            <ion-input type="text" placeholder="Mumbai"></ion-input>
         </ion-item>
 
         <ion-item class="form-item">
             <ion-label>Loading Point</ion-label>
-            <ion-input type="text" formControlName="" placeholder="Chennai HUB"></ion-input>
+            <ion-input type="text" placeholder="Chennai HUB"></ion-input>
         </ion-item>
         <ion-item class="form-item">
             <ion-label>un-Loading Point</ion-label>
-            <ion-input type="text" formControlName="" placeholder="Chennai HUB"></ion-input>
+            <ion-input type="text" placeholder="Chennai HUB"></ion-input>
         </ion-item>
 
 
@@ -115,7 +112,7 @@
 
         <ion-item class="form-item">
             <ion-label>Total Pay</ion-label>
-            <ion-input type="number" formControlName="" placeholder=""></ion-input>
+            <ion-input type="number" placeholder=""></ion-input>
         </ion-item>
 
         <ion-item class="form-item">
@@ -125,7 +122,7 @@
 
         <ion-item class="form-item">
             <ion-label>Balance</ion-label>
-            <ion-input type="number" formControlName="" placeholder=""></ion-input>
+            <ion-input type="number" placeholder=""></ion-input>
         </ion-item>
     </form>
 </ion-content>
