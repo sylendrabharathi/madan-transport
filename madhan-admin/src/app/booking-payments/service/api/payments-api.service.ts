@@ -23,7 +23,9 @@ export class PaymentsApiService {
   getVehicleId() {
     return this.api.get('VehicleBookingMapping/GetVBMDetails');
   }
-
+  getVehicleIdByBookingId(bid) {
+    return this.api.get('VehicleBookingMapping/GetVBMDetails?bid=' + bid);
+  }
   editBookingPayment(bookingPaymentId, data) {
     return this.api.put(this.api.formUrl('BookingPayments', bookingPaymentId), data);
   }

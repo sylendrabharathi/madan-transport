@@ -92,6 +92,7 @@ export class BookingEnquiresComponent implements OnInit {
       this.loader.dismissLoader();
       console.log('failure', failure);
     });
+    this.ionViewWillEnter();
   }
   reject(enquireRosponseId) {
     this.loader.createLoader();
@@ -105,6 +106,6 @@ export class BookingEnquiresComponent implements OnInit {
       this.loader.dismissLoader();
       console.log('failure', failure);
     });
-
+    this.ionViewWillEnter();
   }
 }

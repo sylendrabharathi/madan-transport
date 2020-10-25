@@ -20,7 +20,7 @@ export class DetailsListComponent implements OnInit {
     'RefVehicleBookingEnqResponseId': 0,
     'RefCreatedBy': null,
     'RefModifiedby': null,
-    'RateID': 0
+    'refRateID': 0
   };
   constructor(private vehicleDetailsApi: VehicleDetailsapiService,
     private loader: LoaderService,
@@ -64,14 +64,14 @@ export class DetailsListComponent implements OnInit {
             sourceIdByRate = success[0].refSourceReferenceList;
             destiantionIdByRate = success[0].refDestinationReferenceList;
             this.vehicleDetailsApi.getSpecificRate(this.referenceListId, sourceIdByRate, destiantionIdByRate).subscribe(success => {
+              this.loader.dismissLoader();
               console.log('specificsuceess', success);
-              this.bookingMappingJson.RateID = success[0].rateId;
+              this.bookingMappingJson.refRateID = success[0].rateId;
               this.bookingMappingJson.RefPOLBookingMappingId = polId;
               this.bookingMappingJson.RefVehicleId = refVehicle;
               this.bookingMappingJson.RefVehicleBookingEnqResponseId = enqResId;
               this.vehicleDetailsApi.addVehicleBookingMapping(this.bookingMappingJson).subscribe(success => {
                 console.log('added', success);
-                this.loader.dismissLoader();
                 this.ionViewWillEnter();
               }, failure => { this.loader.dismissLoader(); this.toast.danger('not added' + failure); })
 

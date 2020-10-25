@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  serverUrl: 'http://cloud.neolysi.com/madanapi/api/'
+  serverUrl: 'https://cloud.neolysi.com/madanapi/api/'
 };

@@ -1,17 +1,15 @@
 <ion-header [translucent]="true">
     <ion-toolbar class="toolbar">
-        <ion-title *ngIf="!isEdit">
-            New LR
-        </ion-title>
         <ion-title *ngIf="isEdit">
             Edit LR
         </ion-title>
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
-        <ion-buttons slot="end" class="submit">
-            <ion-icon (click)="submit()" class="sendbtn" name="send-sharp"></ion-icon>
-        </ion-buttons>
+        <!-- <ion-buttons slot="end" class="submit">
+            <ion-icon name="add-outline"></ion-icon>
+            <ion-icon (click)="submit()" class="sendbtn" name="add-outline"></ion-icon>
+        </ion-buttons> -->
     </ion-toolbar>
 </ion-header>
 
@@ -19,110 +17,116 @@
     <form class="form" [formGroup]="lrForm">
         <ion-item class="form-item">
             <ion-label postion="fixed">Booking Id</ion-label>
-            <ion-select placeholder="Select Booking No" formControlName="bookingId" interface="popover" mode="ios" disabled="true">
+            <ion-select formControlName="bookingId" interface="popover" mode="ios" disabled="true">
                 <ion-select-option *ngFor="let booking of bookingIds" [value]="booking">{{booking}}</ion-select-option>
             </ion-select>
         </ion-item>
         <ion-item class="form-item">
             <ion-label postion="fixed">LR NO</ion-label>
-            <ion-input type="text" formControlName="lrNo" placeholder="96/2345" [readonly]="true"></ion-input>
+            <ion-input type="text" formControlName="lrNo" [readonly]="editlr"></ion-input>
         </ion-item>
         <ion-item class="form-item">
             <ion-label>Quantity</ion-label>
-            <ion-input type="number" formControlName="totalQty" placeholder="30" [readonly]="true"></ion-input>
+            <ion-input type="number" formControlName="totalQty" [readonly]="true"></ion-input>
         </ion-item>
 
         <ion-item class="form-item">
             <ion-label>Material</ion-label>
-            <ion-input type="text" formControlName="material" placeholder="Printer" [readonly]="true"></ion-input>
+            <ion-input type="text" formControlName="material" [readonly]="true"></ion-input>
         </ion-item>
         <ion-item class="form-item">
             <ion-label>Consigner</ion-label>
-            <ion-input type="text" formControlName="cpolbmCustomerName" placeholder="HP" [readonly]="true"></ion-input>
+            <ion-input type="text" formControlName="cpolbmCustomerName" [readonly]="true"></ion-input>
         </ion-item>
 
         <ion-item class="form-item">
             <ion-label>Consignee</ion-label>
-            <ion-input type="text" formControlName="consignerName" placeholder="LBR Traders"></ion-input>
+            <ion-input type="text" formControlName="consignerName" [readonly]="true"></ion-input>
         </ion-item>
 
         <ion-item class="form-item">
             <ion-label>Source</ion-label>
-            <ion-input type="text" placeholder="Chennai"></ion-input>
+            <ion-input type="text" formControlName="location" [readonly]="true"></ion-input>
         </ion-item>
 
         <ion-item class="form-item">
             <ion-label>Destination</ion-label>
-            <ion-input type="text" placeholder="Mumbai"></ion-input>
+            <ion-input type="text" formControlName="podLocation" [readonly]="true"></ion-input>
+        </ion-item>
+        <!-- <div> -->
+        <ion-item class="form-item" *ngFor="let item of loadingCount">
+            <ion-label>Loading Point </ion-label>
+            <ion-textarea [readonly]="true"> &nbsp;{{item.lpolAddress1}} {{item.lpolAddress2}} {{item.lpolAddress3}} {{item.lpolAddress4}}</ion-textarea>
+            <!-- <ion-input type="text" placeholder="Chennai HUB"></ion-input> -->
+        </ion-item>
+        <!-- </div> -->
+        <ion-item class="form-item" *ngFor="let item of unLoadingCount">
+            <ion-label>un-Loading Point </ion-label>
+            <ion-textarea [readonly]="true"> &nbsp;{{item.lpodAddress1}} {{item.lpodAddress2}} {{item.lpodAddress3}} {{item.lpodAddress4}}</ion-textarea>
+            <!-- <ion-input type="text" placeholder="Chennai HUB"></ion-input> -->
         </ion-item>
 
-        <ion-item class="form-item">
-            <ion-label>Loading Point</ion-label>
-            <ion-input type="text" placeholder="Chennai HUB"></ion-input>
-        </ion-item>
-        <ion-item class="form-item">
-            <ion-label>un-Loading Point</ion-label>
-            <ion-input type="text" placeholder="Chennai HUB"></ion-input>
-        </ion-item>
+        <div *ngFor="let item of transpoterDetails">
+            <ion-item class="form-item">
+                <ion-label>Vehicle No &nbsp;</ion-label>
+                <ion-input type="text" [readonly]="true">{{item.vvberVehicleNo}}</ion-input>
+            </ion-item>
+            <ion-item class="form-item">
+                <ion-label>Transpoter Name &nbsp;</ion-label>
+                <ion-input type="text" [readonly]="true">{{item.transporterName}}</ion-input>
+            </ion-item>
 
+            <ion-item class="form-item">
+                <ion-label>Transpoter Mob &nbsp;</ion-label>
+                <ion-input type="text" [readonly]="true">{{item.transporterMob}}</ion-input>
+            </ion-item>
+        </div>
+        <div *ngFor="let item of driverDetails">
+            <ion-item class="form-item">
+                <ion-label>Driver Name</ion-label>
+                <ion-input type="text" [readonly]="true">{{item.driverName}}</ion-input>
+            </ion-item>
 
-        <ion-item class="form-item">
-            <ion-label>Vehicle No</ion-label>
-            <ion-input type="text" formControlName="vvberVehicleNo" placeholder="TN 46 B 8885"></ion-input>
-        </ion-item>
-        <ion-item class="form-item">
-            <ion-label>Transpoter Name</ion-label>
-            <ion-input type="text" formControlName="transporterName" placeholder="Mahe"></ion-input>
-        </ion-item>
+            <ion-item class="form-item">
+                <ion-label>Mobile Mob</ion-label>
+                <ion-input type="text" [readonly]="true">{{item.mobileNo}}</ion-input>
+            </ion-item>
 
-        <ion-item class="form-item">
-            <ion-label>Transpoter Mob</ion-label>
-            <ion-input type="text" formControlName="transporterMob" placeholder="9632587410"></ion-input>
-        </ion-item>
-
-        <ion-item class="form-item">
-            <ion-label>Driver Name</ion-label>
-            <ion-input type="text" formControlName="driverName" placeholder="Mahe"></ion-input>
-        </ion-item>
-
-        <ion-item class="form-item">
-            <ion-label>Mobile Mob</ion-label>
-            <ion-input type="text" formControlName="mobileNo" placeholder="9632587410"></ion-input>
-        </ion-item>
-
-        <ion-item class="form-item">
-            <ion-label>Licence Number</ion-label>
-            <ion-input type="text" formControlName="licenceNo" placeholder="9632587410"></ion-input>
-        </ion-item>
+            <ion-item class="form-item">
+                <ion-label>Licence Number</ion-label>
+                <ion-input type="text" [readonly]="true">{{item.licenceNo}}</ion-input>
+            </ion-item>
+        </div>
 
         <ion-item class="form-item">
             <ion-label>Rate</ion-label>
-            <ion-input type="number" formControlName="vbmRateAmount" placeholder="100"></ion-input>
+            <ion-input type="number" formControlName="vbmRateAmount" [readonly]="true"></ion-input>
         </ion-item>
 
         <ion-item class="form-item">
             <ion-label>Loading Charges</ion-label>
-            <ion-input type="number" formControlName="bpDescription" placeholder="50"></ion-input>
+            <ion-input type="number" [readonly]="true">{{loadCharge}}</ion-input>
         </ion-item>
 
         <ion-item class="form-item">
-            <ion-label>Fright</ion-label>
-            <ion-input type="text" formControlName="fright" placeholder=""></ion-input>
+            <ion-label>Freight</ion-label>
+            <ion-input type="text" [readonly]="true">{{freight}}</ion-input>
         </ion-item>
 
         <ion-item class="form-item">
             <ion-label>Total Pay</ion-label>
-            <ion-input type="number" placeholder=""></ion-input>
+            <ion-input type="number" [readonly]="true">{{tPay}}</ion-input>
         </ion-item>
 
         <ion-item class="form-item">
             <ion-label>Advance</ion-label>
-            <ion-input type="number" formControlName="rlbppmName" placeholder=""></ion-input>
+            <ion-input type="number" [readonly]="true">{{advance}}</ion-input>
         </ion-item>
 
         <ion-item class="form-item">
             <ion-label>Balance</ion-label>
-            <ion-input type="number" placeholder=""></ion-input>
+            <ion-input type="number" [readonly]="true">{{balance}}</ion-input>
         </ion-item>
     </form>
+    <ion-button expand="block" class="btn" (click)="payment(bid)">Add Payment</ion-button>
 </ion-content>

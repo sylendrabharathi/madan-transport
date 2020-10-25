@@ -16,12 +16,11 @@
 ion-card-content {
     div {
         margin-top: 10px;
-         ion-icon {
-             margin-right: 5px;
-         }
+        ion-icon {
+            margin-right: 5px;
+        }
     }
 }
-
 
 .send-alert-btn {
     position: absolute;
@@ -32,11 +31,13 @@ ion-card-content {
 }
 
 .trucks-list {
-    height: calc(100vh - 330px);
-    overflow-y: auto;
+    height: 50%;
+    // overflow-y: auto;
+    position: sticky;
 }
 
 .map-div {
     margin-top: 15px;
-    height: 259px;
+    height: 50%;
+    position: sticky;
 }

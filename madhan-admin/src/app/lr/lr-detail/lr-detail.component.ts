@@ -55,7 +55,20 @@ export class LrDetailComponent implements OnInit {
   editBookingId: number = -1;
   bookingIds: any = [];
   isEdit = false;
+  editlr = false;
   editLrData: any = {};
+  loadingCount: any = [];
+  unLoadingCount: any = [];
+  transpoterDetails: any = [];
+  driverDetails: any = [];
+  loadCharge: number = 0;
+  fuelCharges: number = 0;
+  advance: number = 0;
+  bFright: number = 0;
+  freight: number = 0;
+  tPay: number = 0;
+  balance: number = 0;
+  bid: number = -1;
   constructor(private router: Router,
     private aRoute: ActivatedRoute,
     private lrApi: LrApiService,
@@ -92,20 +105,50 @@ export class LrDetailComponent implements OnInit {
   }
   loadLrdata(data) {
     console.log('data', data);
-
+    this.loadingCount = data.polbmDtls;
+    this.unLoadingCount = data.podbmDtls;
+    this.transpoterDetails = data.vberDtls;
+    this.driverDetails = data.dioDtls;
+    if (data.bookingDtls[0].lrNo != null)
+      this.editlr = true
+    this.bid = data.bookingDtls[0].bookingId;
     this.lrForm.get('bookingId').setValue(data.bookingDtls[0].bookingId);
     this.lrForm.get('lrNo').setValue(data.bookingDtls[0].lrNo);
     this.lrForm.get('totalQty').setValue(data.bookingDtls[0].totalQty);
     this.lrForm.get('material').setValue(data.bookingDtls[0].material);
-    // this.lrForm.get('').setValue(data.bookingDtls.);
-    // this.lrForm.get('').setValue(data.);
-    // this.lrForm.get('').setValue(data.);
-    // this.lrForm.get('').setValue(data.);
-    // this.lrForm.get('').setValue(data.);
-    // this.lrForm.get('').setValue(data.);
-    // this.lrForm.get('').setValue(data.);
-    // this.lrForm.get('').setValue(data.);
+    this.lrForm.get('cpolbmCustomerName').setValue(data.polbmDtls[0].cpolbmCustomerName);
+    this.lrForm.get('consignerName').setValue(data.podbmDtls[0].consignerName);
+    this.lrForm.get('location').setValue(data.polbmDtls[0].location);
+    this.lrForm.get('podLocation').setValue(data.podbmDtls[0].podLocation);
+    this.lrForm.get('vbmRateAmount').setValue(data.vbmDtls[0].vbmRateAmount);
+    this.calculateAmount(data.bpDtls);
+    this.freight = data.bookingDtls[0].totalQty * data.vbmDtls[0].vbmRateAmount;
+    this.tPay = this.freight + this.loadCharge;
+    console.log(this.advance, this.tPay);
+    this.balance = this.tPay - (this.bFright + this.advance);
     this.lrForm.updateValueAndValidity();
   }
+  calculateAmount(data) {
 
+    data.forEach(element => {
+      if (element.rlbpppname == 'LoadingCharges') {
+        this.loadCharge += Number(element.bpAmount);
+      }
+      else if (element.rlbpppname == 'Fuel') {
+        this.fuelCharges += Number(element.bpAmount);
+      }
+      else if (element.rlbpppname == 'Advance') {
+        this.advance += Number(element.bpAmount);
+      }
+      else if (element.rlbpppname == 'BalanceFright') {
+        this.bFright += Number(element.bpAmount);
+      }
+    });
+  }
+  payment(bid) {
+    console.log('bid', bid);
+    if (bid > -1) {
+      this.router.navigate(['booking-payments', 'lrEdit', bid])
+    }
+  }
 }

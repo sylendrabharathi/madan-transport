@@ -1,0 +1,29 @@
+@import './../../../global.scss';
+ion-item {
+    --background: white;
+    --color: black;
+}
+
+ion-input {
+    text-align: right;
+}
+
+.sendbtn {
+    color: white;
+    font-size: 20px;
+}
+
+.submitbtn {
+    --background: white;
+    border: 2px solid;
+    width: 100%;
+    --color: var(--primary-color);
+    float: right;
+}
+
+.cancelbtn {
+    width: 100%;
+    --color: white;
+    --background: #EB445A;
+    float: left;
+}

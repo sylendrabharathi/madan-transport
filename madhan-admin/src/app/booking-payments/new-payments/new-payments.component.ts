@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ToastController } from '@ionic/angular';
+import { Platform, ToastController } from '@ionic/angular';
 import { PaymentsApiService } from '../service/api/payments-api.service';
 import { ToastService } from 'src/app/service/toast/toast.service';
 import { LoaderService } from 'src/app/service/Loader/loader.service';
@@ -17,6 +17,7 @@ export class NewPaymentsComponent implements OnInit {
   paymentPurposes: any = [];
   paymentModes: any = [];
   editPaymentId: number = -1;
+  bid: number = -1;
   isEdit = false;
   paymentForm = this.fb.group({
     refVehicleBookingMappingId: ['', [Validators.required]],
@@ -29,13 +30,15 @@ export class NewPaymentsComponent implements OnInit {
 
   });
   editPaymentData: any = [];
+  // @ViewChild('back', null) back: ElementRef;
 
   constructor(private router: Router,
     private paymentApi: PaymentsApiService,
     private fb: FormBuilder,
     private toaster: ToastService,
     private activateRoute: ActivatedRoute,
-    private loader: LoaderService) { }
+    private loader: LoaderService,
+    private platform: Platform) { }
   ngOnInit() { }
 
   ionViewWillEnter() {
@@ -45,13 +48,27 @@ export class NewPaymentsComponent implements OnInit {
     this.activateRoute.params.subscribe(data => {
       console.log('param', data);
       this.editPaymentId = Number(data.paymentId);
+      this.bid = Number(data.bid);
       if (this.editPaymentId > -1) {
         this.isEdit = true;
         this.loadPaymentDatas(this.editPaymentId);
       }
+      else if (this.bid > -1) {
+        this.getVehicleByBookingId(this.bid);
+      }
     });
   }
 
+  getVehicleByBookingId(bid) {
+    this.paymentApi.getVehicleIdByBookingId(bid).pipe().subscribe(
+      success => {
+        console.log('bidsuccess', success);
+        this.paymentForm.get('refVehicleBookingMappingId').setValue(success[0].vehicleBookingMappingId);
+      },
+      failure => {
+        console.log('failure', failure);
+      });
+  }
   getVehicelBookings() {
     this.paymentApi.getVehicleId().pipe().subscribe(
       success => {
@@ -84,7 +101,6 @@ export class NewPaymentsComponent implements OnInit {
         console.log('failure', failure);
       });
   }
-
   submit() {
     if (this.paymentForm.valid) {
       console.log('Rateform->', this.paymentForm.value);
@@ -102,6 +118,7 @@ export class NewPaymentsComponent implements OnInit {
     }
   }
   savePaymentData(req) {
+
     req.refCreatedBy = 1;
     console.log('Rateform save->', req);
     this.loader.createLoader();
@@ -111,6 +128,10 @@ export class NewPaymentsComponent implements OnInit {
       if (success[0].status == 1) {
         this.toaster.success(success[0].msg);
         this.paymentForm.reset();
+        if (this.bid > -1) {
+          document.getElementById('back').click();
+          return;
+        }
         this.router.navigate(['booking-payments']);
         return;
       }
