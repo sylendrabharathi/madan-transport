@@ -16,13 +16,16 @@ export class AppComponent implements OnInit {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private menuCtrl: MenuController
-  ) {
+    private menuCtrl: MenuController) {
     this.initializeApp();
   }
-
+  backButtonSubscription;
   ngOnInit() {
     this.formMenuList();
+  }
+  ionViewWillEnter() {
+
+    this.backButtonSubscription = this.platform.backButton.subscribe(() => { navigator['app'].exitApp(); });
   }
 
   initializeApp() {
@@ -34,6 +37,10 @@ export class AppComponent implements OnInit {
 
   closeMenu() {
     this.menuCtrl.close();
+  }
+
+  ngOnDestroy() {
+    this.backButtonSubscription.unsubscribe();
   }
 
   formMenuList() {

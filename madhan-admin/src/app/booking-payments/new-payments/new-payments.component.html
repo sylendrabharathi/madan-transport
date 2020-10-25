@@ -3,7 +3,7 @@
         <ion-title *ngIf="!isEdit">New Payments</ion-title>
         <ion-title *ngIf="isEdit">Edit Payments</ion-title>
         <ion-buttons slot="start">
-            <ion-back-button></ion-back-button>
+            <ion-back-button id="back"></ion-back-button>
         </ion-buttons>
         <ion-buttons slot="end" class="submit">
             <ion-icon (click)="submit()" class="sendbtn" name="send-sharp"></ion-icon>
@@ -18,9 +18,9 @@
             <form [formGroup]="paymentForm">
                 <ion-item class="form-item">
                     <ion-label position="floating">Vehicel Booking Mapping Id</ion-label>
-                    <ion-select placeholder="Select One" interface="popover" mode="ios" formControlName="refVehicleBookingMappingId" class="select">
+                    <ion-select placeholder="Select One" interface="alert" mode="ios" formControlName="refVehicleBookingMappingId" class="select">
                         <ion-select-option *ngFor="let item of vehicleBookings" [value]="item.vehicleBookingMappingId">
-                            {{item.vehicleNo}}
+                            Id:{{item.refBookingId}}&nbsp;,&nbsp;V.No:{{item.vehicleNo}}
                         </ion-select-option>
                     </ion-select>
                 </ion-item>

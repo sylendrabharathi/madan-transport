@@ -7,7 +7,8 @@ import { NewPaymentsComponent } from './new-payments/new-payments.component';
 const routes: Routes = [
   { path: '', component: PaymentsListComponent },
   { path: 'new', component: NewPaymentsComponent },
-  { path: 'edit/:paymentId', component: NewPaymentsComponent }
+  { path: 'edit/:paymentId', component: NewPaymentsComponent },
+  { path: 'lrEdit/:bid', component: NewPaymentsComponent }
 ];
 
 @NgModule({

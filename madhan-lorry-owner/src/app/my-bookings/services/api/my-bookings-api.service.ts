@@ -8,6 +8,6 @@ export class MyBookingsApiService {
 
   constructor(private api: ApiService) { }
   getMyBookings(transpoterId, bookingId) {
-    return this.api.get('VehicleBookingEnqResponse/GetBookingEnqDetails/?name= &transporterId=' + transpoterId + '&isconfirmed=true&bid=' + bookingId + '&customerId=');
+    return this.api.get('VehicleBookingEnqResponse/GetBookingEnqDetails/?name=VA&transporterId=' + transpoterId + '&isconfirmed=true');
   }
 }

@@ -32,6 +32,7 @@ export class AppComponent implements OnInit {
       // this.statusBar.styleDefault();
       this.statusBar.backgroundColorByHexString('#6e33a1');
       this.splashScreen.hide();
+      this.translate.setDefaultLang('en');
       this.languageService.setInitialLanguage();
     });
 
