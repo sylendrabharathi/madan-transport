@@ -59,29 +59,31 @@
             <ion-card-content>
                 <div>
                     <ion-note>
-                        <ion-icon name="person-outline"></ion-icon> Reference Id: {{item.referenceListId}}
+                        <ion-icon name="person-outline"></ion-icon> Reference List Id: {{item.referenceListId}}
                     </ion-note>
                 </div>
                 <div>
                     <ion-note>
-                        <ion-icon name="calendar-outline"></ion-icon> Reference List Name: {{item.referenceListId}}
+                        <ion-icon name="person-outline"></ion-icon> Reference Id: {{item.referenceId}}
                     </ion-note>
                 </div>
                 <div>
                     <ion-note>
-                        <ion-icon name="cash-outline"></ion-icon> Reference List Description: {{item.referenceListIdName}}
+                        <ion-icon name="calendar-outline"></ion-icon> Reference Name: {{item.referencename}}
                     </ion-note>
                 </div>
                 <div>
                     <ion-note>
-                        <ion-icon name="calendar-outline"></ion-icon> Reference Name: {{item.referenceListIdDescription}}
+                        <ion-icon name="calendar-outline"></ion-icon> Reference List Name: {{item.referenceListIdName}}
                     </ion-note>
                 </div>
                 <div>
                     <ion-note>
-                        <ion-icon name="cash-outline"></ion-icon> Reference Description: {{item.referenceDescription}}
+                        <ion-icon name="cash-outline"></ion-icon> Reference List Description: {{item.referenceListIdDescription}}
                     </ion-note>
                 </div>
+
+
                 <div>
                     <ion-fab vertical="top" horizontal="end">
                         <ion-fab-button class="accpt" size="small" (click)="edit(item.referenceListId)">

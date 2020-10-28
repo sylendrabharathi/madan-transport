@@ -15,7 +15,7 @@ export class LrApiService {
     return this.api.get('Booking/GetBookingDetails/?name=&bid=' + bookingId);
   }
   editLrDetails(bookingId, req) {
-    // return this.api.put(this.)
+    return this.api.put('Booking/PutLRNo/?id=' + bookingId, req)
   }
   addLr(req) { }
 

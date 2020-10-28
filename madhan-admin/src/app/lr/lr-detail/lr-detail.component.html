@@ -6,10 +6,9 @@
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
-        <!-- <ion-buttons slot="end" class="submit">
-            <ion-icon name="add-outline"></ion-icon>
-            <ion-icon (click)="submit()" class="sendbtn" name="add-outline"></ion-icon>
-        </ion-buttons> -->
+        <ion-buttons slot="end" class="submit">
+            <ion-icon *ngIf="!editlr" (click)="submit()" class="sendbtn" name="send-sharp"></ion-icon>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 

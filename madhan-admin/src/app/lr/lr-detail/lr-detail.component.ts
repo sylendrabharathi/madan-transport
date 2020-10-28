@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LrApiService } from '../service/api/lr-api.service';
 import { FormBuilder, Validators } from '@angular/forms';
+import { LoaderService } from 'src/app/service/Loader/loader.service';
+import { ToastService } from 'src/app/service/toast/toast.service';
 
 @Component({
   selector: 'app-lr-detail',
@@ -72,7 +74,9 @@ export class LrDetailComponent implements OnInit {
   constructor(private router: Router,
     private aRoute: ActivatedRoute,
     private lrApi: LrApiService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    private loader: LoaderService,
+    private toast: ToastService) { }
 
   ngOnInit() { }
   ionViewWillEnter() {
@@ -86,13 +90,17 @@ export class LrDetailComponent implements OnInit {
     this.loadBookingDropdown();
   }
   getLrData(lrId) {
+    this.loader.createLoader();
     this.lrApi.getLrDetails(lrId).subscribe(success => {
+      this.loader.dismissLoader();
       console.log('success', success);
       this.editLrData = success;
       this.loadLrdata(this.editLrData);
     }, failure => {
+      this.loader.dismissLoader();
       console.log('failure', failure);
     });
+    this.loader.dismissLoader();
   }
   loadBookingDropdown() {
     this.lrApi.getBookingNumbers().subscribe(success => {
@@ -101,7 +109,27 @@ export class LrDetailComponent implements OnInit {
     }, failure => { });
   }
   submit() {
-    this.router.navigate(['lr'])
+    const bookingId = this.lrForm.get('bookingId').value;
+    const lrValue = this.lrForm.get('lrNo').value;
+    console.log(bookingId, lrValue);
+
+    if (lrValue != null || lrValue != '') {
+      const req = {
+        'BookingId': bookingId,
+        'Value': lrValue,
+        'RefModifiedBy': 1
+
+      }
+      this.lrApi.editLrDetails(bookingId, req).subscribe(success => {
+        console.log('suc', success);
+        this.editlr = false;
+        this.ionViewWillEnter();
+      }, failure => {
+        console.log('fa', failure);
+        this.ionViewWillEnter();
+      });
+      // this.router.navigate(['lr']);
+    }
   }
   loadLrdata(data) {
     console.log('data', data);
@@ -151,4 +179,5 @@ export class LrDetailComponent implements OnInit {
       this.router.navigate(['booking-payments', 'lrEdit', bid])
     }
   }
+
 }
