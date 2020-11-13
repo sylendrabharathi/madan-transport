@@ -35,4 +35,10 @@ export class NewBookingApiService {
   save(req) {
     return this.api.post('Booking', req);
   }
+  getPolPods() {
+    return this.api.get('Polpod/GetPolpod');
+  }
+  getVehicleByType(name) {
+    return this.api.get('ReferenceList/GetRLByRLDesclike/?name=' + name);
+  }
 }

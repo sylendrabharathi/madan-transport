@@ -23,10 +23,10 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.formMenuList();
   }
-  ionViewWillEnter() {
+  // ionViewWillEnter() {
 
-    this.backButtonSubscription = this.platform.backButton.subscribeWithPriority(1, () => { navigator['app'].exitApp(); });
-  }
+  //   this.backButtonSubscription = this.platform.backButton.subscribeWithPriority(666666, () => { navigator['app'].exitApp(); });
+  // }
 
   initializeApp() {
     this.platform.ready().then(() => {

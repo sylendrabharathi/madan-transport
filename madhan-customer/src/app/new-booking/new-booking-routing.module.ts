@@ -12,6 +12,7 @@ const routes: Routes = [
     path: ':id/edit',
     component: BookingCreateComponent
   }
+
 ];
 
 @NgModule({

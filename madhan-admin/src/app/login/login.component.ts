@@ -5,6 +5,7 @@ import { LoginApiService } from './service/api/login-api.service';
 import { LocalStorageService } from '../service/local-storage/local-storage.service';
 import { ToastService } from '../service/toast/toast.service';
 import { LoaderService } from '../service/Loader/loader.service';
+import { Platform } from '@ionic/angular';
 
 
 @Component({
@@ -21,6 +22,7 @@ export class LoginComponent implements OnInit {
   userName = '';
   userId = '';
   // local;
+  backButtonSubscription;
   phoneNumber: number;
   constructor(
     private router: Router,
@@ -28,12 +30,17 @@ export class LoginComponent implements OnInit {
     private loginApi: LoginApiService,
     private toast: ToastService,
     private ls: LocalStorageService,
-    private loader: LoaderService
+    private loader: LoaderService,
+    private platform: Platform
   ) {
     // this.local = new Storage();
   }
 
   ngOnInit() { }
+  ionViewWillEnter() {
+
+    this.backButtonSubscription = this.platform.backButton.subscribeWithPriority(666666, () => { navigator['app'].exitApp(); });
+  }
   login() {
     if (this.loginForm.valid) {
       this.loader.createLoader();

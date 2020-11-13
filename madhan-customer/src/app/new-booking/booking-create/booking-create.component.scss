@@ -1,11 +1,11 @@
 @import './../../../global.scss';
-
 .form {
     padding: 10px;
     ion-item {
         --background: white;
         // --padding: 0px;
-    }}
+    }
+}
 
 .form-item {
     margin-top: 15px;
@@ -25,4 +25,18 @@
     position: absolute;
     width: 60%;
     right: 15px;
+}
+
+ion-item {
+    --background: white;
+    --color: black;
+}
+
+ion-input {
+    text-align: right;
+}
+
+.sendbtn {
+    color: white;
+    font-size: 32px;
 }

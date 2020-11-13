@@ -11,7 +11,7 @@ export class ConsignerApiService {
   getConsigners(id) {
     return this.api.get(`Consigner/GetConsignerByCustometID/?custid=${id}`);
   }
-  
+
   getConsigner(consignerId, customerId) {
     return this.api.get(this.api.formUrl(`Consigner/GetConsignerByCustometID/?custid=${customerId}&ConsignerId=${consignerId}`));
   }
@@ -22,5 +22,11 @@ export class ConsignerApiService {
 
   updateConsigner(req, id) {
     return this.api.put(`Consigner/${id}`, req);
+  }
+  getCityBySate(name) {
+    return this.api.get('ReferenceList/GetRLByRLDesclike/?name=' + name);
+  }
+  getState(id) {
+    return this.api.get(this.api.formUrl('ReferenceList', id));
   }
 }
