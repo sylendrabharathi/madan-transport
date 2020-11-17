@@ -20,7 +20,7 @@
                     <ion-label position="floating">Booking Id</ion-label>
                     <ion-select placeholder="Select One" interface="popover" mode="ios" formControlName="refBookingId" class="select">
                         <ion-select-option *ngFor="let item of vehicleBookings" [value]="item.vehicleBookingMappingId">
-                            {{item.vehicleNo}}
+                            Id:{{item.refBookingId}}&nbsp;,&nbsp;V.No:{{item.vehicleNo}}
                         </ion-select-option>
                     </ion-select>
                 </ion-item>

@@ -1,5 +1,4 @@
 @import './../../global.scss';
-
 .app-text {
     text-align: center;
     color: var(--primary-color);
@@ -7,11 +6,16 @@
     font-family: monospace;
 }
 
+.item {
+    --background: white;
+    --color: black;
+}
+
 .login-img {
     padding-top: 45px;
     text-align: center;
     img {
-        width: 50%;
+        width: 90%;
         margin: auto;
         border-radius: 5px;
     }
@@ -19,27 +23,23 @@
 }
 
 ion-card-content {
-    
-    form {        
+    form {
         padding: 5px;
-
     }
 }
 
 .btns {
     margin-top: 35px;
-
     .login {
-        --background: var(--primary-color) ;
+        --background: var(--primary-color);
         --color: white;
         width: 100px;
         height: 35px;
         position: absolute;
         right: 0px;
     }
-
     .signup {
-        --background: transparent ;
+        --background: transparent;
         --color: var(--primary-color);
         width: 100px;
         height: 35px;
@@ -47,5 +47,19 @@ ion-card-content {
         --border-width: 1px;
         --border-style: solid;
     }
+}
 
+.login-form {
+    padding: 10px;
+}
+
+.form-item {
+    margin-top: 15px;
+    // --border-color: grey;
+    --color: black !important;
+    --background: white;
+}
+
+.form-item ion-label {
+    font-size: 13px;
 }

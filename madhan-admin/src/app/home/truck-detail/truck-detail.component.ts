@@ -46,26 +46,31 @@ export class TruckDetailComponent implements OnInit {
 
 
   async ngOnInit() {
-    await this.platform.ready();
+    // await this.platform.ready();
   }
-  ionViewWillEnter() {
+  // ionViewWillEnter() {
+  //   this.sub = this.aRoute.params.subscribe(param => {
+  //     this.bookingId = Number(param['bookingId']);
+  //     this.location = param['source'];
+  //     this.polId = Number(param['polId'])
+  //   });
+  //   this.getNearByTrucks(this.location);
+
+  // }
+  ionViewDidEnter() {
+    console.log('tracking');
+    this.platform.ready().then(() => this.loadMap());
     this.sub = this.aRoute.params.subscribe(param => {
       this.bookingId = Number(param['bookingId']);
       this.location = param['source'];
       this.polId = Number(param['polId'])
     });
     this.getNearByTrucks(this.location);
-
-  }
-  ionViewDidEnter() {
-    console.log('tracking');
-    this.platform.ready().then(() => this.loadMap());
-
   }
 
-  ngOnDestroy() {
-    this.sub.unsubscribe();
-  }
+  // ionViewDidLeave() {
+  //   this.sub.unsubscribe();
+  // }
 
 
   loadMap() {
@@ -96,32 +101,7 @@ export class TruckDetailComponent implements OnInit {
         iconSize: [38, 38],
       });
 
-      Leaflet.marker([resp.coords.latitude, resp.coords.longitude], { icon: myIcon }).addTo(this.map)
-      // this.tracking_map = GoogleMaps.create('tracking_map', mapOptions);
-
-      // let marker: Marker = this.tracking_map.addMarkerSync({
-      //   title: 'My Location',
-      //   icon: 'red',
-      //   animation: 'DROP',
-      //   position: {
-      //     lat: resp.coords.latitude,
-      //     lng: resp.coords.longitude
-      //   }
-      // });
-      // marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-      //   alert('clicked');
-      // });
-
-      // let latLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
-
-      // let mapOptions = {
-      //   center: latLng,
-      //   zoom: 15,
-      //   mapTypeId: google.maps.MapTypeId.ROADMAP
-      // };
-
-      // this.map = new google.maps.Map(document.getElementById('tracking_map'), mapOptions);
-
+      Leaflet.marker([resp.coords.latitude, resp.coords.longitude], { icon: myIcon }).addTo(this.map);
 
     }).catch(err => {
       console.log(err);

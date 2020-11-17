@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/service/api/api.service';
+import { LoaderService } from 'src/app/service/Loader/loader.service';
 import { LocalstorageService } from 'src/app/service/localstorage/localstorage.service';
 import { ToastService } from 'src/app/service/toast/toast.service';
 import { ConsignerApiService } from '../service/api/consigner-api.service';
@@ -14,12 +15,13 @@ import { ConsignerApiService } from '../service/api/consigner-api.service';
 export class ConsignerCreateComponent implements OnInit {
 
   consignerForm: FormGroup;
-  cities = [];
+  cities: any = [];
   states = [];
   countries = [];
   customerId = null;
   userId = null;
   consignerId = null;
+  selectedStateId: number;
   // consignerId = 
 
   constructor(private fb: FormBuilder,
@@ -27,7 +29,8 @@ export class ConsignerCreateComponent implements OnInit {
     private consignerApiService: ConsignerApiService,
     private toastService: ToastService,
     private router: Router,
-    private activeRouter: ActivatedRoute) { }
+    private activeRouter: ActivatedRoute,
+    private loader: LoaderService) { }
 
   ngOnInit() {
     this.customerId = this.ls.getCustomerId();
@@ -35,12 +38,12 @@ export class ConsignerCreateComponent implements OnInit {
     this.createConsignerForm();
     this.activeRouter.params.subscribe(res => {
       console.log(res);
-      if(res && res.id) {
+      if (res && res.id) {
         this.consignerId = res.id;
         console.log('pop');
         this.getConsigner();
       }
-      
+
     })
 
   }
@@ -85,7 +88,6 @@ export class ConsignerCreateComponent implements OnInit {
       console.log(res);
       this.countries = res || [];
     }, err => {
-
     })
   }
 
@@ -109,18 +111,20 @@ export class ConsignerCreateComponent implements OnInit {
 
   submit() {
     console.log('submit');
+    this.consignerForm.get('refReferenceListStateId').setValue(this.selectedStateId);
+
     if (!this.consignerForm.valid) {
       this.toastService.danger('Please fille all fields');
       return;
     }
- 
+
     const req = JSON.parse(JSON.stringify(this.consignerForm.value));
     req.phoneNo = req.phoneNo.toString();
     req.mobileNo = req.mobileNo.toString();
     req.refCustId = parseInt(req.refCustId);
     req.refCreatedBy = parseInt(req.refCreatedBy);
 
-    if(req.consignerId) {
+    if (req.consignerId) {
       this.update(req);
       return;
     }
@@ -130,23 +134,27 @@ export class ConsignerCreateComponent implements OnInit {
 
   save(req) {
     delete req['consignerId'];
+    this.loader.createLoader();
     this.consignerApiService.saveConsigner(req).subscribe((resp) => {
+      this.loader.dismissLoader();
       console.log(resp);
       this.router.navigate(['manage-consigner']);
     }, err => {
       console.log(err);
-      
+
     });
 
   }
 
   update(req) {
+    this.loader.createLoader();
     this.consignerApiService.updateConsigner(req, req.consignerId).subscribe((resp) => {
+      this.loader.dismissLoader();
       console.log(resp);
       this.router.navigate(['manage-consigner']);
     }, err => {
       console.log(err);
-      
+
     });
 
   }
@@ -154,9 +162,11 @@ export class ConsignerCreateComponent implements OnInit {
 
   getConsigner() {
     this.getRequiredDetails();
+    this.loader.createLoader();
     this.consignerApiService.getConsigner(this.consignerId, this.customerId).subscribe((res) => {
+      this.loader.dismissLoader();
       console.log(res);
-      if(res && res[0]) {
+      if (res && res[0]) {
         this.consignerForm.get('consignerId').setValue(res[0].consignerId);
         this.consignerForm.get('name').setValue(res[0].name);
         this.consignerForm.get('gstno').setValue(res[0].gstno);
@@ -167,6 +177,7 @@ export class ConsignerCreateComponent implements OnInit {
         this.consignerForm.get('website').setValue(res[0].website);
         this.consignerForm.get('description').setValue(res[0].description);
         this.consignerForm.get('refReferenceListCityId').setValue(res[0].refReferenceListCityId);
+
         this.consignerForm.get('refReferenceListStateId').setValue(res[0].refReferenceListStateId);
         this.consignerForm.get('refReferenceListCountryId').setValue(res[0].refReferenceListCountryId);
         this.consignerForm.get('address1').setValue(res[0].address1);
@@ -177,8 +188,23 @@ export class ConsignerCreateComponent implements OnInit {
       }
     }, err => {
       console.log(err);
-      
+
     });
   }
+  loadCity(data) {
+    console.log('data', data);
+    this.loader.createLoader();
+    this.consignerApiService.getState(data.detail.value).subscribe(success => {
+      this.loader.dismissLoader();
+      console.log(success);
+      this.consignerApiService.getCityBySate(success[0].name).subscribe(success => {
+        console.log('success', success);
+        this.cities = success;
+      }, failure => {
+        console.log('failur', failure);
+      });
 
+    }, failure => { })
+    return;
+  }
 }

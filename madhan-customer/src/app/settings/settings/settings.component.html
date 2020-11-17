@@ -1,14 +1,38 @@
 <ion-header [translucent]="true">
-  <ion-toolbar class="toolbar">
-    <ion-title>
-      Settings
-    </ion-title>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar class="toolbar">
+        <ion-title>
+            Settings
+        </ion-title>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content>
 
+<ion-content>
+    <h3 class="languageTitle">Choose Language: </h3>
+    <br>
+    <ion-row>
+        <ion-col size="6">
+            <ion-card class="cardsettings" [ngClass]="selected== 'ta' ?'selected':'notSelected'" (click)="select('ta')">
+                <ion-card-content>
+                    <h3 class="lang">தமிழ்</h3>
+                </ion-card-content>
+                <ion-card-content>
+                    <h5 [ngClass]="selected == 'tamil'?'downcolor':'eng'">Tamil</h5>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+        <ion-col size="6">
+            <ion-card class="cardsettings" [ngClass]="selected == 'en'?'selected':'notSelected'" (click)="select('en')">
+                <ion-card-content>
+                    <h3 class="lang">ENGLISH</h3>
+                </ion-card-content>
+                <ion-card-content>
+                    <h5 [ngClass]="selected == 'english'?'downcolor':'eng'">English</h5>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+    </ion-row>
 </ion-content>

@@ -1,27 +1,40 @@
 <ion-header [translucent]="true">
-  <ion-toolbar class="toolbar">
-    <ion-title>
-      Home
-    </ion-title>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar class="toolbar">
+        <ion-title>
+            Home
+        </ion-title>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-  <ion-card class="card" *ngFor="let item of rates">
-    <ion-card-content>
-      <div>
-        <span class="field">Source</span> <span>: &nbsp;{{item.source}}</span>
-      </div>
-      <div>
-        <span class="field">Destination</span> <span>: &nbsp;{{item.destination}}</span>
-      </div>
-      <div>
-        <span class="field">Rate</span> <span>: &nbsp;{{item.amount}}</span>
-      </div>
-    </ion-card-content>
-  </ion-card>
+    <ion-card class="card" *ngFor="let item of rates">
+        <ion-card-content>
+            <div>
+                <ion-note class="highlight">
+                    <ion-icon name="location"></ion-icon>&nbsp; {{item.source}}
+                    <ion-icon name="arrow-forward"></ion-icon> {{item.destination}}
+                </ion-note>
+            </div>
+
+            <div>
+                <ion-note>
+                    <ion-icon name="cash-outline"></ion-icon>
+                    <span class="field">&nbsp;&nbsp;  Rate : </span> <span> {{item.amount}}</span>
+                </ion-note>
+            </div>
+            <!-- <div>
+                <span class="field">Source</span> <span>: &nbsp;{{item.source}}</span>
+            </div>
+            <div>
+                <span class="field">Destination</span> <span>: &nbsp;{{item.destination}}</span>
+            </div>
+            <div>
+                <span class="field">Rate</span> <span>: &nbsp;{{item.amount}}</span>
+            </div> -->
+        </ion-card-content>
+    </ion-card>
 </ion-content>
