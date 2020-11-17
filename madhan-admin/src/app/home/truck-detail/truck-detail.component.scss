@@ -31,13 +31,14 @@ ion-card-content {
 }
 
 .trucks-list {
-    height: 50%;
+    height: 300px;
     overflow-y: auto;
     // position: sticky;
 }
 
 .map-div {
     margin-top: 15px;
-    height: 50%;
-    position: sticky;
+    height: calc(100vh - 371px);
+    max-height: calc(100vh - 371px);
+    // position: sticky;
 }
