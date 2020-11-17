@@ -5,6 +5,7 @@ import { IonSlides, ModalController } from '@ionic/angular';
 import { ConsignerApiService } from 'src/app/manage-consigner/service/api/consigner-api.service';
 import { PolPodApiService } from 'src/app/manage-pol-pod/service/api/pol-pod-api.service';
 import { ApiService } from 'src/app/service/api/api.service';
+import { LoaderService } from 'src/app/service/Loader/loader.service';
 import { LocalstorageService } from 'src/app/service/localstorage/localstorage.service';
 import { ToastService } from 'src/app/service/toast/toast.service';
 import { PolPodComponent } from '../pol-pod/pol-pod/pol-pod.component';
@@ -41,7 +42,9 @@ export class BookingCreateComponent implements OnInit {
   noOfPod = [1];
   noOfTrucks = [1];
   truckss = [];
-  truckType = '';
+  sourceId;
+  destinationId;
+  // truckType = '';
   myDate;
   slideOpts = {
     initialSlide: 0,
@@ -58,7 +61,8 @@ export class BookingCreateComponent implements OnInit {
     private bookingService: NewBookingApiService,
     private polPodService: PolPodApiService,
     private consignerApi: ConsignerApiService,
-    public modal: ModalController) { }
+    public modal: ModalController,
+    private loader: LoaderService) { }
 
   ngOnInit() {
     this.customerId = this.ls.getCustomerId();
@@ -102,13 +106,20 @@ export class BookingCreateComponent implements OnInit {
       }
     });
     modal.onDidDismiss()
-      .then((data) => {
+      .then((data: any) => {
         pol = data['data'];
         console.log('pol', pol);
-        if (type === 'pol')
+        if (type === 'pol') {
           this.polAddress.push(pol.data.state + ',' + pol.data.city + ',' + pol.data.location);
-        else
+          this.bookingForm.get('refReferenceListPOLTypeId').setValue(this.polPods[0].referenceListId);
+          this.bookingForm.get('polId').setValue(pol.data.polpodid);
+        }
+        else {
           this.podAddress.push(pol.data.state + ',' + pol.data.city + ',' + pol.data.location);
+          this.bookingForm.get('refReferenceListPODTypeId').setValue(this.polPods[1].referenceListId);
+          this.bookingForm.get('podId').setValue(pol.data.polpodid);
+
+        }
       });
 
     return await modal.present();
@@ -127,30 +138,30 @@ export class BookingCreateComponent implements OnInit {
       refReferenceListPOLTypeId: ['', [Validators.required]],
       loadingLocation: ['', [Validators.required]],
       estimatedLoadingTime: ['', [Validators.required]],
-      lRefReferenceListCityId: ['', [Validators.required]],
-      lRefReferenceListStateId: ['', [Validators.required]],
-      lRefReferenceListCountryId: ['', [Validators.required]],
-      lAddress1: ['', [Validators.required]],
-      lAddress2: ['', [Validators.required]],
-      lAddress3: ['', [Validators.required]],
-      lAddress4: ['', [Validators.required]],
+      lRefReferenceListCityId: [null],
+      lRefReferenceListStateId: [null],
+      lRefReferenceListCountryId: [null],
+      lAddress1: ['',],
+      lAddress2: ['',],
+      lAddress3: ['',],
+      lAddress4: ['',],
       refReferenceListPODTypeId: ['', [Validators.required]],
       unLoadingLocation: ['', [Validators.required]],
       estimatedUnloadingTime: ['', [Validators.required]],
-      uRefReferenceListCityId: ['', [Validators.required]],
-      uRefReferenceListStateId: ['', [Validators.required]],
-      uRefReferenceListCountryId: ['', [Validators.required]],
-      uAddress1: ['', [Validators.required]],
-      uAddress2: ['', [Validators.required]],
-      uAddress3: ['', [Validators.required]],
-      uAddress4: ['', [Validators.required]],
+      uRefReferenceListCityId: [null],
+      uRefReferenceListStateId: [null],
+      uRefReferenceListCountryId: [null],
+      uAddress1: ['',],
+      uAddress2: ['',],
+      uAddress3: ['',],
+      uAddress4: ['',],
       polId: ['', [Validators.required]],
       podId: ['', [Validators.required]],
       bookingDate: ['', [Validators.required]],
       rateId: ['', [Validators.required]],
       rlRateForId: ['', []],
-      sourceId: ['', []],
-      destinationId: ['', []]
+      // sourceId: ['', []],
+      // destinationId: ['', []]
     })
   }
 
@@ -223,10 +234,13 @@ export class BookingCreateComponent implements OnInit {
   }
 
   getLocations() {
+    this.loader.createLoader();
     this.bookingService.getLocations().subscribe(res => {
       console.log(res);
+      this.loader.dismissLoader();
       this.locations = res as any[];
     }, err => {
+      this.loader.dismissLoader();
       console.log(err);
 
     });
@@ -255,19 +269,27 @@ export class BookingCreateComponent implements OnInit {
   getRateDetails() {
 
     const rlRateForId = this.bookingForm.get('rlRateForId').value;
-    const sourceId = this.bookingForm.get('sourceId').value;
-    const destinationId = this.bookingForm.get('destinationId').value;
-    this.bookingService.getRateDetails(sourceId, rlRateForId, destinationId).subscribe(res => {
-      console.log(res);
+    const sourceId = this.sourceId;
+    const destinationId = this.destinationId;
+    console.log('rlRateForId,', rlRateForId, 'sourceId,', sourceId, 'destinationId,', destinationId);
+    if (!!destinationId && !!sourceId)
+      this.bookingService.getRateDetails(sourceId, rlRateForId, destinationId).subscribe(res => {
+        console.log(res);
 
-      this.rateDetails = res as any[];
-    }, err => {
-      console.log(err);
+        this.rateDetails = res as any[];
+        this.bookingForm.get('rateId').setValue(this.rateDetails[0].rateId);
+        console.log('this.bookingForm.get(\'rateId\').value()', this.bookingForm.get('rateId').value);
 
-    })
+        this.bookingForm.get('rateId').updateValueAndValidity();
+      }, err => {
+        console.log(err);
+
+      })
   }
 
   submit() {
+    console.log('form', this.bookingForm);
+
     if (!this.bookingForm.valid) {
       this.toastService.danger('Please fill all the fields');
       return;
@@ -298,18 +320,21 @@ export class BookingCreateComponent implements OnInit {
     for (const loc of this.locations) {
       if (str === 'loadingLocation' && loc.source === this.bookingForm.get(str).value) {
         this.bookingForm.get('rlRateForId').setValue(loc.rlRateForId);
-        this.bookingForm.get('sourceId').setValue(loc.sourceID);
+        // this.bookingForm.get('sourceId').setValue(loc.sourceID);
+        this.sourceId = loc.sourceID;
         break;
       }
 
       if (str === 'unLoadingLocation' && loc.destination === this.bookingForm.get(str).value) {
-        this.bookingForm.get('destinationId').setValue(loc.destinationID);
+        // this.bookingForm.get('destinationId').setValue(loc.destinationID);
+        this.destinationId = loc.destinationID;
         break;
       }
 
     }
     this.getRateDetails();
-
+    this.bookingForm.get('bookingDate').setValue(new Date().toISOString());
+    this.bookingForm.get('bookingDate').updateValueAndValidity();
   }
   increaseCount(data) {
     if (data === 'pol')
@@ -319,9 +344,9 @@ export class BookingCreateComponent implements OnInit {
     else
       this.noOfTrucks.push(1);
   }
-  trucksLoader() {
-    console.log('this.truckType', this.truckType);
-    this.bookingService.getVehicleByType(this.truckType).subscribe(success => {
+  trucksLoader(data) {
+    console.log('this.truckType', data.detail.value);
+    this.bookingService.getVehicleByType(data.detail.value).subscribe(success => {
       console.log('suc', success);
       this.vehicleTypes = success
     },

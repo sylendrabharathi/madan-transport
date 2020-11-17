@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { LoaderService } from 'src/app/service/Loader/loader.service';
 import { NewBookingApiService } from '../../service/api/new-booking-api.service';
 
 @Component({
@@ -25,7 +26,8 @@ export class PolPodComponent implements OnInit {
   }
   constructor(private api: NewBookingApiService,
     private route: Router,
-    private modalCtrl: ModalController) { }
+    private modalCtrl: ModalController,
+    private loader: LoaderService) { }
 
   ngOnInit() { }
   ionViewWillEnter() {
@@ -39,7 +41,9 @@ export class PolPodComponent implements OnInit {
   }
 
   getPol() {
+    this.loader.createLoader();
     this.api.getPols().subscribe((resp: any) => {
+      this.loader.dismissLoader();
       console.log(resp);
       this.polPods = resp || [];
     }, err => {
@@ -47,7 +51,9 @@ export class PolPodComponent implements OnInit {
   }
 
   getPod() {
+    this.loader.createLoader();
     this.api.getPods().subscribe((resp: any) => {
+      this.loader.dismissLoader();
       console.log(resp);
       this.polPods = resp || [];
     }, err => {

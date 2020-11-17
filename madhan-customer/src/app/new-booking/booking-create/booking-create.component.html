@@ -220,116 +220,122 @@
     <ion-slides pager="true" [options]="slideOpts" #slides>
         <ion-slide>
             <!-- <h1>Step 1</h1> -->
-            <ion-card>
+            <ion-card style="width: 100% !important;">
                 <ion-card-content>
-                    <ion-item>
-                        <ion-label>Loading Location</ion-label>
-                        <ion-select placeholder="Select One" interface="popover" mode="ios" (ionChange)="changeLocations($event, 'loadingLocation')">
-                            <ion-select-option *ngFor="let item of locations" [value]="item.source">{{item.source}}
-                            </ion-select-option>
-                        </ion-select>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label>UnLoading Location</ion-label>
-                        <ion-select placeholder="Select One" interface="popover" mode="ios" (ionChange)="changeLocations($event, 'unLoadingLocation')">
-                            <ion-select-option *ngFor="let item of locations" [value]="item.destination">{{item.destination}}
-                            </ion-select-option>
-                        </ion-select>
-                    </ion-item>
+                    <form [formGroup]="bookingForm">
+                        <ion-item>
+                            <ion-label>Source</ion-label>
+                            <ion-select placeholder="Select One" formControlName="loadingLocation" interface="popover" mode="ios" (ionChange)="changeLocations($event, 'loadingLocation')">
+                                <ion-select-option *ngFor="let item of locations" [value]="item.source">{{item.source}}
+                                </ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>Destination</ion-label>
+                            <ion-select placeholder="Select One" formControlName="unLoadingLocation" interface="popover" mode="ios" (ionChange)="changeLocations($event, 'unLoadingLocation')">
+                                <ion-select-option *ngFor="let item of locations" [value]="item.destination">{{item.destination}}
+                                </ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <div *ngIf="!!bookingForm.get('loadingLocation').value && !!bookingForm.get('unLoadingLocation').value">
 
-                    <div *ngIf="podAddress.length>0 && polAddress.length>0">
+                            <h5>
+                                &nbsp;&nbsp;
+                                <ion-icon name="remove-circle-outline" *ngIf="noOfTrucks.length>1" style="color: black;" (click)="decreaseCount('truck')"></ion-icon>
+                                <ion-icon name="add-circle-outline" (click)="increaseCount('truck')" style="color: black;"></ion-icon>
+                                &nbsp;Vehicles:
+                            </h5>
 
-                        <h5>
-                            &nbsp;&nbsp;
-                            <ion-icon name="remove-circle-outline" *ngIf="noOfTrucks.length>1" style="color: black;" (click)="decreaseCount('truck')"></ion-icon>
-                            <ion-icon name="add-circle-outline" (click)="increaseCount('truck')" style="color: black;"></ion-icon>
-                            &nbsp;Vehicles:
-                        </h5>
+                            <div *ngFor="let item of noOfTrucks let i = index">
+                                <ion-item>
+                                    <ion-label>Type Of Vehicle</ion-label>
+                                    <ion-select placeholder="Select Truck" mode="ios" interface="popover" (ionChange)="trucksLoader($event)">
+                                        <ion-select-option value="Open Truck">Open Truck</ion-select-option>
+                                        <ion-select-option value="Container">Container</ion-select-option>
+                                        <ion-select-option value="Trailer">Trailer</ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label>Vehicle</ion-label>
+                                    <ion-select placeholder="Select One" interface="action-sheet" mode="ios" formControlName="refReferenceListVehicleTypeId" (ionChange)="getSelectedTrucks($event)">
+                                        <ion-select-option *ngFor="let item of vehicleTypes" [value]="item.referenceListId">{{item.referenceListIdName}}
+                                        </ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                            </div>
 
-                        <div *ngFor="let item of noOfTrucks let i = index">
-                            <ion-item>
-                                <ion-label>Type Of Vehicle</ion-label>
-                                <ion-select [(ngModel)]="truckType" placeholder="Select Truck" mode="ios" interface="popover" (ionChange)="trucksLoader()">
-                                    <ion-select-option value="Open Truck">Open Truck</ion-select-option>
-                                    <ion-select-option value="Container">Container</ion-select-option>
-                                    <ion-select-option value="Trailer">Trailer</ion-select-option>
-                                </ion-select>
-                            </ion-item>
-                            <ion-item>
-                                <ion-label>Vehicle</ion-label>
-                                <ion-select placeholder="Select One" interface="action-sheet" mode="ios" (ionChange)="getSelectedTrucks($event)">
-                                    <ion-select-option *ngFor="let item of vehicleTypes" [value]="item.referenceListId">{{item.referenceListIdName}}
-                                    </ion-select-option>
-                                </ion-select>
-                            </ion-item>
+                            <div *ngIf="!!bookingForm.get('refReferenceListVehicleTypeId').value">
+                                <ion-item>
+                                    <ion-label>Material</ion-label>
+                                    <ion-select formControlName="refMaterialRefListId" placeholder=" Select One" interface="popover" mode="ios">
+                                        <ion-select-option *ngFor="let item of materials" [value]="item.referenceListId">{{item.referenceListIdName}}
+                                        </ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+
+                                <ion-item>
+                                    <ion-label>Total Qty</ion-label>
+                                    <ion-input formControlName="totalQty" type="number" placeholder="Ton"></ion-input>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label>Estimate loading Time</ion-label>
+                                    <ion-datetime formControlName="estimatedLoadingTime" display-timezone="utc" (ionChange)="goToStepTwo()"></ion-datetime>
+                                </ion-item>
+                                <ion-item class="form-item">
+                                    <ion-label>Rate Per Ton</ion-label>
+                                    <ion-select placeholder="Select One" formControlName="rateId" interface="popover" mode="ios" disabled="true">
+                                        <ion-select-option *ngFor="let item of rateDetails" [value]="item.rateId">{{item.amount}}
+                                        </ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label>Booking Date</ion-label>
+                                    <ion-datetime formControlName="bookingDate" display-timezone="utc" (ionChange)="goToStepTwo()"></ion-datetime>
+
+                                </ion-item>
+                            </div>
                         </div>
-                        <div *ngIf="truckss.length>0">
-                            <ion-item>
-                                <ion-label>Material</ion-label>
-                                <ion-select placeholder=" Select One" interface="popover" mode="ios">
-                                    <ion-select-option *ngFor="let item of materials" [value]="item.referenceListId">{{item.referenceListIdName}}
-                                    </ion-select-option>
-                                </ion-select>
-                            </ion-item>
-
-                            <ion-item>
-                                <ion-label>Total Qty:</ion-label>
-                                <ion-input type="number" placeholder="Ton"></ion-input>
-                            </ion-item>
-                            <ion-item>
-                                <ion-label>Estimate loading Time</ion-label>
-                                <ion-datetime display-timezone="utc"></ion-datetime>
-                            </ion-item>
-                            <ion-item class="form-item">
-                                <ion-label>Rate Per Ton</ion-label>{{rateDetails[0]}}
-                                <!-- <ion-select placeholder="Select One" formControlName="rateId" interface="popover" mode="ios">
-                            <ion-select-option *ngFor="let item of rateDetails" [value]="item.rateId">{{item.amount}}
-                            </ion-select-option>
-                        </ion-select> -->
-                            </ion-item>
-                            <ion-item>
-                                <ion-label>Booking Date</ion-label>
-                                <ion-datetime [(ngModel)]="myDate" display-timezone="utc" (ionChange)="goToStepTwo()"></ion-datetime>
-
-                            </ion-item>
-                        </div>
-                    </div>
+                    </form>
                 </ion-card-content>
             </ion-card>
         </ion-slide>
         <ion-slide>
             <ion-card style="width: 100% !important;">
                 <ion-card-content>
-                    <div *ngFor="let item of noOfPol let i = index">
-                        <ion-item>
-                            <ion-icon name="remove-circle-outline" *ngIf="i>0" style="color: black;" (click)="decreaseCount('pol')"></ion-icon>
-                            <ion-icon name="add-circle-outline" (click)="increaseCount('pol')" style="color: black;"></ion-icon>
-                            <ion-label>
-                                &nbsp;&nbsp;POL&nbsp;&nbsp;</ion-label>
-                            <ion-input type="text" placeholder="select" (click)="popover('pol')">&nbsp;&nbsp;{{polAddress[i]}}</ion-input>
+                    <form [formGroup]="bookingForm">
+                        <ion-item class="form-item">
+                            <ion-label>Booking ID:</ion-label>
+                            <ion-input type="text" formControlName="value" [disabled]="true"></ion-input>
                         </ion-item>
-                    </div>
-                    <div *ngFor="let item of noOfPod let i = index">
+                        <div *ngFor="let item of noOfPol let i = index">
+                            <ion-item>
+                                <ion-icon name="remove-circle-outline" *ngIf="i>0" style="color: black;" (click)="decreaseCount('pol')"></ion-icon>
+                                <ion-icon name="add-circle-outline" (click)="increaseCount('pol')" style="color: black;"></ion-icon>
+                                <ion-label>
+                                    &nbsp;&nbsp;POL&nbsp;&nbsp;</ion-label>
+                                <ion-input type="text" placeholder="select" (click)="popover('pol')">&nbsp;&nbsp;{{polAddress[i]}}</ion-input>
+                            </ion-item>
+                        </div>
+                        <div *ngFor="let item of noOfPod let i = index">
+                            <ion-item>
+                                <ion-icon name="remove-circle-outline" *ngIf="i>0" style="color: black;" (click)="decreaseCount('pod')"></ion-icon>
+                                <ion-icon name="add-circle-outline" (click)="increaseCount('pod')" style="color: black;"></ion-icon>
+                                <ion-label>
+                                    &nbsp;&nbsp;POD&nbsp;&nbsp;</ion-label>
+                                <ion-input type="text" placeholder="select" (click)="popover('pod')">&nbsp;&nbsp;{{podAddress[i]}}</ion-input>
+                            </ion-item>
+                        </div>
                         <ion-item>
-                            <ion-icon name="remove-circle-outline" *ngIf="i>0" style="color: black;" (click)="decreaseCount('pod')"></ion-icon>
-                            <ion-icon name="add-circle-outline" (click)="increaseCount('pod')" style="color: black;"></ion-icon>
-                            <ion-label>
-                                &nbsp;&nbsp;POD&nbsp;&nbsp;</ion-label>
-                            <ion-input type="text" placeholder="select" (click)="popover('pod')">&nbsp;&nbsp;{{podAddress[i]}}</ion-input>
+                            <ion-label>Estimate Unloading Time</ion-label>
+                            <ion-datetime formControlName="estimatedUnloadingTime" display-timezone="utc"></ion-datetime>
                         </ion-item>
-                    </div>
-                    <ion-item>
-                        <ion-label>Estimate Unloading Time</ion-label>
-                        <ion-datetime display-timezone="utc"></ion-datetime>
-
-                    </ion-item>
-
-                    <ion-item>
-                        <ion-label>Consigner</ion-label>
-                        <ion-select placeholder="Select Consigner" interface="popover" mode="ios">
-                            <ion-select-option *ngFor="let item of consigners" [value]="item.consignerId">{{item.name}}</ion-select-option>
-                        </ion-select>
-                    </ion-item>
+                        <ion-item>
+                            <ion-label>Consigner</ion-label>
+                            <ion-select placeholder="Select Consigner" interface="popover" mode="ios" formControlName="refConsignerID">
+                                <ion-select-option *ngFor="let item of consigners" [value]="item.consignerId">{{item.name}}</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                    </form>
                 </ion-card-content>
             </ion-card>
         </ion-slide>

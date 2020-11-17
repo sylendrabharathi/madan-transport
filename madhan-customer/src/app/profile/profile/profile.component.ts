@@ -6,6 +6,7 @@ import { LocalstorageService } from 'src/app/service/localstorage/localstorage.s
 import { ToastService } from 'src/app/service/toast/toast.service';
 import { from } from 'rxjs';
 import { ProfileService } from '../services/profile.service';
+import { LoaderService } from 'src/app/service/Loader/loader.service';
 // import { LoaderService } from 'src/app/service/Loader/loader.service';
 
 @Component({
@@ -46,6 +47,7 @@ export class ProfileComponent implements OnInit {
     private toast: ToastService,
     private ls: LocalstorageService,
     private router: Router,
+    private loader: LoaderService
   ) { }
   profileDatas: any = [];
   ngOnInit() { }
@@ -55,16 +57,16 @@ export class ProfileComponent implements OnInit {
   }
 
   getProfileData(userId) {
-    // this.loader.createLoader();
+    this.loader.createLoader();
     this.profileApi.getProfileData(userId).subscribe(
       success => {
         console.log('success', success);
         this.profileDatas = success[0];
         this.setProfileData();
-        // this.loader.dismissLoader();
+        this.loader.dismissLoader();
       },
       failure => {
-        // this.loader.dismissLoader();
+        this.loader.dismissLoader();
         console.log('failure', failure);
       }
     );
@@ -91,12 +93,12 @@ export class ProfileComponent implements OnInit {
 
   submit() {
     if (this.profileForm.valid && !this.doNotProceed) {
-      // this.loader.createLoader();
+      this.loader.createLoader();
       console.log('this.profileForm.valid ', this.setUserData());
 
       this.profileApi.editProfile(this.setUserData(), this.userId).subscribe(
         success => {
-          // this.loader.dismissLoader();
+          this.loader.dismissLoader();
           console.log('success', success);
           if (success[0].status == 2) {
             this.toast.success(success[0].msg);
@@ -107,7 +109,7 @@ export class ProfileComponent implements OnInit {
           }
         },
         failure => {
-          // this.loader.dismissLoader();
+          this.loader.dismissLoader();
           console.log('failure', failure);
 
         }
