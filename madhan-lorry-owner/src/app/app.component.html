@@ -8,7 +8,7 @@
         <ion-content>
             <ion-item class="title-label" *ngFor="let item of menus" class="side-menu-item" [routerLink]="item.url" routerLinkActive="router-link-active" (click)="closeMenu()">
                 <ion-icon class="title-label" [name]="item.icon" slot="start"></ion-icon>
-                <ion-label class="title-label">{{item.title}}</ion-label>
+                <ion-label class="title-label">{{item.title | translate}}</ion-label>
             </ion-item>
         </ion-content>
     </ion-menu>
