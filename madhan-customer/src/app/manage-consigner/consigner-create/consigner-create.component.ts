@@ -36,20 +36,22 @@ export class ConsignerCreateComponent implements OnInit {
     this.customerId = this.ls.getCustomerId();
     this.userId = this.ls.getUserId();
     this.createConsignerForm();
+    
+
+  }
+
+  ionViewWillEnter() {
+    this.getRequiredDetails();
     this.activeRouter.params.subscribe(res => {
       console.log(res);
       if (res && res.id) {
         this.consignerId = res.id;
         console.log('pop');
         this.getConsigner();
+        // this.getRequiredDetails();
       }
 
     })
-
-  }
-
-  ionViewWillEnter() {
-    this.getRequiredDetails();
   }
 
   getRequiredDetails() {

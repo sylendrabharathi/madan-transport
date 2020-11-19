@@ -105,15 +105,18 @@ export class PolPodCreateComponent implements OnInit {
       return;
     }
 
-    console.log(this.polPodForm.value);
+    console.log(this.polPodForm.getRawValue());
     const req: any = JSON.parse(JSON.stringify(this.polPodForm.value));
     req.refCustId = parseInt(req.refCustId);
     req.refCreatedBy = parseInt(req.refCreatedBy);
+    console.log(req);
+    
     if(!this.polPodForm.value.polPodId) {
       delete req['polPodId'];
       this.savePolPod(req);
       return;
     }
+    this.updatePolPod(req);
     
     
 
@@ -122,10 +125,21 @@ export class PolPodCreateComponent implements OnInit {
   savePolPod(req) {
     this.polPodApi.savePolPod(req).subscribe((resp) => {
       console.log(resp);
-      this
       this.router.navigate(['manage-pol-pod']);
     }, err => {
       console.log(err);
+      
+    })
+  }
+
+  updatePolPod(req) {
+    this.polPodApi.updatePolPod(this.polPodId, req).subscribe((resp) => {
+      this.router.navigate(['manage-pol-pod']);
+    }, err => {
+      console.log(err);
+      if(err.status === 200) {
+        this.router.navigate(['manage-pol-pod']);
+      }
       
     })
   }
@@ -149,7 +163,7 @@ export class PolPodCreateComponent implements OnInit {
         return;
       }
       const res = response[0];
-      this.polPodForm.get('polPodId').setValue(res.polPodId);
+      this.polPodForm.get('polPodId').setValue(res.polpodid);
       this.polPodForm.get('refReferenceListCityId').setValue(res.refReferenceListCityId);
       this.polPodForm.get('refReferenceListStateId').setValue(res.refReferenceListStateId);
       this.polPodForm.get('refReferenceListCountryId').setValue(res.refReferenceListCountryId);
@@ -158,7 +172,20 @@ export class PolPodCreateComponent implements OnInit {
       this.polPodForm.get('address3').setValue(res.address3);
       this.polPodForm.get('address4').setValue(res.address4);
       this.polPodForm.get('location').setValue(res.location);
-      this.polPodForm.get('refReferenceListPolpodtypeId').setValue(res.refReferenceListPolpodtypeId);
+      if(res.refReferenceListPolpodtypeId) {
+        this.polPodForm.get('refReferenceListPolpodtypeId').setValue(res.refReferenceListPolpodtypeId);
+      } else {
+        for(const pp of this.polPods) {
+          if(res.loadingType === pp.referenceListIdName) {
+            console.log(pp.referenceListId);
+            
+            this.polPodForm.get('refReferenceListPolpodtypeId').setValue(pp.referenceListId);
+            break;
+          }
+          
+        }
+      }
+      this.polPodForm.updateValueAndValidity();
       
     }, err => {
       console.log(err);

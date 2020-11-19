@@ -24,6 +24,10 @@ export class PolPodApiService {
     return this.api.post('PolPod', req);
   }
 
+  updatePolPod(id: any, req: any) {
+    return this.api.put('PolPod/' + id, req);
+  }
+
   deletePolPodById(id) {
     return this.api.delete('PolPod/' + id);
   }
