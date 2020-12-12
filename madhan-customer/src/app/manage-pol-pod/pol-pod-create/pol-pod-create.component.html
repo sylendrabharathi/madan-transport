@@ -1,13 +1,13 @@
 <ion-header [translucent]="true">
     <ion-toolbar class="toolbar">
         <ion-title>
-            POLPOD
+            {{'POLPOD.create POLPOD'|translate}}
         </ion-title>
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
-        <ion-buttons slot="end">
-            <ion-button (click)="submit()">Submit</ion-button>
+        <ion-buttons slot="end" class="submit">
+            <ion-icon (click)="submit()" class="sendbtn" name="send-sharp"></ion-icon>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
@@ -18,53 +18,53 @@
         <ion-card>
             <ion-card-content>
                 <ion-item class="form-item">
-                    <ion-label>Country</ion-label>
-                    <ion-select placeholder="Select One" formControlName="refReferenceListCountryId">
+                    <ion-label>{{'POLPOD.Country'|translate}}</ion-label>
+                    <ion-select placeholder="Select One" interface="popover" mode="ios" formControlName="refReferenceListCountryId">
                         <ion-select-option *ngFor="let item of countries" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
                     </ion-select>
                 </ion-item>
                 <ion-item class="form-item">
-                    <ion-label>State</ion-label>
-                    <ion-select placeholder="Select One" formControlName="refReferenceListStateId">
+                    <ion-label>{{'POLPOD.State'|translate}}</ion-label>
+                    <ion-select placeholder="Select One" interface="popover" mode="ios" (ionChange)="loadCity($event)" formControlName="refReferenceListStateId">
                         <ion-select-option *ngFor="let item of states" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
                     </ion-select>
                 </ion-item>
                 <ion-item class="form-item">
-                    <ion-label>City</ion-label>
-                    <ion-select placeholder="Select One" formControlName="refReferenceListCityId">
+                    <ion-label>{{'POLPOD.City'|translate}}</ion-label>
+                    <ion-select placeholder="Select One" interface="popover" mode="ios" formControlName="refReferenceListCityId">
                         <ion-select-option *ngFor="let item of cities" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
                     </ion-select>
                 </ion-item>
 
                 <ion-item class="form-item">
-                    <ion-label>Flat/Building No:</ion-label>
+                    <ion-label>{{'POLPOD.Flat/Building No'|translate}}:</ion-label>
                     <ion-textarea type="text" formControlName="address1"></ion-textarea>
                 </ion-item>
 
                 <ion-item class="form-item">
-                    <ion-label>Address Line 1:</ion-label>
+                    <ion-label>{{'POLPOD.Address Line 1'|translate}}:</ion-label>
                     <ion-textarea type="text" formControlName="address2"></ion-textarea>
                 </ion-item>
 
                 <ion-item class="form-item">
-                    <ion-label>Address Line 2:</ion-label>
+                    <ion-label>{{'POLPOD.Address Line 2'|translate}}:</ion-label>
                     <ion-textarea type="text" formControlName="address3"></ion-textarea>
                 </ion-item>
 
                 <ion-item class="form-item">
-                    <ion-label>Land Mark:</ion-label>
+                    <ion-label>{{'POLPOD.Land Mark'|translate}}:</ion-label>
                     <ion-textarea type="text" formControlName="address4"></ion-textarea>
                 </ion-item>
 
                 <ion-item class="form-item">
-                    <ion-label>POL/POD</ion-label>
-                    <ion-select placeholder="Select One" formControlName="refReferenceListPolpodtypeId">
+                    <ion-label>{{'POLPOD.POL/POD'|translate}}:</ion-label>
+                    <ion-select placeholder="Select One" interface="popover" mode="ios" formControlName="refReferenceListPolpodtypeId">
                         <ion-select-option *ngFor="let item of polPods" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
                     </ion-select>
                 </ion-item>
 
                 <ion-item class="form-item">
-                    <ion-label>Location:</ion-label>
+                    <ion-label>{{'POLPOD.Location'|translate}}:</ion-label>
                     <ion-input type="text" formControlName="location"></ion-input>
                 </ion-item>
             </ion-card-content>

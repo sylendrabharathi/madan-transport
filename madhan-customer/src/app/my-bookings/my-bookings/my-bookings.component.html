@@ -1,86 +1,81 @@
 <ion-header [translucent]="true">
-  <ion-toolbar class="toolbar">
-    <ion-title>
-      My Bookings
-    </ion-title>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar class="toolbar">
+        <ion-title>
+            {{'My Booking.My Booking'|translate}}
+        </ion-title>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-  <ion-card class="card" *ngFor="let item of myBookings">
-    <ion-card-content>
-      <div>
-        <ion-note>
-          <ion-icon name="pin"></ion-icon>&nbsp;Booking ID: {{item.bookingId}}
-        </ion-note>
-      </div>
-      <div>
-        <ion-note>
-          <ion-icon name="home"></ion-icon>&nbsp;Consignee: {{item.consignerName}}
-        </ion-note>
-      </div>
-      <div>
-        <ion-note class="highlight">
-          <ion-icon name="location"></ion-icon>&nbsp;
-          {{item.lpodCityName}} <ion-icon name="arrow-forward"></ion-icon> {{item.podLocation}}
-        </ion-note>
-      </div>
-      <div>
-        <ion-note>
-          <ion-icon name="library"></ion-icon>&nbsp;Material: {{item.material}}
-        </ion-note>
-      </div>
-      <div>
-        <ion-note>
-          <ion-icon name="bus"></ion-icon>&nbsp;Truck Type: {{item.vehicleType}}
-        </ion-note>
-      </div>
-      <div>
-        <ion-note>
-          <ion-icon name="server"></ion-icon>&nbsp;Weight: {{item.totalQty}}
-        </ion-note>
-      </div>
-      <div>
-        <ion-note>
-          <ion-icon name="caret-forward-outline"></ion-icon>&nbsp;Vehicle No: {{item.vvberVehicleNo}}
-        </ion-note>
-      </div>
-      <div>
-        <ion-note>
-          <ion-icon name="person-outline"></ion-icon>&nbsp;Driver: {{item.driverName}}
-        </ion-note>
-      </div>
-      <div>
-        <ion-note>
-          <ion-icon name="call-outline"></ion-icon>&nbsp;Mobile: {{item.transporterMob}}
-        </ion-note>
-      </div>
-      <div>
-        <ion-note>
-          <ion-icon name="exit-outline"></ion-icon>&nbsp;Status: {{item.status}}
-        </ion-note>
-      </div>
-      <!-- <div>
-        <ion-fab vertical="top" horizontal="end">
-            <ion-fab-button class="accpt" size="small" (click)="edit(item)">
-                <ion-icon class="highlight" name="pencil-outline"></ion-icon>
-            </ion-fab-button>
-        </ion-fab>
-        <ion-fab vertical="bottom" horizontal="end">
-            <ion-fab-button class="delete-btn" size="small" (click)="delete(item)">
-                <ion-icon name="trash-outline"></ion-icon>
-            </ion-fab-button>
-        </ion-fab>
-    </div>  -->
-
-
-
-
-
-    </ion-card-content>
-  </ion-card>
+    <ion-card class="card" *ngFor="let item of myBookings">
+        <ion-card-content>
+            <div>
+                <ion-note>
+                    <ion-icon name="pin"></ion-icon>&nbsp;{{'My Booking.Booking ID'|translate}}: {{item.bookingId}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="home"></ion-icon>&nbsp;{{'My Booking.Consignee'|translate}}: {{item.consignerName}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-note class="highlight">
+                    <ion-icon name="location"></ion-icon>&nbsp; {{item.location}}
+                    <ion-icon name="arrow-forward"></ion-icon> {{item.podLocation}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="library"></ion-icon>&nbsp;{{'My Booking.Material'|translate}}: {{item.material}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="bus"></ion-icon>&nbsp;{{'My Booking.Truck Type'|translate}}: {{item.vehicleType}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="server"></ion-icon>&nbsp;{{'My Booking.Weight'|translate}}: {{item.totalQty}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="caret-forward-outline"></ion-icon>&nbsp;{{'My Booking.Vehicle No'|translate}}: {{item.vvberVehicleNo}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="person-outline"></ion-icon>&nbsp;{{'My Booking.Driver'|translate}}: {{item.driverName}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="call-outline"></ion-icon>&nbsp;{{'My Booking.Mobile'|translate}}: {{item.transporterMob}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-note>
+                    <ion-icon name="exit-outline"></ion-icon>&nbsp;{{'My Booking.Status'|translate}}: {{item.status}}
+                </ion-note>
+            </div>
+            <div>
+                <ion-fab vertical="top" horizontal="end">
+                    <ion-fab-button class="accpt" size="small" (click)="editBooking(item)">
+                        <ion-icon class="highlight" name="pencil-outline"></ion-icon>
+                    </ion-fab-button>
+                </ion-fab>
+                <!-- <ion-fab vertical="bottom" horizontal="end">
+                    <ion-fab-button class="delete-btn" size="small" (click)="deleteBooking(item)">
+                        <ion-icon name="trash-outline"></ion-icon>
+                    </ion-fab-button>
+                </ion-fab> -->
+            </div>
+        </ion-card-content>
+    </ion-card>
 </ion-content>

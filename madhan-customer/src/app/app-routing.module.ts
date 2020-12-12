@@ -8,7 +8,7 @@ import { LoginGuard } from './guards/login/login.guard';
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
     canActivateChild: [AuthGuard]
   },
   {
@@ -48,15 +48,19 @@ const routes: Routes = [
   },
   {
     path: 'my-profile',
-    loadChildren:() => import('./profile/profile.module').then(m => m.ProfileModule),
+    loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule),
     canActivateChild: [AuthGuard]
   },
   {
     path: 'new-booking',
     loadChildren: () => import('./new-booking/new-booking.module').then(m => m.NewBookingModule),
     canActivateChild: [AuthGuard]
+  },
+  {
+    path: 'new-booking/:id',
+    loadChildren: () => import('./new-booking/new-booking.module').then(m => m.NewBookingModule),
+    canActivateChild: [AuthGuard]
   }
-
 ];
 
 @NgModule({

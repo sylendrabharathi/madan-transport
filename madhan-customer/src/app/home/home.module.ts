@@ -6,6 +6,7 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { HomeApiService } from './service/api/home-api.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -14,10 +15,11 @@ import { HomeApiService } from './service/api/home-api.service';
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
+    TranslateModule
   ],
   declarations: [HomePage],
   providers: [
     HomeApiService
   ]
 })
-export class HomePageModule {}
+export class HomePageModule { }

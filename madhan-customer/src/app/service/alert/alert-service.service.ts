@@ -10,14 +10,14 @@ export class AlertServiceService {
     private alertController: AlertController
   ) { }
 
-  public async alertPromt(): Promise<boolean> {
+  public async alertPromt(header, message): Promise<boolean> {
     let confirmation = false;
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       animated: true,
       // backdrop-dismiss:true,
-      header: 'Confirmation ',
-      message: `Are you sure you want to delete? `,
+      header: header,
+      message: message,
       buttons: [
         {
           text: 'Cancel',
@@ -43,6 +43,27 @@ export class AlertServiceService {
 
     })
     return confirmation;
+
+  }
+  public async noEditAlert(header, message) {
+
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      animated: true,
+      // backdrop-dismiss:true,
+      header: header,
+      message: message,
+      buttons: [
+        {
+          text: 'Ok',
+          role: 'cancel',
+          cssClass: 'secondary',
+
+        }
+      ]
+    });
+
+    await alert.present();
 
   }
 }

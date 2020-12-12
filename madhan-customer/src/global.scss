@@ -1,4 +1,4 @@
-/*
+    /*
  * App Global CSS
  * ----------------------------------------------------------------------------
  * Put style rules here that you want to apply globally. These styles are for
@@ -8,99 +8,138 @@
  * For more information on global stylesheets, visit the documentation:
  * https://ionicframework.com/docs/layout/global-stylesheets
  */
-
-
-/* Core CSS required for Ionic components to work properly */
-
-@import "~@ionic/angular/css/core.css";
-
-/* Basic CSS for apps built with Ionic */
-
-@import "~@ionic/angular/css/normalize.css";
-@import "~@ionic/angular/css/structure.css";
-@import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
-
-/* Optional CSS utils that can be commented out */
-
-@import "~@ionic/angular/css/padding.css";
-@import "~@ionic/angular/css/float-elements.css";
-@import "~@ionic/angular/css/text-alignment.css";
-@import "~@ionic/angular/css/text-transformation.css";
-@import "~@ionic/angular/css/flex-utils.css";
-:root {
-    // --primary-color: #d62912;
-    --primary-color: #6e33a1;
-    // --primary-color: #3a5 ;
-    // #fbbc05
-    // --secondary-color: #f4b05f;
-    --secondary-color: #6e33a1;
-    // --bg-color: #e9c079;
-    // --bg-color: #fbbc05; (Y_bg)
-    --bg-color: #EFEFEF; // (Y1_bg)
-    --danger-color: rgb(255, 0, 0);
-}
-
-ion-app {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-
-ion-content {
-    --background: var(--bg-color) !important;
-}
-
-// ion-list {
-//     --background: var(--bg-color);
-// }
-// ion-item {
-//     --background: var(--bg-color);
-// }
-.toolbar {
-    --background: var(--primary-color);
-    --color: white;
-}
-
-.t-center {
-    text-align: center;
-}
-
-.no-padding {
-    padding: 0px;
-}
-
-.d-flex {
-    display: flex;
-}
-
-.highlight {
-    color: var(--primary-color);
-}
-
-ion-card {
-    --background: white;
-}
-
-.danger-toast {
-    background-color: red !important;
-    color: white !important;
-}
-
-.my-custom-modal-css .modal-wrapper {
-    height: 50%;
-    top: 25%;
-    bottom: 25%;
-    position: absolute;
-    display: block;
-}
-
-.accpt {
-    --background: white;
-    border-style: solid;
-    border-radius: 50%;
-    border-width: 2px;
-    border-color: var(--primary-color);
-}
-
-.spinner {
-    --spinner-color: var(--primary-color);
-}
+    /* Core CSS required for Ionic components to work properly */
+    
+    @import "~@ionic/angular/css/core.css";
+    /* Basic CSS for apps built with Ionic */
+    
+    @import "~@ionic/angular/css/normalize.css";
+    @import "~@ionic/angular/css/structure.css";
+    @import "~@ionic/angular/css/typography.css";
+    @import '~@ionic/angular/css/display.css';
+    /* Optional CSS utils that can be commented out */
+    
+    @import "~@ionic/angular/css/padding.css";
+    @import "~@ionic/angular/css/float-elements.css";
+    @import "~@ionic/angular/css/text-alignment.css";
+    @import "~@ionic/angular/css/text-transformation.css";
+    @import "~@ionic/angular/css/flex-utils.css";
+     :root {
+        // --primary-color: #d62912;
+        --primary-color: #6e33a1;
+        // --primary-color: #3a5 ;
+        // #fbbc05
+        // --secondary-color: #f4b05f;
+        --secondary-color: #6e33a1;
+        // --bg-color: #e9c079;
+        // --bg-color: #fbbc05; (Y_bg)
+        --bg-color: #EFEFEF; // (Y1_bg)
+        --danger-color: rgb(255, 0, 0);
+    }
+    
+    ion-app {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+    
+    ion-content {
+        --background: var(--bg-color) !important;
+    }
+    
+    // ion-list {
+    //     --background: var(--bg-color);
+    // }
+    // ion-item {
+    //     --background: var(--bg-color);
+    // }
+    .toolbar {
+        --background: var(--primary-color);
+        --color: white;
+    }
+    
+    .t-center {
+        text-align: center;
+    }
+    
+    .no-padding {
+        padding: 0px;
+    }
+    
+    .d-flex {
+        display: flex;
+    }
+    
+    .highlight {
+        color: var(--primary-color);
+    }
+    
+    ion-card {
+        --background: white;
+    }
+    
+    .danger-toast {
+        background-color: red !important;
+        color: white !important;
+    }
+    
+    .my-custom-modal-css .modal-wrapper {
+        height: 50%;
+        top: 25%;
+        bottom: 25%;
+        position: absolute;
+        display: block;
+    }
+    
+    .accpt {
+        --background: white;
+        border-style: solid;
+        border-radius: 50%;
+        border-width: 2px;
+        border-color: var(--primary-color);
+    }
+    
+    .spinner {
+        --spinner-color: var(--primary-color);
+    }
+    
+    .ionic-selectable-documentation-configuration {
+        .modal-wrapper {
+            ionic-selectable-modal {
+                ion-header {
+                    ion-toolbar {
+                        --background: var(--primary-color);
+                    }
+                }
+                ion-searchbar {
+                    --background: var(--ion-color-dark);
+                    .searchbar-input {
+                        background: transparent;
+                        color: #fff;
+                        box-shadow: unset;
+                        border: 1px solid black;
+                    }
+                    .searchbar-search-icon {
+                        color: #fff;
+                    }
+                    .searchbar-clear-button {
+                        color: #fff;
+                    }
+                }
+                ion-list {
+                    background: var(--bg-color);
+                    ion-item-group {
+                        ion-item {
+                            --background: var(--bg-color);
+                            --color: black;
+                            ion-icon {
+                                color: black;
+                            }
+                        }
+                    }
+                }
+                ion-content {
+                    --background: var(--bg-color) !important;
+                    --color: black;
+                }
+            }
+        }
+    }

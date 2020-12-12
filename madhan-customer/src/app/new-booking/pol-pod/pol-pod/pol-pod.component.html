@@ -6,7 +6,7 @@
                 <h3 *ngIf="type === 'pod'">&nbsp;Place Of Delivery</h3>
             </ion-col>
             <ion-col size="4">
-                <ion-button (click)="openNewPol()" size="small" fill="outline" mode="ios" shape="round" class="titlebutton">
+                <ion-button (click)="openNewPol(type)" size="small" fill="outline" mode="ios" shape="round" class="titlebutton">
                     <ion-icon name="add-outline"></ion-icon>
                     <p *ngIf="type === 'pol'">New POL</p>
                     <p *ngIf="type === 'pod'">New POD</p>

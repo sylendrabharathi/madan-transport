@@ -13,6 +13,7 @@ export class PolPodComponent implements OnInit {
   polPods = [];
   // pods = [];
   @Input() type: string;
+  @Input() form: any;
   slideOpts = {
     slidesPerView: 2,
     freeMode: true,
@@ -65,7 +66,11 @@ export class PolPodComponent implements OnInit {
     this.modalCtrl.dismiss({ 'data': data });
   }
 
-  openNewPol() {
-    this.route.navigate(['manage-pol-pod', 'new'])
+  openNewPol(type) {
+    console.log('this.form', this.form, type);
+
+    // const type = 'pol/pod';
+    this.route.navigate(['manage-pol-pod', 'new', type], { state: { formVal: this.form } });
+    this.modalCtrl.dismiss();
   }
 }

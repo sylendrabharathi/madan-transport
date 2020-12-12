@@ -1,51 +1,53 @@
 <ion-header [translucent]="true">
-  <ion-toolbar class="toolbar">
-    <ion-title>
-      Consigners
-    </ion-title>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button class="new-btn" (click)="createNewConsigner()">&nbsp;<ion-icon name="add-outline"></ion-icon></ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar class="toolbar">
+        <ion-title>
+            {{'Consigners.Consigner'|translate}}
+        </ion-title>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button class="new-btn" (click)="createNewConsigner()">&nbsp;
+                <ion-icon name="add-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-  <ion-card *ngFor="let item of consigners" class="card">
-    <ion-card-content>
-      <div>
-        <span class="field">Name</span> <span>: &nbsp;{{item.name}}</span>
-      </div>
-      <div>
-        <span class="field">GST NO</span> <span>: &nbsp;{{item.gstno}}</span>
-      </div>
-      <div>
-        <span class="field">PAN</span> <span>: &nbsp;{{item.pannumber}}</span>
-      </div>    
-      <div>
-        <span class="field">Email</span> <span>: &nbsp;{{item.email}}</span>
-      </div>    
-      <div>
-        <span class="field">Mobile</span> <span>: &nbsp;{{item.mobileNo}}</span>
-      </div>   
-      <div>
-        <span class="field">City</span> <span>: &nbsp;{{item.city}}</span>
-      </div>    
-      <div>
-        <ion-fab vertical="top" horizontal="end">
-            <ion-fab-button class="accpt" size="small" (click)="editConsigner(item)">
-                <ion-icon class="highlight" name="pencil-outline"></ion-icon>
-            </ion-fab-button>
-        </ion-fab>
-        <ion-fab vertical="bottom" horizontal="end">
-            <ion-fab-button class="delete-btn" size="small" (click)="deleteConsigner(item)">
-                <ion-icon name="trash-outline"></ion-icon>
-            </ion-fab-button>
-        </ion-fab>
-    </div> 
-    </ion-card-content>
-  </ion-card>
+    <ion-card *ngFor="let item of consigners" class="card">
+        <ion-card-content>
+            <div>
+                <span class="field">{{'Consigners.Name'|translate}}</span> <span>: &nbsp;{{item.name}}</span>
+            </div>
+            <div>
+                <span class="field">{{'Consigners.GST NO'|translate}}</span> <span>: &nbsp;{{item.gstno}}</span>
+            </div>
+            <div>
+                <span class="field">{{'Consigners.PAN'|translate}}</span> <span>: &nbsp;{{item.pannumber}}</span>
+            </div>
+            <div>
+                <span class="field">{{'Consigners.Email'|translate}}</span> <span>: &nbsp;{{item.email}}</span>
+            </div>
+            <div>
+                <span class="field">{{'Consigners.Mobile'|translate}}</span> <span>: &nbsp;{{item.mobileNo}}</span>
+            </div>
+            <div>
+                <span class="field">{{'Consigners.City'|translate}}</span> <span>: &nbsp;{{item.city}}</span>
+            </div>
+            <div>
+                <ion-fab vertical="top" horizontal="end">
+                    <ion-fab-button class="accpt" size="small" (click)="editConsigner(item)">
+                        <ion-icon class="highlight" name="pencil-outline"></ion-icon>
+                    </ion-fab-button>
+                </ion-fab>
+                <ion-fab vertical="bottom" horizontal="end">
+                    <ion-fab-button class="delete-btn" size="small" (click)="deleteConsigner(item)">
+                        <ion-icon name="trash-outline"></ion-icon>
+                    </ion-fab-button>
+                </ion-fab>
+            </div>
+        </ion-card-content>
+    </ion-card>
 </ion-content>

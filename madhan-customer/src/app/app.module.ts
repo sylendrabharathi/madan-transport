@@ -23,16 +23,27 @@ import { LocalstorageService } from './service/localstorage/localstorage.service
 import { SharedService } from './service/shared/shared.service';
 import { ToastService } from './service/toast/toast.service';
 
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient } from '@angular/common/http';
+import { IonicStorageModule } from '@ionic/storage';
+
+import { IonicSelectableModule } from 'ionic-selectable';
+
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 @NgModule({
   declarations: [
-    AppComponent, 
+    AppComponent,
     SignupComponent,
     LoginComponent
   ],
   entryComponents: [],
   imports: [
-    BrowserModule, 
-    IonicModule.forRoot(), 
+    BrowserModule,
+    IonicModule.forRoot(),
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
@@ -41,7 +52,18 @@ import { ToastService } from './service/toast/toast.service';
     MyBookingsModule,
     ManagePolPodModule,
     ProfileModule,
-    SettingsModule
+    SettingsModule,
+    HttpClientModule,
+    IonicStorageModule.forRoot(),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    }),
+    // AutoCompleteModule
+    IonicSelectableModule
 
   ],
   providers: [
@@ -55,4 +77,4 @@ import { ToastService } from './service/toast/toast.service';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

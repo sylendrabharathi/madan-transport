@@ -51,7 +51,7 @@ export class ConsignerListComponent implements OnInit {
   }
 
   deleteConsigner(consigner) {
-    this.alert.alertPromt().then(data => {
+    this.alert.alertPromt('Confirmation ', `Are you sure you want to delete? `,).then(data => {
       if (Boolean(data)) {
         console.log(consigner);
 

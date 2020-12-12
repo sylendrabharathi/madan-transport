@@ -13,6 +13,9 @@ const routes: Routes = [
   },
   {
     path: 'new', component: PolPodCreateComponent
+  },
+  {
+    path: 'new/:type', component: PolPodCreateComponent
   }
 ];
 

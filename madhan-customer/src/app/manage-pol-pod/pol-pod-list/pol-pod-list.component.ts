@@ -48,7 +48,7 @@ export class PolPodListComponent implements OnInit {
   }
 
   deletePolPod(item) {
-    this.alert.alertPromt().then(data => {
+    this.alert.alertPromt('Confirmation ', `Are you sure you want to delete? `).then(data => {
       if (Boolean(data)) {
         console.log('delete = ', item);
         // this.loader.createLoader();

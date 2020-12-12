@@ -30,7 +30,7 @@ export class HomePage implements OnInit {
       console.log(resp);
       this.rates = resp || [];
     }, err => {
-
+      this.loader.dismissLoader();
     });
   }
 

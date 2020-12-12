@@ -7,6 +7,7 @@ import { ConsignerCreateComponent } from './consigner-create/consigner-create.co
 import { ConsignerApiService } from './service/api/consigner-api.service';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     IonicModule,
     FormsModule,
     ReactiveFormsModule,
-    ManageConsignerRoutingModule
+    ManageConsignerRoutingModule,
+    TranslateModule
   ],
   providers: [
     ConsignerApiService

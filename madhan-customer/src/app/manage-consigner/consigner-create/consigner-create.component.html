@@ -1,13 +1,13 @@
 <ion-header [translucent]="true">
     <ion-toolbar class="toolbar">
         <ion-title>
-            Consigner
+            {{'Consigner.Create Consigner'|translate}}
         </ion-title>
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
         <ion-buttons slot="end">
-            <ion-button (click)="submit()">Submit</ion-button>
+            <ion-icon (click)="submit()" class="sendbtn" name="send-sharp"></ion-icon>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
@@ -18,81 +18,81 @@
         <ion-card>
             <ion-card-content>
                 <ion-item class="form-item">
-                    <ion-label>Name:</ion-label>
+                    <ion-label>{{'Consigner.Name'|translate}}:</ion-label>
                     <ion-input type="text" placeholder="Madan" formControlName="name"></ion-input>
                 </ion-item>
                 <ion-item class="form-item">
-                    <ion-label>GSTNO:</ion-label>
+                    <ion-label>{{'Consigner.GST NO'|translate}}:</ion-label>
                     <ion-input type="text" placeholder="XXXXXXXXXXXXXX" formControlName="gstno"></ion-input>
                 </ion-item>
 
                 <ion-item class="form-item">
-                    <ion-label>PAN:</ion-label>
+                    <ion-label>{{'Consigner.PAN'|translate}}:</ion-label>
                     <ion-input type="text" placeholder="XXXXXXXXXXX" formControlName="pannumber"></ion-input>
                 </ion-item>
 
                 <ion-item class="form-item">
-                    <ion-label>Phone No:</ion-label>
+                    <ion-label>{{'Consigner.Phone No'|translate}}:&nbsp;</ion-label>
                     <ion-input type="number" placeholder="9632147850" formControlName="phoneNo"></ion-input>
                 </ion-item>
 
                 <ion-item class="form-item">
-                    <ion-label>Mobile No:</ion-label>
-                    <ion-input type="number" placeholder="9632147850" formControlName="mobileNo"></ion-input>
+                    <ion-label>{{'Consigner.Mobile No'|translate}}:</ion-label>
+                    <ion-input type="number" placeholder=" 9632147850" formControlName="mobileNo"></ion-input>
                 </ion-item>
 
                 <ion-item class="form-item">
-                    <ion-label>Email:</ion-label>
+                    <ion-label>{{'Consigner.Email'|translate}}:</ion-label>
                     <ion-input type="email" placeholder="a@a.com" formControlName="email"></ion-input>
                 </ion-item>
 
                 <ion-item class="form-item">
-                    <ion-label>Website:</ion-label>
-                    <ion-input type="url" placeholder="www.madan.com" formControlName="website"></ion-input>
+                    <ion-label>{{'Consigner.Website'|translate}}:&nbsp;</ion-label>
+                    <ion-input type="url" placeholder=" www.xyz.com" formControlName="website"></ion-input>
                 </ion-item>
 
                 <ion-item class="form-item">
-                    <ion-label>Description:</ion-label>
+                    <ion-label>{{'Consigner.Description'|translate}}:</ion-label>
                     <ion-textarea type="text" formControlName="description"></ion-textarea>
                 </ion-item>
                 <ion-item class="form-item">
-                    <ion-label>Country</ion-label>
+                    <ion-label>{{'Consigner.Country'|translate}}:</ion-label>
                     <ion-select placeholder="Select One" formControlName="refReferenceListCountryId" mode="ios" interface="popover">
                         <ion-select-option *ngFor="let item of countries" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
                     </ion-select>
                 </ion-item>
 
                 <ion-item class="form-item">
-                    <ion-label>State</ion-label>
+                    <ion-label>{{'Consigner.State'|translate}}:</ion-label>
                     <ion-select placeholder="Select One" formControlName="refReferenceListStateId" mode="ios" interface="popover" (ionChange)="loadCity($event)">
                         <ion-select-option *ngFor="let item of states" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
                     </ion-select>
                 </ion-item>
 
                 <ion-item class="form-item">
-                    <ion-label>City</ion-label>
+                    <ion-label>{{'Consigner.City'|translate}}</ion-label>
                     <ion-select placeholder="Select One" formControlName="refReferenceListCityId" mode="ios" interface="popover">
                         <ion-select-option *ngFor="let item of cities" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
                     </ion-select>
                 </ion-item>
 
                 <ion-item class="form-item">
-                    <ion-label>Flat/Building No:</ion-label>
+                    <ion-label>{{'Consigner.Flat/Building No'|translate}}:</ion-label>
                     <ion-textarea type="text" formControlName="address1"></ion-textarea>
                 </ion-item>
 
                 <ion-item class="form-item">
-                    <ion-label>Address Line 1:</ion-label>
+                    <ion-label>{{'Consigner.Address Line 1'|translate}}:</ion-label>
                     <ion-textarea type="text" formControlName="address2"></ion-textarea>
                 </ion-item>
 
                 <ion-item class="form-item">
-                    <ion-label>Address Line 2:</ion-label>
+                    <ion-label>{{'Consigner.Address Line 2'|translate}}:</ion-label>
                     <ion-textarea type="text" formControlName="address3"></ion-textarea>
                 </ion-item>
 
                 <ion-item class="form-item">
-                    <ion-label>Land Mark:</ion-label>
+                    <ion-label>{{'Consigner.Land Mark'|translate}}:</ion-label>
                     <ion-textarea type="text" formControlName="address4"></ion-textarea>
                 </ion-item>
             </ion-card-content>

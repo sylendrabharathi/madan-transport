@@ -31,4 +31,10 @@ export class PolPodApiService {
   deletePolPodById(id) {
     return this.api.delete('PolPod/' + id);
   }
+  getState(id) {
+    return this.api.get(this.api.formUrl('ReferenceList', id));
+  }
+  getCityBySate(name) {
+    return this.api.get('ReferenceList/GetRLByRLDesclike/?name=' + name);
+  }
 }

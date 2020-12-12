@@ -5,6 +5,7 @@ import { MyBookingsRoutingModule } from './my-bookings-routing.module';
 import { MyBookingsComponent } from './my-bookings/my-bookings.component';
 import { MyBookinsApiService } from './service/api/my-bookins-api.service';
 import { IonicModule } from '@ionic/angular';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -14,9 +15,10 @@ import { IonicModule } from '@ionic/angular';
   imports: [
     CommonModule,
     IonicModule,
-    MyBookingsRoutingModule
+    MyBookingsRoutingModule,
+    TranslateModule
   ],
-  providers:[
+  providers: [
     MyBookinsApiService
   ]
 })

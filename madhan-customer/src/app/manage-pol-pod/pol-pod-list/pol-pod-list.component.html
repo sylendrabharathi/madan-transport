@@ -1,53 +1,55 @@
 <ion-header [translucent]="true">
-  <ion-toolbar class="toolbar">
-    <ion-title>
-      POLPODs
-    </ion-title>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button class="new-btn" (click)="createPolPod()">&nbsp;<ion-icon name="add-outline"></ion-icon></ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar class="toolbar">
+        <ion-title>
+            {{'POLPODs.POLPODs'|translate}}
+        </ion-title>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button class="new-btn" (click)="createPolPod()">&nbsp;
+                <ion-icon name="add-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-  <ion-card *ngFor="let item of polPods" class="card">
-    <ion-card-content>
-      <div>
-        <span class="field">POL POD ID</span> <span>: &nbsp;{{item.polpodid}}</span>
-      </div>
-      <div>
-        <span class="field">Loading Type</span> <span>: &nbsp;{{item.loadingType}}</span>
-      </div>
-      <div>
-        <span class="field">Location</span> <span>: &nbsp;{{item.location}}</span>
-      </div>
-      <div>
-        <span class="field">City</span> <span>: &nbsp;{{item.city}}</span>
-      </div>
-      <div>
-        <span class="field">State</span> <span>: &nbsp;{{item.state}}</span>
-      </div>
-      <div>
-        <span class="field">Country</span> <span>: &nbsp;{{item.country}}</span>
-      </div>
+    <ion-card *ngFor="let item of polPods" class="card">
+        <ion-card-content>
+            <div>
+                <span class="field">{{'POLPODs.POL POD Id'|translate}}</span> <span>: &nbsp;{{item.polpodid}}</span>
+            </div>
+            <div>
+                <span class="field">{{'POLPODs.Loading Type'|translate}}</span> <span>: &nbsp;{{item.loadingType}}</span>
+            </div>
+            <div>
+                <span class="field">{{'POLPODs.Location'|translate}}</span> <span>: &nbsp;{{item.location}}</span>
+            </div>
+            <div>
+                <span class="field">{{'POLPODs.City'|translate}}</span> <span>: &nbsp;{{item.city}}</span>
+            </div>
+            <div>
+                <span class="field">{{'POLPODs.State'|translate}}</span> <span>: &nbsp;{{item.state}}</span>
+            </div>
+            <div>
+                <span class="field">{{'POLPODs.Country'|translate}}</span> <span>: &nbsp;{{item.country}}</span>
+            </div>
 
-      <div>
-        <ion-fab vertical="top" horizontal="end">
-            <ion-fab-button class="accpt" size="small" (click)="editPolPod(item)">
-                <ion-icon class="highlight" name="pencil-outline"></ion-icon>
-            </ion-fab-button>
-        </ion-fab>
-        <ion-fab vertical="bottom" horizontal="end">
-            <ion-fab-button class="delete-btn" size="small" (click)="deletePolPod(item)">
-                <ion-icon name="trash-outline"></ion-icon>
-            </ion-fab-button>
-        </ion-fab>
-    </div> 
+            <div>
+                <ion-fab vertical="top" horizontal="end">
+                    <ion-fab-button class="accpt" size="small" (click)="editPolPod(item)">
+                        <ion-icon class="highlight" name="pencil-outline"></ion-icon>
+                    </ion-fab-button>
+                </ion-fab>
+                <ion-fab vertical="bottom" horizontal="end">
+                    <ion-fab-button class="delete-btn" size="small" (click)="deletePolPod(item)">
+                        <ion-icon name="trash-outline"></ion-icon>
+                    </ion-fab-button>
+                </ion-fab>
+            </div>
 
-    </ion-card-content>
-  </ion-card>
+        </ion-card-content>
+    </ion-card>
 </ion-content>

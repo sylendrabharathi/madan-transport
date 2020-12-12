@@ -29,7 +29,7 @@ export class NewBookingApiService {
   }
 
   getRateDetails(sourceId, rlRateForId, destinationId) {
-    return this.api.get(`rate/GetSpecificRateDetails/?RateForId=${rlRateForId}&SourceId=${sourceId}&DestinationId=${destinationId}`);
+    return this.api.get(`rate/GetSpecificRateDetailsbyName/?RateForId=${rlRateForId}&Source=${sourceId}&Destination=${destinationId}`);
   }
 
   save(req) {
@@ -40,5 +40,11 @@ export class NewBookingApiService {
   }
   getVehicleByType(name) {
     return this.api.get('ReferenceList/GetRLByRLDesclike/?name=' + name);
+  }
+  getBooking(bid) {
+    return this.api.get('Booking/GetBookingDetails/?bid=' + bid);
+  }
+  getRateById(rId) {
+    return this.api.get('rate/' + rId);
   }
 }

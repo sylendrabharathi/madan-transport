@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonSlides, ModalController } from '@ionic/angular';
+import { IonicSelectableComponent } from 'ionic-selectable';
 import { ConsignerApiService } from 'src/app/manage-consigner/service/api/consigner-api.service';
 import { PolPodApiService } from 'src/app/manage-pol-pod/service/api/pol-pod-api.service';
 import { ApiService } from 'src/app/service/api/api.service';
@@ -10,8 +11,28 @@ import { LocalstorageService } from 'src/app/service/localstorage/localstorage.s
 import { ToastService } from 'src/app/service/toast/toast.service';
 import { PolPodComponent } from '../pol-pod/pol-pod/pol-pod.component';
 import { NewBookingApiService } from '../service/api/new-booking-api.service';
-// import { Slides } from '@ionic/angular';
+// import { mobiscroll } from '@mobiscroll/angular-lite';
 
+// import { Slides } from '@ionic/angular';
+// class refrence {
+//   referenceDescription: string;
+//   referenceId: number;
+//   referenceListId: number;
+//   referenceListIdDescription: string;
+//   referenceListIdName: string;
+//   referencename: string;
+// }
+// class locations {
+//   amount: number;
+//   destination: string;
+//   destinationID: number;
+//   rateId: number;
+//   rlRateForId: number;
+//   rlRateForName: string;
+//   source: string;
+//   sourceID: number;
+//   validityDate: Date;
+// }
 @Component({
   selector: 'app-booking-create',
   templateUrl: './booking-create.component.html',
@@ -21,6 +42,10 @@ import { NewBookingApiService } from '../service/api/new-booking-api.service';
 
 export class BookingCreateComponent implements OnInit {
 
+  // ports: Port[];
+  // port: Port;
+
+  // data: MbscSelectOptions={ };
   bookingForm: FormGroup;
   cities = [];
   states = [];
@@ -44,13 +69,16 @@ export class BookingCreateComponent implements OnInit {
   truckss = [];
   sourceId;
   destinationId;
-  // truckType = '';
+  editBookingId = -1;
+  newpolId: number;
+  showbId = false;
   myDate;
   slideOpts = {
     initialSlide: 0,
     speed: 400
   };
   @ViewChild('slides', { static: true }) slides: IonSlides;
+  // public labelAttribute: string;
 
 
   constructor(private fb: FormBuilder,
@@ -62,7 +90,18 @@ export class BookingCreateComponent implements OnInit {
     private polPodService: PolPodApiService,
     private consignerApi: ConsignerApiService,
     public modal: ModalController,
-    private loader: LoaderService) { }
+    private loader: LoaderService) {
+  }
+
+  portChange(event: {
+    component: IonicSelectableComponent,
+    value: any
+  }, type: string) {
+    console.log('port:', event.value);
+    debugger;
+    if (type != 'material')
+      this.changeLocations(event.value, type);
+  }
 
   ngOnInit() {
     this.customerId = this.ls.getCustomerId();
@@ -70,11 +109,38 @@ export class BookingCreateComponent implements OnInit {
     this.createFG();
     this.getRequiredDetails();
     this.activeRouter.params.subscribe(res => {
-      console.log(res);
-
-    })
+      console.log('res', res);
+      this.editBookingId = res.id;
+      if (!!this.editBookingId) {
+        this.loadEditData();
+      }
+    });
     this.myDate = new Date();
+    console.log('window.history.state', window.history.state.formVal);
+    if (window.history.state.formVal) {
+      setTimeout(() => {
+        this.loader.createLoader();
+      }, 80000);
+      this.loader.dismissLoader();
+      const data = window.history.state.formVal;
+      // this.bookingForm.setValue(window.history.state.formVal);
+      this.bookingForm.get('loadingLocation').setValue(data.loadingLocation);
+      this.bookingForm.get('loadingLocation').updateValueAndValidity();
+      this.bookingForm.get('unLoadingLocation').setValue(data.unLoadingLocation);
+      this.bookingForm.get('unLoadingLocation').updateValueAndValidity();
+      this.bookingForm.get('refReferenceListVehicleTypeId').setValue(data.refReferenceListVehicleTypeId);
+      this.bookingForm.get('refReferenceListVehicleTypeId').updateValueAndValidity();
+      this.bookingForm.get('refMaterialRefListId').setValue(data.refMaterialRefListId);
+      this.bookingForm.get('refMaterialRefListId').updateValueAndValidity();
+      this.bookingForm.get('rateId').setValue(data.rateId);
+      this.bookingForm.get('rateId').updateValueAndValidity();
+      this.bookingForm.updateValueAndValidity();
+    }
+    // console.log('history', this.bookingForm);
+    // this.activeRouter.params.subscribe(data => {
+    //   this.newpolId = data.id;
 
+    // })
   }
 
   ionViewWillEnter() {
@@ -102,15 +168,17 @@ export class BookingCreateComponent implements OnInit {
       component: PolPodComponent,
       cssClass: 'my-custom-modal-css',
       componentProps: {
-        'type': type
+        'type': type,
+        'form': this.bookingForm.getRawValue()
       }
     });
     modal.onDidDismiss()
       .then((data: any) => {
         pol = data['data'];
-        console.log('pol', pol);
+        console.log('pol', pol, type, type === 'pol');
         if (type === 'pol') {
           this.polAddress.push(pol.data.state + ',' + pol.data.city + ',' + pol.data.location);
+          console.log(this.polAddress);
           this.bookingForm.get('refReferenceListPOLTypeId').setValue(this.polPods[0].referenceListId);
           this.bookingForm.get('polId').setValue(pol.data.polpodid);
         }
@@ -134,6 +202,7 @@ export class BookingCreateComponent implements OnInit {
       value: [null, []],
       refMaterialRefListId: ['', [Validators.required]],
       totalQty: ['', [Validators.required]],
+      vehicleCategory: ['', [Validators.required]],
       refReferenceListVehicleTypeId: ['', [Validators.required]],
       refReferenceListPOLTypeId: ['', [Validators.required]],
       loadingLocation: ['', [Validators.required]],
@@ -162,7 +231,13 @@ export class BookingCreateComponent implements OnInit {
       rlRateForId: ['', []],
       // sourceId: ['', []],
       // destinationId: ['', []]
-    })
+    });
+    console.log('this.newpolId', this.newpolId);
+
+    // if (!!this.newpolId) {
+
+
+    // }
   }
 
   getCountries() {
@@ -258,8 +333,8 @@ export class BookingCreateComponent implements OnInit {
 
   getPods() {
     this.bookingService.getPods().subscribe(res => {
-      console.log(res);
       this.pods = res as any[];
+      console.log(res, 'this.pods', this.pods);
     }, err => {
       console.log(err);
 
@@ -294,6 +369,8 @@ export class BookingCreateComponent implements OnInit {
       this.toastService.danger('Please fill all the fields');
       return;
     }
+    this.bookingForm.removeControl('vehicleCategory');
+    this.bookingForm.updateValueAndValidity();
     console.log(this.bookingForm.value);
     const req = JSON.parse(JSON.stringify(this.bookingForm.value));
     req.refCreatedBy = parseInt(req.refCreatedBy.toString());
@@ -302,36 +379,41 @@ export class BookingCreateComponent implements OnInit {
     req.estimatedUnloadingTime = new Date(req.estimatedUnloadingTime).toISOString().split('.')[0];
     req.bookingDate = new Date(req.bookingDate).toISOString().split('.')[0];
     console.log(req);
+    if (this.editBookingId > -1)
+      this.edit();
+    else
+      this.save(req);
 
+  }
+  save(req) {
     this.bookingService.save(req).subscribe(res => {
       console.log(res);
       this.toastService.success('Bookings created successfully');
       this.bookingForm.reset();
+      this.router.navigate(['my-bookings']);
 
     }, err => {
       console.log(err);
 
     })
-
   }
+  edit() { }
+  changeLocations(data, str) {
+    console.log('data', data, 'str', str);
 
-  changeLocations($event, str) {
-    console.log($event, str);
-    for (const loc of this.locations) {
-      if (str === 'loadingLocation' && loc.source === this.bookingForm.get(str).value) {
-        this.bookingForm.get('rlRateForId').setValue(loc.rlRateForId);
-        // this.bookingForm.get('sourceId').setValue(loc.sourceID);
-        this.sourceId = loc.sourceID;
-        break;
-      }
-
-      if (str === 'unLoadingLocation' && loc.destination === this.bookingForm.get(str).value) {
-        // this.bookingForm.get('destinationId').setValue(loc.destinationID);
-        this.destinationId = loc.destinationID;
-        break;
-      }
-
+    // for (const loc of this.locations) {
+    if (str === 'loadingLocation') {
+      this.bookingForm.get('rlRateForId').setValue(data.rlRateForId);
+      // this.bookingForm.get('loadingLocation').setValue(data.source);
+      this.sourceId = data.sourceID;
+      // break;
     }
+    else if (str === 'unLoadingLocation') {
+      // this.bookingForm.get('unLoadingLocation').setValue(data.destination);
+      this.destinationId = data.destinationID;
+      // break;
+    }
+    // }
     this.getRateDetails();
     this.bookingForm.get('bookingDate').setValue(new Date().toISOString());
     this.bookingForm.get('bookingDate').updateValueAndValidity();
@@ -375,4 +457,68 @@ export class BookingCreateComponent implements OnInit {
     }, 1000)
 
   }
+  loadEditData() {
+    this.bookingService.getBooking(this.editBookingId).subscribe((success: any) => {
+      console.log('succc', success);
+      if (success.polbmDtls[0].rpolbmRateId != null) {
+        this.bookingService.getRateById(success.polbmDtls[0].rpolbmRateId).pipe().subscribe(
+          success => {
+            console.log('succss', success);
+            this.bookingForm.get('loadingLocation').setValue(success[0].refSourceReferenceList);
+            this.bookingForm.get('unLoadingLocation').setValue(success[0].refDestinationReferenceList);
+          }, failure => { });
+        var category = success.vberDtls[0].rlvvbervtName;
+        var cat = category.split(" ", 1);
+        console.log('category', category, cat);
+        if (cat == 'OpenTrucks') {
+          console.log('insss');
+          this.bookingForm.get('vehicleCategory').setValue('Open Truck');
+        }
+        else if (cat == 'Covered')
+          this.bookingForm.get('vehicleCategory').setValue('Container');
+        else
+          this.bookingForm.get('vehicleCategory').setValue('Trailer');
+
+        this.bookingForm.get('refReferenceListVehicleTypeId').setValue(success.vberDtls[0].rlvvbervtId);
+        this.bookingForm.get('value').setValue(success.bookingDtls[0].bookingId);
+        this.showbId = true;
+        this.bookingForm.get('totalQty').setValue(success.bookingDtls[0].totalQty);
+        this.bookingForm.get('rateId').setValue(success.polbmDtls[0].rpolbmRateId);
+        this.bookingForm.get('bookingDate').setValue(success.bookingDtls[0].bookingDate);
+        this.bookingForm.get('polId').setValue(success.polbmDtls[0].polId);
+        this.formPolPodAddress(success.polbmDtls[0].polId, 'pol');
+        this.bookingForm.get('estimatedLoadingTime').setValue(success.polbmDtls[0].estimatedLoadingTime);
+        this.bookingForm.get('podId').setValue(success.podbmDtls[0].podId);
+        this.formPolPodAddress(success.podbmDtls[0].podId, 'pod');
+        this.bookingForm.get('estimatedUnloadingTime').setValue(success.podbmDtls[0].estimatedUnloadingTime);
+        this.bookingForm.get('refConsignerID').setValue(success.podbmDtls[0].consignerId);
+        this.bookingForm.get('refMaterialRefListId').setValue(success.bookingDtls[0].rlmaterialId);
+      }
+      // this.bookingForm.get().setValue(success.);
+    }, failure => { });
+  }
+  formPolPodAddress(id, type) {
+    if (type == 'pol') {
+      this.polAddress = [];
+      this.pols.forEach(data => {
+        if (data.polpodid == id) {
+          this.polAddress.push(data.state + ',' + data.city + ',' + data.location);
+        }
+      });
+    }
+    else {
+      console.log('pod', id);
+
+      this.podAddress = [];
+      console.log(this.pods);
+
+      this.pods.forEach(data => {
+        if (data.polpodid == id) {
+          this.podAddress.push(data.state + ',' + data.city + ',' + data.location);
+        }
+      });
+    }
+  }
+
+
 }

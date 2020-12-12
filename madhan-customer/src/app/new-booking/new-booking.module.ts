@@ -11,6 +11,11 @@ import { LocalstorageService } from '../service/localstorage/localstorage.servic
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { PolPodComponent } from './pol-pod/pol-pod/pol-pod.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { IonicSelectableModule } from 'ionic-selectable';
+// import { MbscModule } from '@mobiscroll/angular-lite';
+
+// import { AutoCompleteModule } from 'ionic4-auto-complete';
 
 
 
@@ -22,6 +27,10 @@ import { PolPodComponent } from './pol-pod/pol-pod/pol-pod.component';
     FormsModule,
     ReactiveFormsModule,
     NewBookingRoutingModule,
+    TranslateModule,
+    IonicSelectableModule,
+    // MbscModule
+    // AutoCompleteModule
     // BrowserModule
   ],
   providers: [

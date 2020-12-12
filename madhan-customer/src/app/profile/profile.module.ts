@@ -5,6 +5,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProfileService } from './services/profile.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -17,7 +18,7 @@ import { ProfileService } from './services/profile.service';
     ProfileRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-
+    TranslateModule
   ],
   providers: [
     ProfileService

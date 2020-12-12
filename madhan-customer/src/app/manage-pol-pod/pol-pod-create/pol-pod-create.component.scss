@@ -1,11 +1,11 @@
 @import './../../../global.scss';
-
 .form {
     padding: 10px;
     ion-item {
         --background: white;
         // --padding: 0px;
-    }}
+    }
+}
 
 .form-item {
     margin-top: 15px;
@@ -15,6 +15,10 @@
     // --border-style: solid;
     // --border-width: 1px;
     // --border-radius: 3px;
+}
+
+.sendbtn {
+    font-size: 28px;
 }
 
 .form-item ion-label {

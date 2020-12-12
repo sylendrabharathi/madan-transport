@@ -7,6 +7,7 @@ import { PolPodCreateComponent } from './pol-pod-create/pol-pod-create.component
 import { IonicModule } from '@ionic/angular';
 import { PolPodApiService } from './service/api/pol-pod-api.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     IonicModule,
     FormsModule,
     ReactiveFormsModule,
-    ManagePolPodRoutingModule
+    ManagePolPodRoutingModule,
+    TranslateModule
   ],
   providers: [
     PolPodApiService
