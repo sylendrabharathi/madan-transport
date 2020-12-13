@@ -493,6 +493,13 @@ export class BookingCreateComponent implements OnInit {
         this.bookingForm.get('estimatedUnloadingTime').setValue(success.podbmDtls[0].estimatedUnloadingTime);
         this.bookingForm.get('refConsignerID').setValue(success.podbmDtls[0].consignerId);
         this.bookingForm.get('refMaterialRefListId').setValue(success.bookingDtls[0].rlmaterialId);
+
+        // Ionic selectable set value should be an object
+        for(const material of this.materials) {
+          if(material.referenceListId == success.bookingDtls[0].rlmaterialId) {
+            this.bookingForm.get('refMaterialRefListId').setValue(material);
+          }
+        }
       }
       // this.bookingForm.get().setValue(success.);
     }, failure => { });
