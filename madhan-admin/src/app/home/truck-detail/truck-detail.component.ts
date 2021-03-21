@@ -1,16 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
 import {
-  GoogleMaps,
   GoogleMap,
-  GoogleMapsEvent,
   GoogleMapOptions,
-  CameraPosition,
-  MarkerOptions,
-  Marker,
-  Environment,
-  ILatLng,
-  BaseArrayClass
 } from '@ionic-native/google-maps';
 import { Platform } from '@ionic/angular';
 import { HomeApiService } from '../service/api/home-api.service';
@@ -26,6 +18,7 @@ declare var google;
   styleUrls: ['./truck-detail.component.scss'],
 })
 export class TruckDetailComponent implements OnInit {
+  @ViewChild('tracking_map', { static: false }) mapElement: ElementRef;
 
   vehicles: any = [];
   private sub: any;
@@ -33,7 +26,6 @@ export class TruckDetailComponent implements OnInit {
   location: string;
   polId;
 
-  @ViewChild('tracking_map', { static: false }) mapElement: ElementRef;
   tracking_map: GoogleMap;
   map: any;
   lMap: Leaflet.Map;
@@ -59,13 +51,14 @@ export class TruckDetailComponent implements OnInit {
   // }
   ionViewDidEnter() {
     console.log('tracking');
+
+    // this.sub = this.aRoute.params.subscribe(param => {
+    //   this.bookingId = Number(param['bookingId']);
+    //   this.location = param['source'];
+    //   this.polId = Number(param['polId'])
+    // });
+    // this.getNearByTrucks(this.location);
     this.platform.ready().then(() => this.loadMap());
-    this.sub = this.aRoute.params.subscribe(param => {
-      this.bookingId = Number(param['bookingId']);
-      this.location = param['source'];
-      this.polId = Number(param['polId'])
-    });
-    this.getNearByTrucks(this.location);
   }
 
   // ionViewDidLeave() {
@@ -76,58 +69,71 @@ export class TruckDetailComponent implements OnInit {
   loadMap() {
 
     console.log(this.mapElement);
-    console.log(document.getElementById('tracking_map'));
-    this.geoLocation.getCurrentPosition().then((resp: Geoposition) => {
-      console.log(resp);
 
-      let mapOptions: GoogleMapOptions = {
-        camera: {
-          target: {
-            lat: resp.coords.latitude,
-            lng: resp.coords.longitude
-          },
-          zoom: 18,
-          tilt: 30
-        }
-      };
+    // setInterval(() => {
+    // console.log(document.getElementById('tracking_map'));
+    // this.geoLocation.getCurrentPosition().then((resp: Geoposition) => {
+    //   console.log(resp);
 
-      this.map = Leaflet.map('tracking_map').setView([resp.coords.latitude, resp.coords.longitude], 16);
-      Leaflet.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(this.map);
+    //   this.map = Leaflet.map('tracking_map').setView([resp.coords.latitude, resp.coords.longitude], 16);
+    //   Leaflet.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    //     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    //   }).addTo(this.map);
 
-      const myIcon = Leaflet.icon({
-        iconUrl: '/assets/images/map_marker_icon.png',
-        iconSize: [38, 38],
-      });
+    //   const myIcon = Leaflet.icon({
+    //     iconUrl: '/assets/images/map_marker_icon.png',
+    //     iconSize: [30, 30],
+    //   });
+    //   var latLon;
+    //   var marker = Leaflet.marker([resp.coords.latitude, resp.coords.longitude], { icon: myIcon }).addTo(this.map);
+    //   latLon = Leaflet.latLng(resp.coords.latitude, resp.coords.longitude);
+    //   var bounds = latLon.toBounds(500); // 500 = metres
+    //   this.map.panTo(latLon).fitBounds(bounds);
+    //   this.map.setView(latLon, 16);
+    //   marker.setLatLng(latLon);
+    // }).catch(err => {
+    //   console.log(err);
 
-      Leaflet.marker([resp.coords.latitude, resp.coords.longitude], { icon: myIcon }).addTo(this.map);
+    // })
+    // }, 8000);
+    const myIcon = Leaflet.icon({
+      iconUrl: '/assets/images/map_marker_icon.png',
+      iconSize: [30, 30],
+    });
+    this.map = Leaflet.map("tracking_map").setView([17.3850, 78.4867], 13);
+    Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      {
+        attribution: `Map data © <a href="https://www.openstreetmap.org/" > OpenStreetMap < /a> contributors, 
+        < a href="https://creativecommons.org/licenses/by-sa/2.0/" > CC - BY -
+        SA < /a>`})
+      .addTo(this.map); // This line is added to add the Tile Layer to our map
 
-    }).catch(err => {
-      console.log(err);
-
-    })
-
+    var marker = Leaflet.marker([17.3850, 78.4867], { icon: myIcon }).addTo(this.map);
+    var latLon = Leaflet.latLng(17.3850, 78.4867);
+    var bounds = latLon.toBounds(500); // 500 = metres
+    this.map.panTo(latLon).fitBounds(bounds);
+    this.map.setView(latLon, 14);
+    marker.setLatLng(latLon);
   }
 
-  addMarker(lat, lng) {
+  // addMarker(lat, lng) {
 
-    let marker = new google.maps.Marker({
-      map: this.map,
-      animation: google.maps.Animation.DROP,
-      position: { lat, lng }
-    });
+  //   let marker = new google.maps.Marker({
+  //     map: this.map,
+  //     animation: google.maps.Animation.DROP,
+  //     position: { lat, lng }
+  //   });
 
-    let content = "<p>This is your current position !</p>";
-    let infoWindow = new google.maps.InfoWindow({
-      content: content
-    });
+  //   let content = "<p>This is your current position !</p>";
+  //   let infoWindow = new google.maps.InfoWindow({
+  //     content: content
+  //   });
 
-    google.maps.event.addListener(marker, 'click', () => {
-      infoWindow.open(this.map, marker);
-    });
+  //   google.maps.event.addListener(marker, 'click', () => {
+  //     infoWindow.open(this.map, marker);
+  //   });
 
-  }
+  // }
 
   getNearByTrucks(source) {
     this.loader.createLoader();

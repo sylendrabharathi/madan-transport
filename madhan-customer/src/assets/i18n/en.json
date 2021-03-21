@@ -35,6 +35,7 @@
     },
     "New Booking": {
         "New Booking": "New Booking",
+        "Edit Booking": "Edit Booking",
         "Source": "Source",
         "Destination": "Destination",
         "Vehicle": "Vehicle",
@@ -88,7 +89,7 @@
         "Country": "Country"
     },
     "POLPOD": {
-        "create POLPOD": "create POLPOD",
+        "create POLPOD": "Create POLPOD",
         "Edit POLPOD": "Edit POLPOD",
         "Country": "Country",
         "State": "State",

@@ -8,6 +8,8 @@ import { ConsignerApiService } from './service/api/consigner-api.service';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { IonicSelectableModule } from 'ionic-selectable';
+import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 
 
 @NgModule({
@@ -21,10 +23,12 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     ReactiveFormsModule,
     ManageConsignerRoutingModule,
-    TranslateModule
+    TranslateModule,
+    IonicSelectableModule
   ],
   providers: [
-    ConsignerApiService
+    ConsignerApiService,
+    NativeGeocoder
   ]
 })
 export class ManageConsignerModule { }

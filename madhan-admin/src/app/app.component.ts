@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { Platform, MenuController } from '@ionic/angular';
+import { Platform, MenuController, IonRouterOutlet } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { Router } from '@angular/router';
+import { ToastService } from './service/toast/toast.service';
 
 @Component({
   selector: 'app-root',
@@ -11,15 +13,20 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 })
 export class AppComponent implements OnInit {
 
+  @ViewChild(IonRouterOutlet, { static: false }) routerOutlet: IonRouterOutlet;
   menuList = [];
+  backButtonSubscription;
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private menuCtrl: MenuController) {
+    private menuCtrl: MenuController,
+    private router: Router,
+    private toaster: ToastService) {
     this.initializeApp();
   }
-  backButtonSubscription;
+
   ngOnInit() {
     this.formMenuList();
   }
@@ -34,13 +41,34 @@ export class AppComponent implements OnInit {
       this.splashScreen.hide();
     });
   }
+  ngAfterViewInit() {
+    this.backButtonEvent();
+  }
+  ngOnDestroy() {
+    this.backButtonSubscription.unsubscribe();
+  }
+  backButtonEvent() {
+    this.backButtonSubscription = this.platform.backButton.subscribeWithPriority(10, async () => {
+      console.log('-->>', this.routerOutlet.canGoBack(), this.router.url);
+      if (this.router.url === '/home') {
+        navigator['app'].exitApp(); // work in ionic 4
+      }
+      else if (this.routerOutlet.canGoBack()) {
+        this.routerOutlet.pop();
+      }
+      else {
+        const toast = await this.toaster.warning('Press back again to exit App.');
+      }
+    });
+
+  }
+
+  ionViewDidLeave() {
+    this.backButtonSubscription.unsubscribe();
+  }
 
   closeMenu() {
     this.menuCtrl.close();
-  }
-
-  ngOnDestroy() {
-    this.backButtonSubscription.unsubscribe();
   }
 
   formMenuList() {

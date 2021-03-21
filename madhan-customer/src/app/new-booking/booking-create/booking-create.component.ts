@@ -11,28 +11,7 @@ import { LocalstorageService } from 'src/app/service/localstorage/localstorage.s
 import { ToastService } from 'src/app/service/toast/toast.service';
 import { PolPodComponent } from '../pol-pod/pol-pod/pol-pod.component';
 import { NewBookingApiService } from '../service/api/new-booking-api.service';
-// import { mobiscroll } from '@mobiscroll/angular-lite';
 
-// import { Slides } from '@ionic/angular';
-// class refrence {
-//   referenceDescription: string;
-//   referenceId: number;
-//   referenceListId: number;
-//   referenceListIdDescription: string;
-//   referenceListIdName: string;
-//   referencename: string;
-// }
-// class locations {
-//   amount: number;
-//   destination: string;
-//   destinationID: number;
-//   rateId: number;
-//   rlRateForId: number;
-//   rlRateForName: string;
-//   source: string;
-//   sourceID: number;
-//   validityDate: Date;
-// }
 @Component({
   selector: 'app-booking-create',
   templateUrl: './booking-create.component.html',
@@ -42,10 +21,6 @@ import { NewBookingApiService } from '../service/api/new-booking-api.service';
 
 export class BookingCreateComponent implements OnInit {
 
-  // ports: Port[];
-  // port: Port;
-
-  // data: MbscSelectOptions={ };
   bookingForm: FormGroup;
   cities = [];
   states = [];
@@ -67,19 +42,21 @@ export class BookingCreateComponent implements OnInit {
   noOfPod = [1];
   noOfTrucks = [1];
   truckss = [];
-  sourceId;
-  destinationId;
-  editBookingId = -1;
+  sourceId: number;
+  destinationId: number;
+  editBookingId: number = -1;
   newpolId: number;
   showbId = false;
+  VehicleTypeBookingMappingId;
+  POLBookingMappingId;
+  PODBookingMappingId;
+
   myDate;
   slideOpts = {
     initialSlide: 0,
     speed: 400
   };
   @ViewChild('slides', { static: true }) slides: IonSlides;
-  // public labelAttribute: string;
-
 
   constructor(private fb: FormBuilder,
     private apiService: ApiService, private ls: LocalstorageService,
@@ -97,14 +74,12 @@ export class BookingCreateComponent implements OnInit {
     component: IonicSelectableComponent,
     value: any
   }, type: string) {
-    console.log('port:', event.value);
-    debugger;
     if (type != 'material')
       this.changeLocations(event.value, type);
   }
 
   ngOnInit() {
-    this.customerId = this.ls.getCustomerId();
+    this.customerId = this.ls.getCustomerId() != null ? parseFloat(this.ls.getCustomerId()) : null;
     this.userId = this.ls.getUserId();
     this.createFG();
     this.getRequiredDetails();
@@ -120,10 +95,11 @@ export class BookingCreateComponent implements OnInit {
     if (window.history.state.formVal) {
       setTimeout(() => {
         this.loader.createLoader();
-      }, 80000);
+      }, 8000);
       this.loader.dismissLoader();
       const data = window.history.state.formVal;
-      // this.bookingForm.setValue(window.history.state.formVal);
+      console.log('dataa', data);
+
       this.bookingForm.get('loadingLocation').setValue(data.loadingLocation);
       this.bookingForm.get('loadingLocation').updateValueAndValidity();
       this.bookingForm.get('unLoadingLocation').setValue(data.unLoadingLocation);
@@ -136,11 +112,6 @@ export class BookingCreateComponent implements OnInit {
       this.bookingForm.get('rateId').updateValueAndValidity();
       this.bookingForm.updateValueAndValidity();
     }
-    // console.log('history', this.bookingForm);
-    // this.activeRouter.params.subscribe(data => {
-    //   this.newpolId = data.id;
-
-    // })
   }
 
   ionViewWillEnter() {
@@ -176,13 +147,13 @@ export class BookingCreateComponent implements OnInit {
       .then((data: any) => {
         pol = data['data'];
         console.log('pol', pol, type, type === 'pol');
-        if (type === 'pol') {
+        if (data != undefined && type === 'pol') {
           this.polAddress.push(pol.data.state + ',' + pol.data.city + ',' + pol.data.location);
           console.log(this.polAddress);
           this.bookingForm.get('refReferenceListPOLTypeId').setValue(this.polPods[0].referenceListId);
           this.bookingForm.get('polId').setValue(pol.data.polpodid);
         }
-        else {
+        else if (data != undefined) {
           this.podAddress.push(pol.data.state + ',' + pol.data.city + ',' + pol.data.location);
           this.bookingForm.get('refReferenceListPODTypeId').setValue(this.polPods[1].referenceListId);
           this.bookingForm.get('podId').setValue(pol.data.polpodid);
@@ -195,9 +166,6 @@ export class BookingCreateComponent implements OnInit {
 
   createFG() {
     this.bookingForm = this.fb.group({
-      refOrgId: [3, []],
-      refCreatedBy: [this.userId, []],
-      refCustomerId: [this.customerId, []],
       refConsignerID: ['', [Validators.required]],
       value: [null, []],
       refMaterialRefListId: ['', [Validators.required]],
@@ -344,16 +312,28 @@ export class BookingCreateComponent implements OnInit {
   getRateDetails() {
 
     const rlRateForId = this.bookingForm.get('rlRateForId').value;
-    const sourceId = this.sourceId;
-    const destinationId = this.destinationId;
+    var sourceId = this.sourceId;
+    var destinationId = this.destinationId;
+    console.log('bform',
+      this.bookingForm.get('unLoadingLocation').value.sourceID);
+    if (destinationId == undefined || destinationId == null) {
+      if (this.bookingForm.get('unLoadingLocation').value != null) {
+        destinationId = this.bookingForm.get('unLoadingLocation').value.destinationID;
+      }
+    }
+    if (sourceId == undefined || sourceId == null) {
+      if (this.bookingForm.get('loadingLocation').value != null) {
+        sourceId = this.bookingForm.get('loadingLocation').value.sourceID;
+      }
+    }
     console.log('rlRateForId,', rlRateForId, 'sourceId,', sourceId, 'destinationId,', destinationId);
     if (!!destinationId && !!sourceId)
       this.bookingService.getRateDetails(sourceId, rlRateForId, destinationId).subscribe(res => {
         console.log(res);
 
         this.rateDetails = res as any[];
+        console.log('---LLLL>>>', this.rateDetails);
         this.bookingForm.get('rateId').setValue(this.rateDetails[0].rateId);
-        console.log('this.bookingForm.get(\'rateId\').value()', this.bookingForm.get('rateId').value);
 
         this.bookingForm.get('rateId').updateValueAndValidity();
       }, err => {
@@ -363,7 +343,7 @@ export class BookingCreateComponent implements OnInit {
   }
 
   submit() {
-    console.log('form', this.bookingForm);
+    console.log('form', this.bookingForm, '--->', this.editBookingId);
 
     if (!this.bookingForm.valid) {
       this.toastService.danger('Please fill all the fields');
@@ -373,19 +353,25 @@ export class BookingCreateComponent implements OnInit {
     this.bookingForm.updateValueAndValidity();
     console.log(this.bookingForm.value);
     const req = JSON.parse(JSON.stringify(this.bookingForm.value));
-    req.refCreatedBy = parseInt(req.refCreatedBy.toString());
-    req.refCustomerId = parseInt(req.refCustomerId.toString());
+    // req.refCreatedBy = parseInt(req.refCreatedBy.toString());
+    // req.refCustomerId = parseInt(req.refCustomerId.toString());
     req.estimatedLoadingTime = new Date(req.estimatedLoadingTime).toISOString().split('.')[0];
     req.estimatedUnloadingTime = new Date(req.estimatedUnloadingTime).toISOString().split('.')[0];
     req.bookingDate = new Date(req.bookingDate).toISOString().split('.')[0];
+    req.loadingLocation = this.bookingForm.get('loadingLocation').value.source;
+    req.unLoadingLocation = this.bookingForm.get('unLoadingLocation').value.destination;
+    req.refMaterialRefListId = this.bookingForm.get('refMaterialRefListId').value.referenceListId;
     console.log(req);
     if (this.editBookingId > -1)
-      this.edit();
+      this.edit(req);
     else
       this.save(req);
 
   }
   save(req) {
+    req.refCreatedBy = parseInt(this.userId);
+    req.refOrgId = 3;
+    req.refCustomerId = this.customerId;
     this.bookingService.save(req).subscribe(res => {
       console.log(res);
       this.toastService.success('Bookings created successfully');
@@ -397,23 +383,41 @@ export class BookingCreateComponent implements OnInit {
 
     })
   }
-  edit() { }
+  edit(req) {
+    console.log('inside Editing');
+    req.BookingId = parseInt(this.editBookingId.toString());
+    req.RefModifiedBy = parseInt(this.userId);
+    req.VehicleTypeBookingMappingId = this.VehicleTypeBookingMappingId;
+    req.POLBookingMappingId = this.POLBookingMappingId;
+    req.PODBookingMappingId = this.PODBookingMappingId;
+    req.LoadingLocationID = this.bookingForm.get('loadingLocation').value.sourceID;
+    req.UnLoadingLocationID = this.bookingForm.get('unLoadingLocation').value.destinationID;
+    req.value = req.value.toString();
+    delete req["refMaterialRefListId"];
+    delete req.refReferenceListPODTypeId;
+    delete req.refReferenceListPOLTypeId;
+    delete req.rlRateForId;
+    this.bookingService.editBooking(this.editBookingId, req).subscribe(data => {
+      if (data[0].status == 2) {
+        this.toastService.success('Bookings updated successfully');
+        this.bookingForm.reset();
+        this.router.navigate(['my-bookings']);
+      }
+      else {
+        this.toastService.success(data[0].msg);
+      }
+    }, err => {
+      this.toastService.success(err[0].msg);
+    })
+  }
   changeLocations(data, str) {
-    console.log('data', data, 'str', str);
-
-    // for (const loc of this.locations) {
     if (str === 'loadingLocation') {
       this.bookingForm.get('rlRateForId').setValue(data.rlRateForId);
-      // this.bookingForm.get('loadingLocation').setValue(data.source);
       this.sourceId = data.sourceID;
-      // break;
     }
     else if (str === 'unLoadingLocation') {
-      // this.bookingForm.get('unLoadingLocation').setValue(data.destination);
       this.destinationId = data.destinationID;
-      // break;
     }
-    // }
     this.getRateDetails();
     this.bookingForm.get('bookingDate').setValue(new Date().toISOString());
     this.bookingForm.get('bookingDate').updateValueAndValidity();
@@ -461,45 +465,72 @@ export class BookingCreateComponent implements OnInit {
     this.bookingService.getBooking(this.editBookingId).subscribe((success: any) => {
       console.log('succc', success);
       if (success.polbmDtls[0].rpolbmRateId != null) {
+
         this.bookingService.getRateById(success.polbmDtls[0].rpolbmRateId).pipe().subscribe(
           success => {
             console.log('succss', success);
-            this.bookingForm.get('loadingLocation').setValue(success[0].refSourceReferenceList);
-            this.bookingForm.get('unLoadingLocation').setValue(success[0].refDestinationReferenceList);
+            this.bookingForm.get('rlRateForId').setValue(success[0].refRateForReferenceList);
+
+            for (const loc of this.locations) {
+              if (loc.sourceID == success[0].refSourceReferenceList) {
+                this.sourceId = success[0].refSourceReferenceList;
+                this.bookingForm.get('loadingLocation').setValue(loc);
+                this.bookingForm.get('loadingLocation').updateValueAndValidity();
+              }
+              if (loc.destinationID == success[0].refDestinationReferenceList) {
+                this.destinationId = success[0].refDestinationReferenceList;
+                this.bookingForm.get('unLoadingLocation').setValue(loc);
+                this.bookingForm.get('unLoadingLocation').updateValueAndValidity();
+              }
+            }
+            console.log('sss', this.sourceId, this.destinationId, this.bookingForm.get('rlRateForId').value);
+            this.getRateDetails();
           }, failure => { });
-        var category = success.vberDtls[0].rlvvbervtName;
-        var cat = category.split(" ", 1);
-        console.log('category', category, cat);
-        if (cat == 'OpenTrucks') {
-          console.log('insss');
-          this.bookingForm.get('vehicleCategory').setValue('Open Truck');
-        }
-        else if (cat == 'Covered')
-          this.bookingForm.get('vehicleCategory').setValue('Container');
-        else
-          this.bookingForm.get('vehicleCategory').setValue('Trailer');
 
-        this.bookingForm.get('refReferenceListVehicleTypeId').setValue(success.vberDtls[0].rlvvbervtId);
-        this.bookingForm.get('value').setValue(success.bookingDtls[0].bookingId);
-        this.showbId = true;
-        this.bookingForm.get('totalQty').setValue(success.bookingDtls[0].totalQty);
-        this.bookingForm.get('rateId').setValue(success.polbmDtls[0].rpolbmRateId);
-        this.bookingForm.get('bookingDate').setValue(success.bookingDtls[0].bookingDate);
-        this.bookingForm.get('polId').setValue(success.polbmDtls[0].polId);
-        this.formPolPodAddress(success.polbmDtls[0].polId, 'pol');
-        this.bookingForm.get('estimatedLoadingTime').setValue(success.polbmDtls[0].estimatedLoadingTime);
-        this.bookingForm.get('podId').setValue(success.podbmDtls[0].podId);
-        this.formPolPodAddress(success.podbmDtls[0].podId, 'pod');
-        this.bookingForm.get('estimatedUnloadingTime').setValue(success.podbmDtls[0].estimatedUnloadingTime);
-        this.bookingForm.get('refConsignerID').setValue(success.podbmDtls[0].consignerId);
-        this.bookingForm.get('refMaterialRefListId').setValue(success.bookingDtls[0].rlmaterialId);
-
-        // Ionic selectable set value should be an object
-        for(const material of this.materials) {
-          if(material.referenceListId == success.bookingDtls[0].rlmaterialId) {
-            this.bookingForm.get('refMaterialRefListId').setValue(material);
+        setTimeout(() => {
+          // this.loader.createLoader();
+          var category = success.bookingDtls[0].vehicleType;
+          var cat = category.split(" ", 1);
+          console.log('category', category, cat);
+          if (cat == 'Open' || cat == 'OpenTrucks') {
+            success[0].refSourceReferenceList
+            console.log('insss');
+            this.bookingForm.get('vehicleCategory').setValue('Open Truck');
           }
-        }
+          else if (cat == 'Covered' || cat == 'Container')
+            this.bookingForm.get('vehicleCategory').setValue('Container');
+          else
+            this.bookingForm.get('vehicleCategory').setValue('Trailer');
+
+          this.bookingForm.get('refReferenceListVehicleTypeId').setValue(success.bookingDtls[0].rlvtId);
+          this.bookingForm.get('value').setValue(success.bookingDtls[0].bookingId);
+          this.showbId = true;
+          this.bookingForm.get('totalQty').setValue(success.bookingDtls[0].totalQty);
+
+          // this.bookingForm.get('rateId').setValue(success.polbmDtls[0].rpolbmRateId);
+          this.bookingForm.get('bookingDate').setValue(success.bookingDtls[0].bookingDate);
+          this.VehicleTypeBookingMappingId = success.bookingDtls[0].vehicleTypeBookingMappingId;
+          this.bookingForm.get('refReferenceListPOLTypeId').setValue(this.polPods[0].referenceListId);
+          this.bookingForm.get('refReferenceListPODTypeId').setValue(this.polPods[1].referenceListId);
+          this.bookingForm.get('polId').setValue(success.polbmDtls[0].polId);
+          this.POLBookingMappingId = success.polbmDtls[0].polbookingMappingId;
+          this.formPolPodAddress(success.polbmDtls[0].polId, 'pol');
+          this.bookingForm.get('estimatedLoadingTime').setValue(success.polbmDtls[0].estimatedLoadingTime);
+          this.bookingForm.get('podId').setValue(success.podbmDtls[0].podId);
+          this.PODBookingMappingId = success.podbmDtls[0].podbookingMappingId;
+          this.formPolPodAddress(success.podbmDtls[0].podId, 'pod');
+          this.bookingForm.get('estimatedUnloadingTime').setValue(success.podbmDtls[0].estimatedUnloadingTime);
+          this.bookingForm.get('refConsignerID').setValue(success.podbmDtls[0].consignerId);
+          // this.bookingForm.get('refMaterialRefListId').setValue(success.bookingDtls[0].rlmaterialId);
+
+          // Ionic selectable set value should be an object
+          for (const material of this.materials) {
+            if (material.referenceListId == success.bookingDtls[0].rlmaterialId) {
+              this.bookingForm.get('refMaterialRefListId').setValue(material);
+            }
+          }
+          // this.loader.dismissLoader();
+        }, 800);
       }
       // this.bookingForm.get().setValue(success.);
     }, failure => { });

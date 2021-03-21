@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IonicSelectableComponent } from 'ionic-selectable';
 import { ApiService } from 'src/app/service/api/api.service';
 import { LoaderService } from 'src/app/service/Loader/loader.service';
 import { LocalstorageService } from 'src/app/service/localstorage/localstorage.service';
 import { ToastService } from 'src/app/service/toast/toast.service';
 import { ConsignerApiService } from '../service/api/consigner-api.service';
+import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 
 @Component({
   selector: 'app-consigner-create',
@@ -30,13 +32,14 @@ export class ConsignerCreateComponent implements OnInit {
     private toastService: ToastService,
     private router: Router,
     private activeRouter: ActivatedRoute,
-    private loader: LoaderService) { }
+    private loader: LoaderService,
+    private nativeGeocoder: NativeGeocoder) { }
 
   ngOnInit() {
     this.customerId = this.ls.getCustomerId();
     this.userId = this.ls.getUserId();
     this.createConsignerForm();
-    
+
 
   }
 
@@ -81,7 +84,7 @@ export class ConsignerCreateComponent implements OnInit {
       address1: ['', [Validators.required]],
       address2: ['', [Validators.required]],
       address3: ['', [Validators.required]],
-      address4: ['', [Validators.required]],
+      address4: [''],
     })
   }
 
@@ -112,21 +115,47 @@ export class ConsignerCreateComponent implements OnInit {
   }
 
   submit() {
-    console.log('submit');
-    this.consignerForm.get('refReferenceListStateId').setValue(this.selectedStateId);
+    let options: NativeGeocoderOptions = {
+      useLocale: true,
+      maxResults: 5
+    };
 
-    if (!this.consignerForm.valid) {
-      this.toastService.danger('Please fille all fields');
-      return;
-    }
+    console.log('submit');
+    // this.consignerForm.get('refReferenceListStateId').setValue(this.selectedStateId);
+
+    // if (!this.consignerForm.valid) {
+    //   this.toastService.danger('Please fille all fields');
+    //   return;
+    // }
 
     const req = JSON.parse(JSON.stringify(this.consignerForm.value));
+
+    var address = this.consignerForm.get('address1').value + ' ' + this.consignerForm.get('address2').value + ' ' + this.consignerForm.get('address3').value;
+    console.log(address);
+    var lat;
+    var long;
+    //Get the geolocation of location enterd by user
+    this.nativeGeocoder.forwardGeocode(address, options)
+      .then((result: NativeGeocoderResult[]) => {
+        console.log('The coordinates are latitude=' + result[0].latitude + ' and longitude=' + result[0].longitude);
+        lat = result[0].latitude; long = result[0].longitude
+      })
+      .catch((error: any) => console.log(error));
+
+    // return;
+    req.address4 = lat + ' ' + long;
     req.phoneNo = req.phoneNo.toString();
     req.mobileNo = req.mobileNo.toString();
     req.refCustId = parseInt(req.refCustId);
     req.refCreatedBy = parseInt(req.refCreatedBy);
+    req.refReferenceListStateId = this.consignerForm.get('refReferenceListStateId').value.referenceListId;
+    req.refReferenceListCityId = this.consignerForm.get('refReferenceListCityId').value.referenceListId;
+    console.log('-->', req);
 
     if (req.consignerId) {
+      // this.consignerForm.get('refReferenceListStateId').setValue(this.consignerForm.get('refReferenceListStateId').value.referenceListId);
+      // this.consignerForm.get('refReferenceListCityId').setValue(this.consignerForm.get('refReferenceListCityId').value.referenceListId);
+      // req = JSON.parse(JSON.stringify(this.consignerForm.value));
       this.update(req);
       return;
     }
@@ -178,10 +207,21 @@ export class ConsignerCreateComponent implements OnInit {
         this.consignerForm.get('email').setValue(res[0].email);
         this.consignerForm.get('website').setValue(res[0].website);
         this.consignerForm.get('description').setValue(res[0].description);
-        this.consignerForm.get('refReferenceListCityId').setValue(res[0].refReferenceListCityId);
-
-        this.consignerForm.get('refReferenceListStateId').setValue(res[0].refReferenceListStateId);
         this.consignerForm.get('refReferenceListCountryId').setValue(res[0].refReferenceListCountryId);
+        this.consignerForm.get('refReferenceListStateId').setValue(res[0].refReferenceListStateId);
+        this.consignerForm.get('refReferenceListCityId').setValue(res[0].refReferenceListCityId);
+        for (const state of this.states) {
+          if (state.referenceListId == res[0].refReferenceListStateId) {
+            this.consignerForm.get('refReferenceListStateId').setValue(state);
+            this.consignerForm.get('refReferenceListStateId').updateValueAndValidity();
+          }
+        }
+        for (const city of this.cities) {
+          if (city.referenceListId == res[0].refReferenceListCityId) {
+            this.consignerForm.get('refReferenceListCityId').setValue(city);
+            this.consignerForm.get('refReferenceListCityId').updateValueAndValidity();
+          }
+        }
         this.consignerForm.get('address1').setValue(res[0].address1);
         this.consignerForm.get('address2').setValue(res[0].address2);
         this.consignerForm.get('address3').setValue(res[0].address3);
@@ -196,17 +236,28 @@ export class ConsignerCreateComponent implements OnInit {
   loadCity(data) {
     console.log('data', data);
     this.loader.createLoader();
-    this.consignerApiService.getState(data.detail.value).subscribe(success => {
+    this.consignerForm.get('refReferenceListCityId').setValue('');
+    // this.consignerApiService.getState(data.detail.value).subscribe(success => {
+    //   this.loader.dismissLoader();
+    //   console.log(success);
+    this.consignerApiService.getCityBySate(data).subscribe(success => {
       this.loader.dismissLoader();
-      console.log(success);
-      this.consignerApiService.getCityBySate(success[0].name).subscribe(success => {
-        console.log('success', success);
-        this.cities = success;
-      }, failure => {
-        console.log('failur', failure);
-      });
+      console.log('success', success);
+      this.cities = success;
+    }, failure => {
+      console.log('failur', failure);
+    });
 
-    }, failure => { })
+    // }, failure => { })
     return;
+  }
+
+  portChange(event: {
+    component: IonicSelectableComponent,
+    value: any
+  }, type: string) {
+    console.log('port:', event.value);
+    if (type == 'state')
+      this.loadCity(event.value.referenceListIdName);
   }
 }

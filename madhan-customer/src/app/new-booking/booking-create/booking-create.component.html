@@ -6,8 +6,11 @@
         <ion-title *ngIf="editBookingId">
             {{'New Booking.Edit Booking'|translate}}
         </ion-title>
-        <ion-buttons slot="start">
+        <ion-buttons *ngIf="!editBookingId" slot="start">
             <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-buttons *ngIf="editBookingId" slot="start">
+            <ion-back-button></ion-back-button>
         </ion-buttons>
         <ion-buttons slot="end">
             <ion-icon (click)="submit()" class="sendbtn" name="send-sharp"></ion-icon>
@@ -26,7 +29,7 @@
                     <form [formGroup]="bookingForm">
                         <ion-item>
                             <ion-label>{{'New Booking.Source'|translate}}</ion-label>
-                            <ionic-selectable #sourceComponent modalCssClass="ionic-selectable-documentation-configuration" formControlName="loadingLocation" [items]="locations" itemValueField="source" itemTextField="source" [canSearch]="true" closeButtonSlot="end" (onChange)="portChange($event,'loadingLocation')"
+                            <ionic-selectable #sourceComponent modalCssClass="ionic-selectable-documentation-configuration" formControlName="loadingLocation" [items]="locations" itemValueField="sourceID" itemTextField="source" [canSearch]="true" closeButtonSlot="end" (onChange)="portChange($event,'loadingLocation')"
                                 [searchFailText]="'No such source found.'">
                                 <ng-template ionicSelectableHeaderTemplate>
                                     <ion-toolbar class="toolbar-background">
@@ -52,7 +55,7 @@
                         <ion-item>
                             <ion-label>{{'New Booking.Destination'|translate}}</ion-label>
                             <!-- <mbsc-select formControlName="unLoadingLocation" [options]="locations" placeholder="Please Select...">Filter</mbsc-select> -->
-                            <ionic-selectable #destinationComponent formControlName="unLoadingLocation" modalCssClass="ionic-selectable-documentation-configuration" closeButtonSlot="end" [items]="locations" itemValueField="destination" itemTextField="destination" [canSearch]="true"
+                            <ionic-selectable #destinationComponent formControlName="unLoadingLocation" modalCssClass="ionic-selectable-documentation-configuration" closeButtonSlot="end" [items]="locations" itemValueField="destinationID" itemTextField="destination" [canSearch]="true"
                                 (onChange)="portChange($event, 'unLoadingLocation')" [searchFailText]="'No such destination found.'">
                                 <ng-template ionicSelectableHeaderTemplate>
                                     <ion-toolbar class=" toolbar-background">

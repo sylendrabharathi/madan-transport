@@ -35,6 +35,7 @@
     },
     "New Booking": {
         "New Booking": "புதிய முன்பதிவு",
+        "Edit Booking": "முன்பதிவைத் திருத்துக",
         "Source": "தொடக்க இடம்",
         "Destination": "செல்லும் இடம்",
         "Vehicle": "வாகன",

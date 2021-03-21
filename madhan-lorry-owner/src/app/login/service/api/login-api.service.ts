@@ -11,4 +11,5 @@ export class LoginApiService {
   login(username, id, phonenumber, pass) {
     return this.api.get('User/GetLogin/?username=' + username + '&email=' + id + '&mobile=' + phonenumber + '&password=' + pass);
   }
+
 }

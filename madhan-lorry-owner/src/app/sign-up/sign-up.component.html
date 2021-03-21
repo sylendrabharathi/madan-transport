@@ -16,7 +16,7 @@
 <ion-content>
     <form class="signup-form" [formGroup]="registrationForm">
         <ion-item class="form-item">
-            <ion-label position="floating">{{'Resgistration.GST' | translate}}GST:</ion-label>
+            <ion-label position="floating">{{'Resgistration.GST' | translate}}:</ion-label>
             <ion-input type="text" formControlName="gstno" (ionBlur)="getDetailsFromGst()"></ion-input>
         </ion-item>
         <ion-item class="form-item">
@@ -83,10 +83,11 @@
             <ion-label position="floating">{{'Resgistration.Description' | translate}}:</ion-label>
             <ion-input type="text" formControlName="description"></ion-input>
         </ion-item>
+
         <ion-item class="form-item">
-            <ion-label position="floating">{{'Resgistration.City' | translate}}:</ion-label>
-            <ion-select mode="ios" formControlName="refReferenceListCityId" interface="popover" placeholder="Select City">
-                <ion-select-option *ngFor="let item of citys" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
+            <ion-label position="floating">{{'Resgistration.Country' | translate}}:</ion-label>
+            <ion-select mode="ios" formControlName="refReferenceListCountryId" interface="popover" placeholder="Select Country">
+                <ion-select-option *ngFor="let item of countrys" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
             </ion-select>
         </ion-item>
         <ion-item class="form-item">
@@ -94,12 +95,11 @@
             <ion-select mode="ios" formControlName="refReferenceListStateId" interface="popover" placeholder="Select State">
                 <ion-select-option *ngFor="let item of states" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
             </ion-select>
-
         </ion-item>
         <ion-item class="form-item">
-            <ion-label position="floating">{{'Resgistration.Country' | translate}}:</ion-label>
-            <ion-select mode="ios" formControlName="refReferenceListCountryId" interface="popover" placeholder="Select Country">
-                <ion-select-option *ngFor="let item of countrys" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
+            <ion-label position="floating">{{'Resgistration.City' | translate}}:</ion-label>
+            <ion-select mode="ios" formControlName="refReferenceListCityId" interface="popover" placeholder="Select City">
+                <ion-select-option *ngFor="let item of citys" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
             </ion-select>
         </ion-item>
         <ion-item class="form-item">

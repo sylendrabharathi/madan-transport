@@ -29,7 +29,7 @@ export class NewBookingApiService {
   }
 
   getRateDetails(sourceId, rlRateForId, destinationId) {
-    return this.api.get(`rate/GetSpecificRateDetailsbyName/?RateForId=${rlRateForId}&Source=${sourceId}&Destination=${destinationId}`);
+    return this.api.get(`rate/GetSpecificRateDetails/?RateForId=${rlRateForId}&SourceId=${sourceId}&DestinationId=${destinationId}`);
   }
 
   save(req) {
@@ -46,5 +46,8 @@ export class NewBookingApiService {
   }
   getRateById(rId) {
     return this.api.get('rate/' + rId);
+  }
+  editBooking(bookingId, req) {
+    return this.api.put(this.api.formUrl('Booking', bookingId), req);
   }
 }

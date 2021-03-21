@@ -24,6 +24,8 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
+import { BackgroundGeolocation } from '@ionic-native/background-geolocation/ngx';
+
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -61,7 +63,8 @@ export function createTranslateLoader(http: HttpClient) {
     Geolocation,
     GoogleMaps,
     ApiService,
-    LocalStorageService
+    LocalStorageService,
+    BackgroundGeolocation
   ],
   bootstrap: [AppComponent]
 })

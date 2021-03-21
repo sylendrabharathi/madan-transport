@@ -1,7 +1,10 @@
 <ion-header [translucent]="true">
     <ion-toolbar class="toolbar">
-        <ion-title>
+        <ion-title *ngIf="polPodId==null">
             {{'POLPOD.create POLPOD'|translate}}
+        </ion-title>
+        <ion-title *ngIf="polPodId!=null">
+            {{'POLPOD.Edit POLPOD'|translate}}
         </ion-title>
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
@@ -25,15 +28,45 @@
                 </ion-item>
                 <ion-item class="form-item">
                     <ion-label>{{'POLPOD.State'|translate}}</ion-label>
-                    <ion-select placeholder="Select One" interface="popover" mode="ios" (ionChange)="loadCity($event)" formControlName="refReferenceListStateId">
+                    <ionic-selectable #stateComponent formControlName="refReferenceListStateId" modalCssClass="ionic-selectable-documentation-configuration" closeButtonSlot="end" [items]="states" itemValueField="referenceListId" itemTextField="referenceListIdName" [canSearch]="true"
+                        (onChange)="portChange($event, 'state')" [searchFailText]=" 'No such material found.'">
+                        <ng-template ionicSelectableHeaderTemplate>
+                            <ion-toolbar class="toolbar-background">
+                                <ion-buttons [slot]="stateComponent.closeButtonSlot">
+                                    <ion-button (click)="stateComponent.close()">
+                                        <ion-icon name="close-circle"></ion-icon>
+                                    </ion-button>
+                                </ion-buttons>
+                                <ion-title>
+                                    Select State
+                                </ion-title>
+                            </ion-toolbar>
+                        </ng-template>
+                    </ionic-selectable>
+                    <!-- <ion-select placeholder="Select One" interface="popover" mode="ios" (ionChange)="loadCity($event)" formControlName="refReferenceListStateId">
                         <ion-select-option *ngFor="let item of states" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
-                    </ion-select>
+                    </ion-select> -->
                 </ion-item>
                 <ion-item class="form-item">
                     <ion-label>{{'POLPOD.City'|translate}}</ion-label>
-                    <ion-select placeholder="Select One" interface="popover" mode="ios" formControlName="refReferenceListCityId">
+                    <ionic-selectable #cityComponent formControlName="refReferenceListCityId" modalCssClass="ionic-selectable-documentation-configuration" closeButtonSlot="end" [items]="cities" itemValueField="referenceListId" itemTextField="referenceListIdName" [canSearch]="true"
+                        (onChange)="portChange($event, 'city')" [searchFailText]=" 'No such material found.'">
+                        <ng-template ionicSelectableHeaderTemplate>
+                            <ion-toolbar class="toolbar-background">
+                                <ion-buttons [slot]="cityComponent.closeButtonSlot">
+                                    <ion-button (click)="cityComponent.close()">
+                                        <ion-icon name="close-circle"></ion-icon>
+                                    </ion-button>
+                                </ion-buttons>
+                                <ion-title>
+                                    Select City
+                                </ion-title>
+                            </ion-toolbar>
+                        </ng-template>
+                    </ionic-selectable>
+                    <!-- <ion-select placeholder="Select One" interface="popover" mode="ios" formControlName="refReferenceListCityId">
                         <ion-select-option *ngFor="let item of cities" [value]="item.referenceListId">{{item.referenceListIdName}}</ion-select-option>
-                    </ion-select>
+                    </ion-select> -->
                 </ion-item>
 
                 <ion-item class="form-item">
@@ -51,10 +84,10 @@
                     <ion-textarea type="text" formControlName="address3"></ion-textarea>
                 </ion-item>
 
-                <ion-item class="form-item">
+                <!-- <ion-item class="form-item">
                     <ion-label>{{'POLPOD.Land Mark'|translate}}:</ion-label>
                     <ion-textarea type="text" formControlName="address4"></ion-textarea>
-                </ion-item>
+                </ion-item> -->
 
                 <ion-item class="form-item">
                     <ion-label>{{'POLPOD.POL/POD'|translate}}:</ion-label>

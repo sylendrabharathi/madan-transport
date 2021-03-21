@@ -34,4 +34,5 @@ export class ApiService {
 
     return this.http.get('https://appyflow.in/api/verifyGST/?gstNo=' + gstNo + '&key_secret=mqDMTdJpfIU6qpmfyQWp5qMOxbm2');
   }
+
 }

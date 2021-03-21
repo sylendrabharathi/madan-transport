@@ -1,44 +1,45 @@
 @import './../../../global.scss';
-.item-label {
-    font-size: 14px;
-    color: grey;
-    padding: 4px 0px;
-}
-
-.highlight-label {
-    color: #e8a700;
-    font-size: 16px !important;
-}
-
-// ion-content {
-//     --background: var(--primary-color) !important;
+// .item-label { 
+//     font-size: 14px;
+//     color: grey;
+//     padding: 4px 0px;
 // }
-ion-card-content {
-    div {
-        margin-top: 10px;
-        ion-icon {
-            margin-right: 5px;
-        }
-    }
-}
-
-.send-alert-btn {
-    position: absolute;
-    right: 15px;
-    margin-top: -35px;
-    --background: transparent;
-    --color: var(--primary-color);
-}
-
-.trucks-list {
-    height: 300px;
-    overflow-y: auto;
-    // position: sticky;
-}
-
+// .highlight-label {
+//     color: #e8a700;
+//     font-size: 16px !important;
+// }
+// // ion-content {
+// //     --background: var(--primary-color) !important;
+// // }
+// ion-card-content {
+//     div {
+//         margin-top: 10px;
+//         ion-icon {
+//             margin-right: 5px;
+//         }
+//     }
+// }
+// .send-alert-btn {
+//     position: absolute;
+//     right: 15px;
+//     margin-top: -35px;
+//     --background: transparent;
+//     --color: var(--primary-color);
+// }
+// .trucks-list {
+//     height: 300px;
+//     overflow-y: auto;
+//     // position: sticky;
+// }
+// .map-div {
+//     // margin-top: 15px;
+//     height: 100vh;
+//     width: 100vw;
+//     // max-height: 100vh;
+//     // position: sticky;
+// }
 .map-div {
-    margin-top: 15px;
-    height: calc(100vh - 371px);
-    max-height: calc(100vh - 371px);
-    // position: sticky;
+    height: calc(100vh - 56px);
+    // margin: 7px 2.5px;
+    // width: 95%;
 }

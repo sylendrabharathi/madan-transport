@@ -27,4 +27,7 @@ export class SignUpApiService {
   getLorryOwnerRole() {
     return this.api.get('role/GetRolebyName/?name=LorryOwner');
   }
+  updateLorryLocation(vehicleId, req) {
+    return this.api.put(`vehicle/PutLiveLocation/?id=${vehicleId}`, req);
+  }
 }

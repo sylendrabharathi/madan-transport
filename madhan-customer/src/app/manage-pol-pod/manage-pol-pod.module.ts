@@ -8,6 +8,8 @@ import { IonicModule } from '@ionic/angular';
 import { PolPodApiService } from './service/api/pol-pod-api.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { IonicSelectableModule } from 'ionic-selectable';
+import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 
 
 @NgModule({
@@ -21,10 +23,12 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     ReactiveFormsModule,
     ManagePolPodRoutingModule,
-    TranslateModule
+    TranslateModule,
+    IonicSelectableModule
   ],
   providers: [
-    PolPodApiService
+    PolPodApiService,
+    NativeGeocoder
   ]
 })
 export class ManagePolPodModule { }

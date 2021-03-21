@@ -1,11 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-
+import { ActivatedRoute } from '@angular/router';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
 import { GoogleMap, GoogleMapOptions, GoogleMaps, GoogleMapsEvent, LatLng, Marker } from '@ionic-native/google-maps/ngx';
 import { Platform } from '@ionic/angular';
 import * as Leaflet from 'leaflet';
 import { antPath } from 'leaflet-ant-path';
-declare var google;
+import { LoaderService } from 'src/app/services/Loader/loader.service';
+import { TrackApiService } from '../services/api/track-api.service';
+
 
 
 @Component({
@@ -18,78 +20,79 @@ export class TrackingComponent implements OnInit {
   tracking_map: GoogleMap;
   map: any;
   lMap: Leaflet.Map;
-  constructor(private geoLocation: Geolocation, private platform: Platform) { }
+  vehicleId: number;
+  lat: number;
+  long: number;
 
-  ngOnInit() { }
+  constructor(private geoLocation: Geolocation,
+    private platform: Platform,
+    private activeRoute: ActivatedRoute,
+    private trackApi: TrackApiService,
+    private loader: LoaderService) { }
+
+  ngOnInit() {
+
+  }
 
   ionViewDidEnter() {
     console.log('tracking');
-    this.platform.ready().then(() => this.loadMap());
+    this.activeRoute.params.subscribe(data => {
+      console.log(data);
+      // this.loader.createLoader();
+      this.vehicleId = data.vehicleId;
+      this.trackApi.getVehicleLiveLoc(this.vehicleId).subscribe(success => {
+        var latLong;
+        if (success[0].vehiLocationAddress4.includes(','))
+          latLong = success[0].vehiLocationAddress4.split(',');
+        else if (success[0].vehiLocationAddress4.includes(' '))
+          latLong = success[0].vehiLocationAddress4.split(' ');
+        if (latLong.length > 1) {
+          this.lat = latLong[0];
+          this.long = latLong[1];
+          this.platform.ready().then(() => this.loadMap());
+        }
+
+      }, failure => { });
+      // this.loader.dismissLoader();
+    });
 
   }
 
   ngAfterViewInit() {
-
-    // this.loadMap();
-
   }
 
   loadMap() {
-
-    console.log(this.mapElement);
-    console.log(document.getElementById('tracking_map'));
-
     this.geoLocation.getCurrentPosition().then((resp: Geoposition) => {
-      console.log(resp);
-
-      let mapOptions: GoogleMapOptions = {
-        camera: {
-          target: {
-            lat: resp.coords.latitude,
-            lng: resp.coords.longitude
-          },
-          zoom: 18,
-          tilt: 30
-        }
-      };
-
-      this.map = Leaflet.map('tracking_map').setView([resp.coords.latitude, resp.coords.longitude], 16);
+      this.map = Leaflet.map('tracking_map').setView([this.lat, this.long], 16);
       Leaflet.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       }).addTo(this.map);
 
       const myIcon = Leaflet.icon({
         iconUrl: '/assets/images/map_marker_icon.png',
-        iconSize: [38, 38],
-    });
+        iconSize: [30, 30],
+      });
+      var latLon;
+      var marker = Leaflet.marker([this.lat, this.long], { icon: myIcon }).addTo(this.map)
+      setInterval(() => {
+        this.trackApi.getVehicleLiveLoc(this.vehicleId).subscribe(success => {
+          var latLong;
+          if (success[0].vehiLocationAddress4.includes(','))
+            latLong = success[0].vehiLocationAddress4.split(',');
+          else if (success[0].vehiLocationAddress4.includes(' '))
+            latLong = success[0].vehiLocationAddress4.split(' ');
+          if (latLong.length > 1) {
 
-      Leaflet.marker([resp.coords.latitude, resp.coords.longitude], {icon: myIcon}).addTo(this.map)
-      // this.tracking_map = GoogleMaps.create('tracking_map', mapOptions);
+            latLon = Leaflet.latLng(latLong[0], latLong[1]);
+          }
 
-      // let marker: Marker = this.tracking_map.addMarkerSync({
-      //   title: 'My Location',
-      //   icon: 'red',
-      //   animation: 'DROP',
-      //   position: {
-      //     lat: resp.coords.latitude,
-      //     lng: resp.coords.longitude
-      //   }
-      // });
-      // marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-      //   alert('clicked');
-      // });
+        }, failure => { });
 
-      // let latLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
-
-      // let mapOptions = {
-      //   center: latLng,
-      //   zoom: 15,
-      //   mapTypeId: google.maps.MapTypeId.ROADMAP
-      // };
-
-      // this.map = new google.maps.Map(document.getElementById('tracking_map'), mapOptions);
-
-
+        var bounds = latLon.toBounds(500); // 500 = metres
+        this.map.panTo(latLon).fitBounds(bounds);
+        this.map.setView(latLon, 16);
+        marker.setLatLng(latLon);
+      }, 8000);
     }).catch(err => {
       console.log(err);
 
@@ -97,23 +100,5 @@ export class TrackingComponent implements OnInit {
 
   }
 
-  addMarker(lat, lng) {
-
-    let marker = new google.maps.Marker({
-      map: this.map,
-      animation: google.maps.Animation.DROP,
-      position: { lat, lng }
-    });
-
-    let content = "<p>This is your current position !</p>";
-    let infoWindow = new google.maps.InfoWindow({
-      content: content
-    });
-
-    google.maps.event.addListener(marker, 'click', () => {
-      infoWindow.open(this.map, marker);
-    });
-
-  }
 
 }

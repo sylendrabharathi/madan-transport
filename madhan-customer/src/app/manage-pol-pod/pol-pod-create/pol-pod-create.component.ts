@@ -3,11 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { IonicSelectableComponent } from 'ionic-selectable';
 import { ApiService } from 'src/app/service/api/api.service';
 import { LoaderService } from 'src/app/service/Loader/loader.service';
 import { LocalstorageService } from 'src/app/service/localstorage/localstorage.service';
 import { ToastService } from 'src/app/service/toast/toast.service';
 import { PolPodApiService } from '../service/api/pol-pod-api.service';
+import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 
 @Component({
   selector: 'app-pol-pod-create',
@@ -34,8 +36,7 @@ export class PolPodCreateComponent implements OnInit {
     private router: Router,
     private toastCtrl: ToastController,
     private activatedRoute: ActivatedRoute,
-    private loader: LoaderService,
-    private location: Location) { }
+    private nativeGeocoder: NativeGeocoder) { }
 
   ngOnInit() {
     this.customerId = this.ls.getCustomerId();
@@ -78,7 +79,7 @@ export class PolPodCreateComponent implements OnInit {
       address1: ['', [Validators.required]],
       address2: ['', [Validators.required]],
       address3: ['', [Validators.required]],
-      address4: ['', [Validators.required]],
+      address4: [''],
       location: ['', [Validators.required]],
       refReferenceListPolpodtypeId: ['', [Validators.required]]
     })
@@ -101,6 +102,14 @@ export class PolPodCreateComponent implements OnInit {
 
     })
   }
+  portChange(event: {
+    component: IonicSelectableComponent,
+    value: any
+  }, type: string) {
+    console.log('port:', event.value);
+    if (type === 'state')
+      this.loadCity(event.value.referenceListIdName);
+  }
 
   getCities() {
     this.apiService.getCities().subscribe((res: any) => {
@@ -112,16 +121,34 @@ export class PolPodCreateComponent implements OnInit {
   }
 
   async submit() {
-    console.log('submit');
-    // if (!this.polPodForm.valid) {
-    //   this.toast.danger('Please fill all the fields');
-    //   return;
-    // }
+    let options: NativeGeocoderOptions = {
+      useLocale: true,
+      maxResults: 5
+    };
 
+    console.log('submit');
+    if (!this.polPodForm.valid) {
+      this.toast.danger('Please fill all the fields');
+      return;
+    }
     console.log(this.polPodForm.getRawValue());
-    const req: any = JSON.parse(JSON.stringify(this.polPodForm.value));
+    var req: any = JSON.parse(JSON.stringify(this.polPodForm.value));
+
+    var address = this.polPodForm.get('address1').value + ' ' + this.polPodForm.get('address2').value + ' ' + this.polPodForm.get('address3').value;
+    console.log(address);
+    var lat;
+    var long;
+    //Get the geolocation of location enterd by user
+    this.nativeGeocoder.forwardGeocode(address, options)
+      .then((result: NativeGeocoderResult[]) => { lat = result[0].latitude; long = result[0].longitude })
+      .catch((error: any) => console.log(error));
+
+    // return;
+    req.address4 = lat + ' ' + long;
     req.refCustId = parseInt(req.refCustId);
     req.refCreatedBy = parseInt(req.refCreatedBy);
+    req.refReferenceListCityId = this.polPodForm.get('refReferenceListCityId').value.referenceListId;
+    req.refReferenceListStateId = this.polPodForm.get('refReferenceListStateId').value.referenceListId;
     console.log(req);
 
     if (!this.polPodForm.value.polPodId) {
@@ -129,15 +156,16 @@ export class PolPodCreateComponent implements OnInit {
       this.savePolPod(req);
       return;
     }
+    console.log(this.polPodForm.get('refReferenceListCityId').value.referenceListId);
     this.updatePolPod(req);
   }
 
   savePolPod(req) {
     // const id = 1;
-    this.polPodApi.savePolPod(req).subscribe((resp) => {
-      // this.newBookingForm[this.entryType] = resp.id;
+    this.polPodApi.savePolPod(req).subscribe((success: any) => {
+      this.newBookingForm[this.entryType] = success.id;
 
-      console.log(resp);
+      console.log(success, '-->', this.entryType);
       if (this.entryType != null) {
         // this.location.back(); 
         this.router.navigate(['new-booking'], { state: { formVal: this.newBookingForm } })
@@ -183,9 +211,22 @@ export class PolPodCreateComponent implements OnInit {
         }
         const res = response[0];
         this.polPodForm.get('polPodId').setValue(res.polpodid);
-        this.polPodForm.get('refReferenceListCityId').setValue(res.refReferenceListCityId);
-        this.polPodForm.get('refReferenceListStateId').setValue(res.refReferenceListStateId);
         this.polPodForm.get('refReferenceListCountryId').setValue(res.refReferenceListCountryId);
+        for (const state of this.states) {
+          if (state.referenceListId == res.refReferenceListStateId) {
+            this.polPodForm.get('refReferenceListStateId').setValue(state);
+            this.polPodForm.get('refReferenceListStateId').updateValueAndValidity();
+          }
+        }
+        for (const city of this.cities) {
+          if (city.referenceListId == res.refReferenceListCityId) {
+            this.polPodForm.get('refReferenceListCityId').setValue(city);
+            this.polPodForm.get('refReferenceListCityId').updateValueAndValidity();
+          }
+        }
+        // this.polPodForm.get('refReferenceListCityId').setValue(res.refReferenceListCityId);
+        // this.polPodForm.get('refReferenceListStateId').setValue(res.refReferenceListStateId);
+
         this.polPodForm.get('address1').setValue(res.address1);
         this.polPodForm.get('address2').setValue(res.address2);
         this.polPodForm.get('address3').setValue(res.address3);
@@ -211,20 +252,21 @@ export class PolPodCreateComponent implements OnInit {
 
       })
   }
-  loadCity(data) {
-    console.log('data', data);
-    // this.loader.createLoader();
-    this.polPodApi.getState(data.detail.value).subscribe(success => {
-      // this.loader.dismissLoader();
-      console.log(success);
-      this.polPodApi.getCityBySate(success[0].name).subscribe(success => {
-        console.log('success', success);
-        this.cities = success;
-      }, failure => {
-        console.log('failur', failure);
-      });
+  loadCity(stateName) {
+    // console.log('data', data);
+    // // this.loader.createLoader();
+    // this.polPodApi.getState(data.detail.value).subscribe(success => {
+    //   // this.loader.dismissLoader();
+    //   console.log(success);
+    this.polPodForm.get('refReferenceListCityId').setValue('');
+    this.polPodApi.getCityBySate(stateName).subscribe(success => {
+      console.log('success', success);
+      this.cities = success;
+    }, failure => {
+      console.log('failur', failure);
+    });
 
-    }, failure => { })
+    // }, failure => { })
     return;
   }
 

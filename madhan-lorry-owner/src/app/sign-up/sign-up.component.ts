@@ -10,6 +10,7 @@ import { FileChooser, FileChooserOptions } from '@ionic-native/file-chooser/ngx'
 import { environment } from 'src/environments/environment';
 import { LoaderService } from '../services/Loader/loader.service';
 
+
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
@@ -20,7 +21,7 @@ export class SignUpComponent implements OnInit {
 
   registrationForm = this.fb.group({
     name: ['', [Validators.required]],
-    gstno: ['33ASOPS0284J1ZC', [Validators.required,
+    gstno: ['', [Validators.required,
     Validators.minLength(15)]],
     GSTDOCUrl: ['C:/'],
     PANDOCUrl: ['C:/'],
@@ -131,7 +132,7 @@ export class SignUpComponent implements OnInit {
   }
   setDataFromGst(data) {
     console.log('dataaa', data);
-    if(data && data.error) {
+    if (data && data.error) {
       this.toast.danger('Please enter valid GST NO');
     }
     this.companyName = data.taxpayerInfo.tradeNam.trim();
@@ -160,7 +161,7 @@ export class SignUpComponent implements OnInit {
     console.log('dp = ', this.doNotProceed);
     console.log('gst = ', this.gstDocUrl);
     console.log('pd = ', this.panDocUrl);
-    
+
     if (this.registrationForm.valid && !this.doNotProceed && this.gstDocUrl != '' && this.panDocUrl != '') {
       this.loader.createLoader();
       console.log('this.registrationForm.value', this.registrationForm.value);

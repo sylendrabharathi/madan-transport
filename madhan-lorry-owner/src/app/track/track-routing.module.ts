@@ -5,7 +5,9 @@ import { TrackingComponent } from './tracking/tracking.component';
 
 const routes: Routes = [
   {
-    path: '', component: TrackingComponent
+    path: '', component: TrackingComponent,
+  }, {
+    path: 'track/:vehicleId', component: TrackingComponent
   }
 ];
 

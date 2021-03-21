@@ -7,12 +7,12 @@
         "login": "login",
         "Email / Phone Number": "Email / Phone Number",
         "Password": "Password",
-		"Sign Up":"Sign Up",
-		"Login":"Login"
+        "Sign Up": "Sign Up",
+        "Login": "Login"
     },
     "Resgistration": {
         "Resgistration": "Resgistration",
-		"GST":"GST",
+        "GST": "GST",
         "GST Document": "GST Document",
         "Name": "Name",
         "PAN": "PAN",
@@ -36,8 +36,8 @@
         "Address Line1": "Address Line1",
         "Address Line2": "Address Line2",
         "Land Mark": "Land Mark",
-		"Password": "Password",
-		"Confirm Password": "Confirm Password"
+        "Password": "Password",
+        "Confirm Password": "Confirm Password"
     },
     "Booking Enquires": {
         "Booking Enquires": "Booking Enquires",
@@ -80,7 +80,7 @@
     },
     "Create Vehicle": {
         "Create Vehicle": "Create Vehicle",
-		"Edit Vehicle":"Edit Vehicle",
+        "Edit Vehicle": "Edit Vehicle",
         "Vehicle Type": "Vehicle Type",
         "Vehicle NO": "Vehicle NO",
         "FC Validity": "FC Validity",
@@ -96,7 +96,7 @@
         "Address Line 1": "Address Line 1",
         "Address Line 2": "Address Line 2",
         "Land Mark": "Land Mark"
-	},
+    },
     "Manage Drivers": {
         "Manage Drivers": "Manage Drivers",
         "Driver Name": "Driver Name",
@@ -106,7 +106,7 @@
     },
     "Create Driver": {
         "Create Drivers": "Create Drivers",
-		"Edit Drivers":"Edit Driver",
+        "Edit Drivers": "Edit Driver",
         "Driver Name": "Driver Name",
         "Mobile No": "Mobile No",
         "Licence No": "Licence No",
@@ -125,7 +125,7 @@
     },
     "New Driver-In-Out": {
         "New Driver-In-Out": "New Driver-In-Out",
-		"Edit Driver-In-Out":"Edit Driver-In-Out",
+        "Edit Driver-In-Out": "Edit Driver-In-Out",
         "Driver Name": "Driver Name ",
         "Vehicle Number": "Vehicle Number",
         "In Time": "In Time",
@@ -154,8 +154,8 @@
         "Track": "Track",
         "Settings": "Settings",
         "My Profile": "My Profile"
-    } ,
-	"Tracking": {
+    },
+    "Tracking": {
         "tracking": "Tracking"
     },
     "Settings": {

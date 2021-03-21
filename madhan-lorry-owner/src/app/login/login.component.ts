@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { LoginApiService } from './service/api/login-api.service';
 import { LocalStorageService } from '../services/local-storage/local-storage.service';
 import { ToastService } from '../services/toast/toast.service';
 import { LoaderService } from '../services/Loader/loader.service';
-
+import { BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocationEvents, BackgroundGeolocationResponse } from '@ionic-native/background-geolocation/ngx';
+import { Geolocation, GeolocationOptions, Geoposition } from '@ionic-native/geolocation/ngx';
 
 @Component({
   selector: 'app-login',
@@ -20,8 +21,13 @@ export class LoginComponent implements OnInit {
   });
   userName = '';
   userId = '';
+  config: BackgroundGeolocationConfig;
   // local;
   phoneNumber: number;
+  public watch: any;
+  public lat: number = 0;
+  public lng: number = 0;
+
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -34,6 +40,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() { }
+  ionViewWillEnter() {
+
+
+  }
   login() {
     if (this.loginForm.valid) {
       this.loader.createLoader();
@@ -53,9 +63,13 @@ export class LoginComponent implements OnInit {
         .subscribe((success: any) => {
           console.log('success', success);
           this.ls.setUserId(success[0].userId.toString())
-
+          if (success[0].comments == 'Driver') {
+            this.ls.setmydriverId(success[0].driverId.toString())
+            // this.trackLocation();
+          }
           // localStorage.setItem('newId', success[0].userId);
           this.ls.setCustomerId(success[0].customerId.toString())
+          // this.trackLocation();
           this.loader.dismissLoader();
           this.router.navigate(['home']);
         },
@@ -71,6 +85,7 @@ export class LoginComponent implements OnInit {
       this.toast.danger('Kindly fill all the details');
     }
   }
+
   singup() {
     this.router.navigate(['sign-up']);
   }

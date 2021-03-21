@@ -17,4 +17,8 @@ export class HomeApiService {
   sendMsgToVehicle(req) {
     return this.api.post('VehicleBookingEnqResponse', req);
   }
+
+  getnearByVehicles(lat, long) {
+    return this.api.get('Vehicle/GetNearbyVehicle/?FromLocation=' + lat + ',' + long);
+  }
 }

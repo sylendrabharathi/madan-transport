@@ -6,9 +6,11 @@ import { Injectable } from '@angular/core';
 export class LocalStorageService {
 
   private userId = 'userId';
+  private driverId = 'driverId';
   private customerId = 'customerId';
   private userIns = 'userIns';
   private myLanguage = 'my_language';
+  private vehicleId = 'vehicleId';
 
   constructor() { }
 
@@ -43,5 +45,17 @@ export class LocalStorageService {
   getMyLanguage() {
     return localStorage.getItem(this.myLanguage);
   }
+  setmydriverId(val) {
+    localStorage.setItem(this.driverId, val);
+  }
 
+  getMydriverId() {
+    return localStorage.getItem(this.driverId);
+  }
+  setmyVehicleId(val) {
+    localStorage.setItem(this.vehicleId, val);
+  }
+  getmyVehicleId() {
+    return localStorage.getItem(this.vehicleId);
+  }
 }

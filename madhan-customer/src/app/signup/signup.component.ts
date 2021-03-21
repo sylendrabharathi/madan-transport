@@ -34,38 +34,38 @@ export class SignupComponent implements OnInit {
       refOrgId: [3],
       refRoleId: [''],
       refCreatedBy: [''],
-      name: ['Bharathi', [Validators.required]],
-      gstNo: ['33AACCN4749A2ZT', [Validators.required]],
-      gSTDOCUrl: ['we', [Validators.required]],
-      pannumber: ['eqwp6325o', [Validators.required]],
-      pANDOCUrl: ['we', [Validators.required]],
-      legalName: ['NEOLYSI TECHNOLOGIES PRIVATE LIMITED', [Validators.required]],
-      address: ['VILLIVAKKAM ', [Validators.required]],
-      natureOfBusiness: ['Private Limited Company', [Validators.required]],
-      entityType: ['Regular', [Validators.required]],
-      registrationType: ['Regular', [Validators.required]],
-      deptCodeAndType: ['Regular', [Validators.required]],
-      registrationDate: ['10/07/2017', [Validators.required]],
-      telePhone: ['8521479630', [Validators.required]],
-      mobile: ['9632587410', [Validators.required]],
-      email: ['qwerty@l.co', [Validators.required]],
-      website: ['www.neo.com', [Validators.required]],
-      description: ['Neolusi', [Validators.required]],
+      name: ['', [Validators.required]],
+      gstNo: ['', [Validators.required]],
+      gSTDOCUrl: ['', [Validators.required]],
+      pannumber: ['', [Validators.required]],
+      pANDOCUrl: ['', [Validators.required]],
+      legalName: ['', [Validators.required]],
+      address: ['', [Validators.required]],
+      natureOfBusiness: ['', [Validators.required]],
+      entityType: ['', [Validators.required]],
+      registrationType: ['', [Validators.required]],
+      deptCodeAndType: ['', [Validators.required]],
+      registrationDate: ['', [Validators.required]],
+      telePhone: ['', [Validators.required]],
+      mobile: ['', [Validators.required]],
+      email: ['', [Validators.required]],
+      website: ['', [Validators.required]],
+      description: ['i', [Validators.required]],
       refReferenceListCityId: ['', [Validators.required]],
       refReferenceListStateId: ['2', [Validators.required]],
       refReferenceListCountryId: ['', [Validators.required]],
-      address1: ['T', [Validators.required]],
-      address2: ['T', [Validators.required]],
-      address3: ['T', [Validators.required]],
-      address4: ['T', [Validators.required]],
+      address1: ['', [Validators.required]],
+      address2: ['', [Validators.required]],
+      address3: ['', [Validators.required]],
+      address4: ['', [Validators.required]],
 
     });
   }
 
-  getRoleId(){
+  getRoleId() {
     this.apiService.get('role/GetRolebyName/?name=Customer').subscribe((res: any) => {
       console.log('roleId = ', res);
-      if(res && res.length > 0) {
+      if (res && res.length > 0) {
         this.registrationForm.get('refRoleId').setValue(res[0].roleId);
       }
     }, err => {
@@ -116,8 +116,8 @@ export class SignupComponent implements OnInit {
 
     })
     // this.router.navigate(['login']);
-    
-    
+
+
   }
 
 }

@@ -28,12 +28,30 @@ export class MyBookingsComponent implements OnInit {
     this.bookingApi.getMyBookings(transpoterId, bookingId).subscribe(success => {
       this.loader.dismissLoader();
       console.log('success', success);
-      this.myBookings = success;
+      this.formDataToShow(success);
+
     },
       failure => {
         this.loader.dismissLoader();
         console.log('failure', failure);
       });
+  }
+  formDataToShow(data) {
+    var length = data.bookingDtls.length;
+    var info = [];
+    for (var i = 0; i < length; i++) {
+      var details = {
+        bookingId: data.bookingDtls[i].bookingId,
+        location: data.polbmDtls[i].location,
+        podLocation: data.podbmDtls[i].podLocation,
+        material: data.bookingDtls[i].material,
+        totalQty: data.bookingDtls[i].totalQty,
+        vvberVehicleNo: data.vberDtls.length > 0 ? data.vberDtls[i].vvberVehicleNo : '',
+        driverName: data.dioDtls[i].driverName
+      }
+      info.push(details);
+    }
+    this.myBookings = info;
   }
   getBooking(bookingid) {
     this.router.navigate(['my-bookings', 'booking', bookingid]);
